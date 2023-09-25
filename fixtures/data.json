@@ -1,0 +1,502 @@
+[
+    {
+        "model": "app.parcel",
+        "pk": 1,
+        "fields": {
+            "parcel_no": "1",
+            "parcel_name": "ayvalik",
+            "m2": 112,
+            "status": true
+        }
+    },
+    {
+        "model": "app.parcel",
+        "pk": 2,
+        "fields": {
+            "parcel_no": "2",
+            "parcel_name": "ayvalik",
+            "m2": 113,
+            "status": false
+        }
+    },
+    {
+        "model": "app.parcel",
+        "pk": 3,
+        "fields": {
+            "parcel_no": "3",
+            "parcel_name": "ayvalik",
+            "m2": 114,
+            "status": true
+        }
+    },
+    {
+        "model": "app.parcel",
+        "pk": 4,
+        "fields": {
+            "parcel_no": "4",
+            "parcel_name": "ayvalik",
+            "m2": 115,
+            "status": true
+        }
+    },
+    {
+        "model": "app.parcel",
+        "pk": 5,
+        "fields": {
+            "parcel_no": "5",
+            "parcel_name": "ayvalik",
+            "m2": 116,
+            "status": true
+        }
+    },
+    {
+        "model": "app.parcel",
+        "pk": 6,
+        "fields": {
+            "parcel_no": "6",
+            "parcel_name": "ayvalik",
+            "m2": 117,
+            "status": true
+        }
+    },
+    {
+        "model": "app.parcel",
+        "pk": 7,
+        "fields": {
+            "parcel_no": "7",
+            "parcel_name": "ayvalik",
+            "m2": 118,
+            "status": true
+        }
+    },
+    {
+        "model": "app.parcel",
+        "pk": 8,
+        "fields": {
+            "parcel_no": "8",
+            "parcel_name": "ayvalik",
+            "m2": 119,
+            "status": false
+        }
+    },
+    {
+        "model": "app.parcel",
+        "pk": 9,
+        "fields": {
+            "parcel_no": "9",
+            "parcel_name": "ayvalik",
+            "m2": 120,
+            "status": false
+        }
+    },
+    {
+        "model": "app.parcel",
+        "pk": 10,
+        "fields": {
+            "parcel_no": "10",
+            "parcel_name": "ayvalik",
+            "m2": 121,
+            "status": true
+        }
+    },
+    {
+        "model": "app.parcel",
+        "pk": 11,
+        "fields": {
+            "parcel_no": "11",
+            "parcel_name": "ayvalik",
+            "m2": 122,
+            "status": true
+        }
+    },
+    {
+        "model": "app.parcel",
+        "pk": 12,
+        "fields": {
+            "parcel_no": "12",
+            "parcel_name": "ayvalik",
+            "m2": 123,
+            "status": true
+        }
+    },
+    {
+        "model": "app.parcel",
+        "pk": 13,
+        "fields": {
+            "parcel_no": "13",
+            "parcel_name": "ayvalik",
+            "m2": 124,
+            "status": true
+        }
+    },
+    {
+        "model": "app.parcel",
+        "pk": 14,
+        "fields": {
+            "parcel_no": "14",
+            "parcel_name": "ayvalik",
+            "m2": 125,
+            "status": true
+        }
+    },
+    {
+        "model": "app.parcel",
+        "pk": 15,
+        "fields": {
+            "parcel_no": "15",
+            "parcel_name": "ayvalik",
+            "m2": 126,
+            "status": true
+        }
+    },
+    {
+        "model": "app.parcel",
+        "pk": 16,
+        "fields": {
+            "parcel_no": "16",
+            "parcel_name": "ayvalik",
+            "m2": 127,
+            "status": true
+        }
+    },
+    {
+        "model": "app.parcel",
+        "pk": 17,
+        "fields": {
+            "parcel_no": "17",
+            "parcel_name": "ayvalik",
+            "m2": 128,
+            "status": false
+        }
+    },
+    {
+        "model": "app.parcel",
+        "pk": 18,
+        "fields": {
+            "parcel_no": "18",
+            "parcel_name": "ayvalik",
+            "m2": 129,
+            "status": true
+        }
+    },
+    {
+        "model": "app.parcel",
+        "pk": 19,
+        "fields": {
+            "parcel_no": "19",
+            "parcel_name": "ayvalik",
+            "m2": 130,
+            "status": true
+        }
+    },
+    {
+        "model": "app.parcel",
+        "pk": 20,
+        "fields": {
+            "parcel_no": "20",
+            "parcel_name": "ayvalik",
+            "m2": 131,
+            "status": true
+        }
+    },
+    {
+        "model": "app.parcel",
+        "pk": 21,
+        "fields": {
+            "parcel_no": "21",
+            "parcel_name": "ayvalik",
+            "m2": 132,
+            "status": true
+        }
+    },
+    {
+        "model": "app.parcel",
+        "pk": 22,
+        "fields": {
+            "parcel_no": "22",
+            "parcel_name": "ayvalik",
+            "m2": 133,
+            "status": true
+        }
+    },
+    {
+        "model": "app.parcel",
+        "pk": 23,
+        "fields": {
+            "parcel_no": "23",
+            "parcel_name": "ayvalik",
+            "m2": 134,
+            "status": true
+        }
+    },
+    {
+        "model": "app.parcel",
+        "pk": 24,
+        "fields": {
+            "parcel_no": "24",
+            "parcel_name": "ayvalik",
+            "m2": 135,
+            "status": false
+        }
+    },
+    {
+        "model": "app.parcel",
+        "pk": 25,
+        "fields": {
+            "parcel_no": "25",
+            "parcel_name": "ayvalik",
+            "m2": 136,
+            "status": true
+        }
+    },
+    {
+        "model": "app.parcel",
+        "pk": 26,
+        "fields": {
+            "parcel_no": "26",
+            "parcel_name": "ayvalik",
+            "m2": 137,
+            "status": true
+        }
+    },
+    {
+        "model": "app.parcel",
+        "pk": 27,
+        "fields": {
+            "parcel_no": "27",
+            "parcel_name": "ayvalik",
+            "m2": 138,
+            "status": true
+        }
+    },
+    {
+        "model": "app.parcel",
+        "pk": 28,
+        "fields": {
+            "parcel_no": "28",
+            "parcel_name": "ayvalik",
+            "m2": 139,
+            "status": true
+        }
+    },
+    {
+        "model": "app.parcel",
+        "pk": 29,
+        "fields": {
+            "parcel_no": "29",
+            "parcel_name": "ayvalik",
+            "m2": 140,
+            "status": true
+        }
+    },
+    {
+        "model": "app.parcel",
+        "pk": 30,
+        "fields": {
+            "parcel_no": "30",
+            "parcel_name": "ayvalik",
+            "m2": 141,
+            "status": false
+        }
+    },
+    {
+        "model": "app.parcel",
+        "pk": 31,
+        "fields": {
+            "parcel_no": "31",
+            "parcel_name": "ayvalik",
+            "m2": 142,
+            "status": true
+        }
+    },
+    {
+        "model": "app.parcel",
+        "pk": 32,
+        "fields": {
+            "parcel_no": "32",
+            "parcel_name": "ayvalik",
+            "m2": 143,
+            "status": true
+        }
+    },
+    {
+        "model": "app.parcel",
+        "pk": 33,
+        "fields": {
+            "parcel_no": "33",
+            "parcel_name": "ayvalik",
+            "m2": 144,
+            "status": true
+        }
+    },
+    {
+        "model": "app.parcel",
+        "pk": 34,
+        "fields": {
+            "parcel_no": "34",
+            "parcel_name": "ayvalik",
+            "m2": 145,
+            "status": false
+        }
+    },
+    {
+        "model": "app.parcel",
+        "pk": 35,
+        "fields": {
+            "parcel_no": "35",
+            "parcel_name": "ayvalik",
+            "m2": 146,
+            "status": true
+        }
+    },
+    {
+        "model": "app.parcel",
+        "pk": 36,
+        "fields": {
+            "parcel_no": "36",
+            "parcel_name": "ayvalik",
+            "m2": 147,
+            "status": true
+        }
+    },
+    {
+        "model": "app.parcel",
+        "pk": 37,
+        "fields": {
+            "parcel_no": "37",
+            "parcel_name": "ayvalik",
+            "m2": 148,
+            "status": false
+        }
+    },
+    {
+        "model": "app.parcel",
+        "pk": 38,
+        "fields": {
+            "parcel_no": "38",
+            "parcel_name": "ayvalik",
+            "m2": 149,
+            "status": true
+        }
+    },
+    {
+        "model": "app.parcel",
+        "pk": 39,
+        "fields": {
+            "parcel_no": "39",
+            "parcel_name": "ayvalik",
+            "m2": 150,
+            "status": true
+        }
+    },
+    {
+        "model": "app.parcel",
+        "pk": 40,
+        "fields": {
+            "parcel_no": "40",
+            "parcel_name": "ayvalik",
+            "m2": 151,
+            "status": true
+        }
+    },
+    {
+        "model": "app.parcel",
+        "pk": 41,
+        "fields": {
+            "parcel_no": "41",
+            "parcel_name": "ayvalik",
+            "m2": 152,
+            "status": true
+        }
+    },
+    {
+        "model": "app.parcel",
+        "pk": 42,
+        "fields": {
+            "parcel_no": "42",
+            "parcel_name": "ayvalik",
+            "m2": 153,
+            "status": true
+        }
+    },
+    {
+        "model": "app.parcel",
+        "pk": 43,
+        "fields": {
+            "parcel_no": "43",
+            "parcel_name": "ayvalik",
+            "m2": 154,
+            "status": true
+        }
+    },
+    {
+        "model": "app.parcel",
+        "pk": 44,
+        "fields": {
+            "parcel_no": "44",
+            "parcel_name": "ayvalik",
+            "m2": 155,
+            "status": true
+        }
+    },
+    {
+        "model": "app.parcel",
+        "pk": 45,
+        "fields": {
+            "parcel_no": "45",
+            "parcel_name": "ayvalik",
+            "m2": 156,
+            "status": false
+        }
+    },
+    {
+        "model": "app.parcel",
+        "pk": 46,
+        "fields": {
+            "parcel_no": "46",
+            "parcel_name": "ayvalik",
+            "m2": 157,
+            "status": false
+        }
+    },
+    {
+        "model": "app.parcel",
+        "pk": 47,
+        "fields": {
+            "parcel_no": "47",
+            "parcel_name": "ayvalik",
+            "m2": 158,
+            "status": true
+        }
+    },
+    {
+        "model": "app.parcel",
+        "pk": 48,
+        "fields": {
+            "parcel_no": "48",
+            "parcel_name": "ayvalik",
+            "m2": 159,
+            "status": true
+        }
+    },
+    {
+        "model": "app.parcel",
+        "pk": 49,
+        "fields": {
+            "parcel_no": "49",
+            "parcel_name": "ayvalik",
+            "m2": 160,
+            "status": true
+        }
+    },
+    {
+        "model": "app.parcel",
+        "pk": 50,
+        "fields": {
+            "parcel_no": "50",
+            "parcel_name": "ayvalik",
+            "m2": 161,
+            "status": true
+        }
+    }
+]

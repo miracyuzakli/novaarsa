@@ -5,7 +5,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 
-
+from rest_framework import generics
+from .models import Parcel
+from .serializers import ParcelSerializer
 
 
 
@@ -42,3 +44,46 @@ def logout_view(request):
     logout(request)
     print("Çıkış yapıldı")
     return redirect('index')  
+
+
+
+
+#! Applications
+
+
+from rest_framework import viewsets
+from .models import Parcel
+from .serializers import ParcelSerializer
+from django_filters.rest_framework import DjangoFilterBackend
+from .filters import ParcelFilter
+
+
+class ParcelViewSet(viewsets.ModelViewSet):
+    queryset = Parcel.objects.all()
+    serializer_class = ParcelSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = ParcelFilter
+
+
+
+
+
+
+# myapp/views.py
+
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_protect
+import json
+
+@csrf_protect
+def save_form_data(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body.decode('utf-8'))
+            # Verileri işleyin ve konsola yazdırın
+            print(data)
+            return JsonResponse({'message': 'Veriler kaydedildi.'}, status=200)
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Geçersiz JSON formatı.'}, status=400)
+    else:
+        return JsonResponse({'error': 'Yalnızca POST istekleri kabul edilir.'}, status=405)
