@@ -23,6 +23,14 @@
         background-color: white;
         /* Background color for odd rows */
     }
+
+
+    .user-not-selecting {
+        opacity: 0.5;
+        /* Saydamlık ayarını değiştirerek öğeyi daha veya daha az inaktif hale getirebilirsiniz. */
+        pointer-events: none;
+        /* Kullanıcı etkileşimini devre dışı bırakmak için */
+    }
 </style>
 
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -30,18 +38,24 @@
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400">
                 <tr>
+
                     <th scope="col"
-                        class="px-6 py-3 text-xl  sticky top-0 text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400 style="
-                        width: 200px;">
+                        class="px-6 py-3 text-xl sticky top-0 text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400"
+                        style="
+                        width: 100px;">
+                        Durum
+                    </th>
+                    <th scope="col"
+                        class="px-6 py-3 text-xl  sticky top-0 text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400">
                         Parsel No
                     </th>
                     <th scope="col"
                         class="px-6 py-3 text-xl sticky top-0 text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400">
-                        Durum
+                        İl
                     </th>
                     <th scope="col"
                         class="px-6 py-3 text-xl sticky top-0 text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400">
-                        Parsel
+                        İlçe
                     </th>
                     <th scope="col"
                         class="px-6 py-3 text-xl sticky top-0 text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400">
@@ -49,16 +63,23 @@
                     </th>
                     <th scope="col"
                         class="px-6 py-3 text-xl sticky top-0 text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400">
-                        Fiyat
+                        Mevki
                     </th>
                     <th scope="col"
                         class="px-6 py-3 text-xl sticky top-0 text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400">
-
+                        Ada
+                    </th>
+                    <th scope="col"
+                        class="px-6 py-3 text-xl sticky top-0 text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400">
+                        Bekleme
+                    </th>
+                    <th scope="col"
+                        class="px-6 py-3 text-xl sticky top-0 text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400">
+                        İşlem
                     </th>
                 </tr>
             </thead>
             <tbody id="table-body">
-
 
 
 
@@ -75,19 +96,32 @@
 
 
 
+
+
 <!-- Modal tetikleyici buton -->
 <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded hidden" id="modal-trigger">Modal
     Aç</button>
+{% csrf_token %}
 
 <!-- Modal -->
-<div class="modal hidden fixed inset-0 z-50 overflow-auto bg-gray-800 bg-opacity-70 flex justify-center items-center"
-    id="modal">
-    {% csrf_token %}
+<!-- <div class="modal hidden fixed inset-0 z-50 overflow-auto bg-gray-800 bg-opacity-10 flex justify-center items-center" id="modal" >
 
-    <div class="modal-content bg-white p-4 rounded shadow-lg" style="width: 70%; height: 85vh;">
+    <div class="modal-content bg-white p-4 rounded shadow-lg" style="width: 70%; height: 85vh;"> -->
+
+<div class="modal hidden fixed inset-0 z-50 overflow-auto bg-gray-800 bg-opacity-10 flex justify-center items-center"
+    id="modal" style="background-color: #37415160;">
+
+    <div class="modal-content bg-white p-4 rounded shadow-lg " style="width: 70%; height: 85vh;">
+
+
+
+
+
         <div style="display: flex; align-items: center; justify-items: center; justify-content: center;">
             <h1 class="text-4xl font-medium text-gray-900 white:text-white">SATIŞ TAKİP FORMU</h2>
-
+                <input type="text" id="parcel_id"
+                    class="hidden border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500"
+                    placeholder="Proje adı">
         </div>
 
         <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-300">
@@ -118,7 +152,7 @@
                         Danışmanı</label>
                     <input type="text" id="satis_danismani"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500"
-                        placeholder="" required>
+                        placeholder="" required value="{{ current_user.first_name }} {{ current_user.last_name }}">
                 </div>
                 <div>
                     <label for="satis_tarihi"
@@ -260,7 +294,7 @@
 
 
 
-            <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-300">
+            <hr class="h-px my-8 bg-gray-200 border-0 white:bg-gray-300">
 
             <div style="display: flex; align-items: center; justify-items: center; justify-content: center;">
                 <h3 class="text-2xl font-medium text-gray-900 white:text-white">ÖDEME BİLGİLERİ</h2>
@@ -318,10 +352,10 @@
 
                 <div>
                     <label for="pesinat_tutari"
-                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-dark">Peşinat
+                        class="block mb-2 text-sm font-medium text-gray-900 white:text-white">Peşinat
                         Tutarı</label>
                     <input type="text" id="pesinat_tutari"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-dark dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500"
                         placeholder="" required>
                 </div>
 
@@ -395,7 +429,7 @@
 
         <div style="display: flex; border-top: 1px solid #ccc; margin-top: 5px;">
 
-            <button class="bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded mt-4" id="modal-close"
+            <button class="bg-red-700 hover:bg-red-800 text-white font-bold py-2 px-4 rounded mt-4" id="modal-close"
                 style="right: 0; margin-left: auto; margin-right: 10px;">Kapat</button>
 
             <button class="text-white bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded mt-4"
@@ -421,9 +455,40 @@
 
 <script>
 
+    var current_parcel = "LAPSEKİ";
 
-    function showModal() {
+    function showModal(ada, parsel, m2, parcel_id) {
         document.getElementById('modal').classList.remove('hidden');
+
+        var pacel_id_cont = document.getElementById('parcel_id');
+        pacel_id_cont.value = parcel_id;
+
+        // var satis_danismani = document.getElementById('satis_danismani');
+
+        // satis_danismani.value = satis_danismani;
+        var ada_cont = document.getElementById('ada');
+        var parsel_cont = document.getElementById('parcel');
+        var m2_cont = document.getElementById('m2_bilgisi');
+
+
+        ada_cont.value = ada;
+        parsel_cont.value = parsel;
+        m2_cont.value = m2;
+
+
+
+        var today = new Date();
+
+        // YYYY-AA-GG biçiminde tarihi formatla
+        var formattedDate = today.getFullYear() + '-' + (today.getMonth() + 1).toString().padStart(2, '0') + '-' + today.getDate().toString().padStart(2, '0');
+
+        // Input elementinin value özelliğine atama yap
+        document.getElementById('satis_tarihi').value = formattedDate;
+        document.getElementById('odeme_tarihi').value = formattedDate;
+        document.getElementById('pesinat_tarihi').value = formattedDate;
+
+
+
 
     }
 
@@ -437,92 +502,135 @@
         document.getElementById('modal').classList.add('hidden');
     });
 
+    document.getElementById('modal').addEventListener('click', function (event) {
+        if (event.target === this) {
+            this.classList.add('hidden');
+        }
+    });
 
 
 
     function createParcel(data) {
 
         var table_body = document.getElementById('table-body');
+        table_body.innerHTML = "";
+        var table_html = "";
+
+        var pacel_id_cont = document.getElementById('parcel_id');
 
 
         for (let i = 0; i < Object.keys(data).length; i++) {
-            // console.log(i);
 
-            if (data[i].parcel_name == "ayvalik") {
-                var parcel_name = "Ayvalık";
-            }
+            var user_id = data[i].user_id;
 
+            if (user_id == "None" || user_id == JSON.parse(" {{ current_user.id }}")) {
+                var user_select = "";
 
-            if (data[i].status == "True") {
-                var icon_color = "red";
             } else {
-                var icon_color = "green";
+                var user_select = "user-not-selecting";
             }
 
+            var parcel_m2 = parseInt(data[i].m2_net);
 
-            var parcel_m2 = parseInt(data[i].m2);
+            pacel_id_cont.value = `${data[i].id}`;
+
+            if (data[i].durum == "uygun") {
+                var icon_color = "#057A55";
+            } else if (data[i].durum == "beklemede") {
+                var icon_color = "#E3A008";
+
+            } else if (data[i].durum == "onaylandi") {
+                var icon_color = "#C81E1E";
+            } else {
+
+            }
+
 
             var html = `
-            <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-                <td scope="row" class="text-lg px-6 py-4 font-medium  whitespace-nowrap dark:text-white">
-                    ${data[i].parcel_no}
-                </td>
+            <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700 ${user_select}">
+                
                 <td class="px-6 py-4  text-lg">
-                    <svg class="w-16 h-16 text-${icon_color}-600 light:text-white" aria-hidden="true"
+                    <svg class="w-16 h-16 light:text-white" aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20"
-                        style="min-height: 16px;">
+                        style="min-height: 16px; color: ${icon_color};">
                         <path
                             d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z" />
                     </svg>
+                    
+                </td>
+                <td scope="row" class="text-lg px-6 py-4 font-medium  whitespace-nowrap dark:text-white">
+                    ${data[i].parsel}
                 </td>
                 <td class="px-6 py-4 text-lg">
-                    ${parcel_name}
+                    ${data[i].il}
+
+                </td>
+                <td class="px-6 py-4 text-lg">
+                    ${data[i].ilce} 
 
                 </td>
                 <td class="px-6 py-4 text-lg">
                     ${parcel_m2}  M²
 
                 </td>
+                
                 <td class="px-6 py-4 text-lg">
-                    ${parcel_m2 * 3} ₺
+                    ${data[i].mevki}
+
+                </td>
+                <td class="px-6 py-4 text-lg">
+                    ${data[i].ada}
 
                 </td>
                 <td class="px-6 py-4 text-lg">
                    
-                    <a href="#" onclick="showModal()" class="font-medium text-blue-600 dark:text-blue-500 hover:underline"><span class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-6 py-2 rounded dark:bg-green-900 dark:text-green-300">Seç</span>
+                   <a  onclick="" class="font-medium text-blue-600 dark:text-blue-500 hover:underline"><span class="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-3 py-1.5 rounded dark:bg-yellow-900 dark:text-yellow-300">Beklemeye Al</span>
+
+                   </a>
+               </td>
+                <td class="px-6 py-4 text-lg">
+                   
+                    <a onclick="showModal( ${data[i].ada}, ${data[i].parsel}, ${parcel_m2}, ${data[i].id})" class="font-medium text-blue-600 dark:text-blue-500 hover:underline"><span class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-3 py-1.5 rounded dark:bg-green-900 dark:text-green-300">Seç</span>
                     </a>
                 </td>
             </tr>
                         
                         `;
-
-            table_body.innerHTML += html;
+            table_html += html;
 
         }
+
+        table_body.innerHTML = table_html;
+
     }
 
 
 
 
     // API'den verileri çekmek için fetch kullanımı
-    fetch('/parcels/')  // API'nizin URL'sini buraya ekleyin
-        .then(response => response.json())
-        .then(data => {
-            // Verileri başarılı bir şekilde aldık ve konsolda yazdırıyoruz
-            console.log(data);
-            createParcel(data);
+
+    function getParcels(mevki) {
+
+        fetch(`/parcels/?mevki=${mevki}`)  // API'nizin URL'sini buraya ekleyin
+            .then(response => response.json())
+            .then(data => {
+                // Verileri başarılı bir şekilde aldık ve konsolda yazdırıyoruz
+                console.log(data);
+                current_parcel = mevki;
+                createParcel(data);
 
 
-        })
-        .catch(error => {
-            // Hata durumunda konsolda hatayı yazdırıyoruz
-            console.error('Hata:', error);
-        });
+            })
+            .catch(error => {
+                // Hata durumunda konsolda hatayı yazdırıyoruz
+                console.error('Hata:', error);
+            });
 
 
+    }
 
 
-
+    getParcels(current_parcel);
 
 
 
@@ -543,7 +651,7 @@
             satis_tarihi: document.getElementById('satis_tarihi').value,
             referans: document.getElementById('referans').value,
             ada: document.getElementById('ada').value,
-            parcel: document.getElementById('parcel').value,
+            parcel_no: document.getElementById('parcel').value,
             m2_bilgisi: document.getElementById('m2_bilgisi').value,
             hisse_adedi: document.getElementById('hisse_adedi').value,
             firma_ad_soyad: document.getElementById('firma_ad_soyad').value,
@@ -565,7 +673,9 @@
             pesinat_tarihi: document.getElementById('pesinat_tarihi').value,
             m2_birim_fiyati: document.getElementById('m2_birim_fiyati').value,
             aciklama_bigisi: document.getElementById('aciklama_bigisi').value,
-            ek_bilgiler: document.getElementById('ek_bilgiler').value
+            ek_bilgiler: document.getElementById('ek_bilgiler').value,
+            parsel_id: document.getElementById('parcel_id').value
+
         };
 
         // formData nesnesi şimdi tüm input alanlarının değerlerini içeriyor
@@ -583,6 +693,9 @@
             .then(response => response.json())
             .then(data => {
                 console.log(data);
+                getParcels(current_parcel);
+                document.getElementById('modal').classList.add('hidden');
+
             })
             .catch(error => {
                 console.error('Hata:', error);
@@ -601,5 +714,7 @@
 
 
 </script>
+
+
 
 {% endblock %}

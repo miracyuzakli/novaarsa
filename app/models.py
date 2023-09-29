@@ -1,23 +1,44 @@
 from django.db import models
+from django.contrib.auth.models import User
 
-# Create your models here.
 class Parcel(models.Model):
-    parcel_no = models.CharField(max_length=50)  # parcel_no için bir karakter alanı
-    parcel_name = models.CharField(max_length=100)  # parcel_name için bir karakter alanı
-    m2 = models.DecimalField(max_digits=10, decimal_places=2)  # m2 için ondalık sayı alanı (10 basamaklı, 2 ondalık basamak)
-    status = models.CharField(max_length=20)  # status için bir karakter alanı
+    il = models.CharField(max_length=255)
+    ilce = models.CharField(max_length=255)
+    mevki = models.CharField(max_length=255)
+    ada = models.CharField(max_length=255)
+    parsel = models.CharField(max_length=255)
+    m2_net = models.DecimalField(max_digits=10, decimal_places=2)
+    durum = models.CharField(max_length=255, default='uygun')  
+    user_id = models.CharField(max_length=255, default="None")
+    bekleme_suresi_baslangic = models.DateField(null=True, blank=True)
+    bekleme_suresi_bitisi = models.DateField(null=True, blank=True)
+    bekleten_kullanici = models.CharField(max_length=255, default='None')
+
 
     def __str__(self):
-        return self.parcel_name
+        return self.parsel
+
+class ParcelUserHistory(models.Model):
+    parcel = models.ForeignKey(Parcel, on_delete=models.CASCADE)
+    user_id = models.CharField(max_length=255)  
+    tarih = models.DateTimeField(auto_now_add=True)  
+    islem = models.CharField(max_length=255) 
+
+    def __str__(self):
+        return f"{self.parcel} - {self.user_id} - {self.tarih}"
 
 
-class SatisTakip(models.Model):
+class SatisTakipModel(models.Model):
+
+    user_id = models.CharField(max_length=255, default="None")  
+    parcel = models.ForeignKey(Parcel, on_delete=models.CASCADE)
+
     project_name = models.CharField(max_length=255)
     satis_danismani = models.CharField(max_length=255)
     satis_tarihi = models.DateField()
     referans = models.CharField(max_length=255)
     ada = models.CharField(max_length=255)
-    parcel = models.CharField(max_length=255)
+    parcel_no = models.CharField(max_length=255)
     m2_bilgisi = models.CharField(max_length=255)
     hisse_adedi = models.CharField(max_length=255)
     firma_ad_soyad = models.CharField(max_length=255)
@@ -29,15 +50,17 @@ class SatisTakip(models.Model):
     meslek_bilgisi = models.CharField(max_length=255)
     ulasamadigi_durumda_aranacak_kisi = models.CharField(max_length=255)
     ulasamadigi_durumda_aranacak_kisi_telefon_no = models.CharField(max_length=20)
-    satis_fiyati = models.DecimalField(max_digits=10, decimal_places=2)
-    on_odeme_tutari = models.DecimalField(max_digits=10, decimal_places=2)
-    # odeme_tarihi = models.DateField()
-    # pesinat_tutari = models.DecimalField(max_digits=10, decimal_places=2)
-    # pesinat_tarihi = models.DateField()
+    satis_fiyati = models.CharField(max_length=255)
     odeme_turu = models.CharField(max_length=255)
-    m2_birim_fiyati = models.DecimalField(max_digits=10, decimal_places=2)
+    on_odeme_tutari = models.CharField(max_length=255)
+    odeme_tarihi = models.DateField(null=True, blank=True)
+    pesinat_tutari = models.CharField(max_length=255)
+    pesinat_tarihi = models.DateField(null=True, blank=True)
+    m2_birim_fiyati = models.CharField(max_length=255)
     aciklama_bigisi = models.TextField()
     ek_bilgiler = models.CharField(max_length=255)
 
     def __str__(self):
-        return self.project_name  # Modelin hangi alanının metin temsili olacağını belirtiyoruz
+        return (
+            self.project_name
+        ) 
