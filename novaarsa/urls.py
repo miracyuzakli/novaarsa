@@ -11,6 +11,7 @@ from app.views import (
     dashboard_view,
     remove_parcels,
     approve_parcels,
+    user_history_view
 
 )
 from rest_framework.routers import DefaultRouter
@@ -31,6 +32,9 @@ routerSatisTakipModel.register(r"satis-takip", SatisTakipModelViewSet)
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+
+
+    
     path("", login_view, name="login"),
     path("login/", login_view, name="login"),
     path("logout/", logout_view, name="logout"),
@@ -48,4 +52,9 @@ urlpatterns = [
     path("save-form-data/", save_form_data, name="save_form_data"),
     path("remove-parcel-user-list/", remove_parcels, name="remove_parcels"),
     path("approve-parcel-user-list/", approve_parcels, name="approve_parcel_user_list"),
+
+
+
+
+    path("user-parcels-history/", user_history_view, name="user_parcels_history")
 ]

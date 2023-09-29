@@ -58,6 +58,17 @@
                             </li>
 
 
+                            {% if current_user.groups.all.0.name == 'Kullanici_Islem_Gecmisi' %}
+            
+                            <li>
+                                <a href="{% url 'user_parcels_history' %}"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                                    role="menuitem">Kullanıcı Parsel Geçmişi</a>
+                            </li>
+                            
+                            {% endif %}
+
+
                             <li>
                                 <a href="{% url 'logout' %}"
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"

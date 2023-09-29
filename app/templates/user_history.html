@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nova Arsa</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js"></script>
+    <style>
+        a {
+            cursor: pointer;
+        }
+
+       
+    </style>
+</head>
+
+<body>
+    {% csrf_token %}
+
+
+
+
+
+    {% include 'navbar.html' %}
+
+    
+
+
+    <div class="p-4 dark:bg-gray-700" id="parent-container">
+
+        <div class="p-4 border-2 border-gray-200  rounded-lg dark:border-gray-900 dark:bg-gray-800 mt-14"
+            style="height: calc(100vh - 88px);">
+
+            <a href="{% url 'index' %}">
+                <button type="button"
+                    class="w-full flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 transition-colors duration-200 bg-white border rounded-lg gap-x-2 sm:w-auto dark:hover:bg-gray-800 dark:bg-gray-900 hover:bg-gray-100 dark:text-gray-200 dark:border-gray-700 mb-6">
+                    <svg class="w-5 h-5 rtl:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18" />
+                    </svg>
+                    <span style="margin-left: 5px;">Geri</span>
+                </button>
+            </a>
+
+          
+          
+          
+
+
+
+
+        </div>
+
+
+    </div>
+
+   
+
+
+
+
+</body>
+
+</html>
