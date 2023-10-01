@@ -7,13 +7,20 @@
     <title>Nova Arsa</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
+
     <style>
         a {
             cursor: pointer;
         }
-
-       
     </style>
+
+    <style>
+        .nowrap-label {
+            white-space: nowrap;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -25,7 +32,7 @@
 
     {% include 'navbar.html' %}
 
-    
+
 
 
     <div class="p-4 dark:bg-gray-700" id="parent-container">
@@ -33,21 +40,169 @@
         <div class="p-4 border-2 border-gray-200  rounded-lg dark:border-gray-900 dark:bg-gray-800 mt-14"
             style="height: calc(100vh - 88px);">
 
-            <a href="{% url 'index' %}">
-                <button type="button"
-                    class="w-full flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 transition-colors duration-200 bg-white border rounded-lg gap-x-2 sm:w-auto dark:hover:bg-gray-800 dark:bg-gray-900 hover:bg-gray-100 dark:text-gray-200 dark:border-gray-700 mb-6">
-                    <svg class="w-5 h-5 rtl:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none"
-                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18" />
-                    </svg>
-                    <span style="margin-left: 5px;">Geri</span>
-                </button>
-            </a>
+            <div class="flex flex-wrap -mx-2">
+                <div class="flex items-center mb-12 mr-6 ">
 
-          
-          
-          
+                    <a href="{% url 'index' %}">
+                        <button type="button"
+                            class="w-full flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 transition-colors duration-200 bg-white border rounded-lg gap-x-2 sm:w-auto dark:hover:bg-gray-800 dark:bg-gray-900 hover:bg-gray-100 dark:text-gray-200 dark:border-gray-700 mb-6">
+                            <svg class="w-5 h-5 rtl:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18" />
+                            </svg>
+                            <span style="margin-left: 5px;">Geri</span>
+                        </button>
+                    </a>
+
+                </div>
+                <div class="flex items-center mb-6 mr-6">
+                    <label for="filter-user-history-start-date"
+                        class="text-sm font-medium text-gray-900 dark:text-white  mr-6 nowrap-label">Başlangıç
+                        Tarihi</label>
+                    <input type="date" id="filter-user-history-start-date"
+                        class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                </div>
+
+                <div class="flex items-center mb-6 mr-6">
+                    <label for="filter-user-history-end-date"
+                        class="text-sm font-medium text-gray-900 dark:text-white  mr-6 nowrap-label">Bitiş
+                        Tarihi</label>
+                    <input type="date" id="filter-user-history-end-date"
+                        class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                </div>
+
+                <div class="flex items-center mb-6 mr-6">
+
+                    <label for="filter-user-history-username"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white  mt-2 mr-6 nowrap-label">Satış
+                        Danışmanı</label>
+                    <select id="filter-user-history-username"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option value="all" selected>Tümü</option>
+
+                    </select>
+
+
+                </div>
+
+
+                <div class="flex items-center mb-6 mr-6">
+
+                    <label for="filter-user-history-parcel"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white  mt-2 mr-6 nowrap-label">Parcel</label>
+                    <select id="filter-user-history-parcel"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option value="all" selected>Tümü</option>
+                        <option value="ORMANKÖY">KOCAELİ ORMANKÖY</option>
+                        <option value="LAPSEKİ">ÇANAKKALE ARMONİ</option>
+                        <option value="ELBEYLİ">İZNİK</option>
+                        <option value="ÇAMOBA">AYVALIK ÇAMOVA</option>
+                    </select>
+
+
+                </div>
+
+                <div class="flex items-center mb-6 mr-6 ml-auto">
+
+                    <button type="button" onclick="get_user_history_data()"
+                        class="px-3 py-2 text-xs font-medium text-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+                        Uygula
+                    </button>
+                </div>
+
+                <div class="flex items-center mb-6 mr-6">
+
+                    <button type="button" onclick="exportToExcel()"
+                        class="px-3 py-2 text-xs font-medium text-center text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                        İndir
+                    </button>
+                </div>
+
+
+            </div>
+
+
+
+
+            <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                <div class="table-container max-h-500">
+                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400"
+                        id="user-history-data-table">
+                        <thead
+                            class="text-xs text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400">
+                            <tr>
+
+                                <th scope="col"
+                                    class="px-6 py-3 text-xl sticky top-0 text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400"
+                                    style="
+                                    width: 100px;">
+                                    İşlem
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-xl  sticky top-0 text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400">
+                                    Parsel No
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-xl sticky top-0 text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400">
+                                    İl
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-xl sticky top-0 text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400">
+                                    İlçe
+                                </th>
+
+                                <th scope="col"
+                                    class="px-6 py-3 text-xl sticky top-0 text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400">
+                                    Mevki
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-xl sticky top-0 text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400">
+                                    Ada
+                                </th>
+
+                                <th scope="col"
+                                    class="px-6 py-3 text-xl sticky top-0 text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400">
+                                    İsim
+                                </th>
+
+                                <th scope="col"
+                                    class="px-6 py-3 text-xl sticky top-0 text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400">
+                                    Soyisim
+
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-xl sticky top-0 text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400">
+                                    email
+
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-xl sticky top-0 text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400">
+                                    Tarih
+
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-xl sticky top-0 text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400">
+                                    Saat
+
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body">
+
+
+
+
+
+
+
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
 
 
 
@@ -57,8 +212,216 @@
 
     </div>
 
-   
 
+
+
+
+    <script>
+        // Başlangıç için gerekli olanlar
+        var filter_start_date = document.getElementById('filter-user-history-start-date');
+        var filter_end_date = document.getElementById('filter-user-history-end-date');
+        var today = new Date();
+
+        // Yarının tarihini hesaplayın
+        var tomorrow = new Date(today);
+        tomorrow.setDate(today.getDate() + 1);
+
+        // Başlangıç tarihini hesaplayın (1 ay önce)
+        var oneMonthAgo = new Date(today);
+        oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+
+        // Başlangıç ve bitiş tarih inputlarına değerleri atayın
+        filter_start_date.valueAsDate = oneMonthAgo;
+        filter_end_date.valueAsDate = tomorrow;
+
+
+
+        var buttonElement = document.getElementById("logo-sidebar-button");
+        buttonElement.parentNode.removeChild(buttonElement);
+
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+        fetch('/get-users/', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken, // Django CSRF koruma token'ı
+            },
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json(); // Gelen JSON verisini çözümle
+            })
+            .then(data => {
+                // Gelen veriyi kullan
+
+                var filter_username = document.getElementById('filter-user-history-username');
+                for (let i = 0; i < Object.keys(data.users_data).length; i++) {
+
+                    filter_username.innerHTML += `
+                            <option value="${data.users_data[i].user_id}" uppercase>${data.users_data[i].name + data.users_data[i].lastname}  </option>
+                    `;
+
+
+                }
+
+            })
+            .catch(error => {
+                console.error('Hata:', error);
+            });
+
+
+
+        // Dosyasyı indirmek için
+        function exportToExcel() {
+            /* Tabloyu seçin */
+            var table = document.getElementById("user-history-data-table");
+
+            /* Workbook oluşturun */
+            var wb = XLSX.utils.table_to_book(table);
+
+            /* Dosyayı kaydedin */
+            XLSX.writeFile(wb, "kullanici_gecmisi_tablo.xlsx");
+
+            console
+        }
+
+
+
+
+        // Filtreleme işlemleri için
+        function get_user_history_data() {
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+            var filter_start_date = document.getElementById('filter-user-history-start-date').value;
+            var filter_end_date = document.getElementById('filter-user-history-end-date').value;
+            var filter_username = document.getElementById('filter-user-history-username').value;
+            var filter_parcel = document.getElementById('filter-user-history-parcel').value;
+
+
+
+
+
+            fetch(`/get-user-history-data/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken, // Django CSRF koruma token'ı
+                },
+                body: JSON.stringify({
+                    filter_start_date: filter_start_date,
+                    filter_end_date: filter_end_date,
+                    filter_username: filter_username,
+                    filter_parcel: filter_parcel,
+
+                }),
+            })
+                .then(response => response.json()) // Yanıtı JSON olarak çözümle
+                .then(data => {
+                    createParcel(data.history_data);
+                    console.log(data.history_data);
+                })
+                .catch(error => {
+                    console.error('İstek hatası:', error);
+                });
+        }
+
+
+
+        get_user_history_data();
+
+
+
+
+        function createParcel(data) {
+
+            var table_body = document.getElementById('table-body');
+            table_body.innerHTML = "";
+            var table_html = "";
+
+
+            for (let i = 0; i < Object.keys(data).length; i++) {
+
+
+                if (data[i].islem == "ekle") {
+                    var icon_color = `<span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">${data[i].islem}</span>`;
+                } else if (data[i].islem == "çıkar") {
+                    var icon_color = `<span class="bg-red-100 text-red-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">${data[i].islem}</span>`;
+
+                } else if (data[i].islem == "onay") {
+                    var icon_color = `<span class="bg-green-100 text-green-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">${data[i].islem}</span>`;
+                }
+
+
+
+
+
+                var html = `
+                <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+
+                <td class="px-6 py-4  text-lg item-center">
+                    ${icon_color}
+                </td>
+                <td scope="row" class="text-lg px-6 py-4 font-medium  whitespace-nowrap dark:text-white">
+                    ${data[i].parcel}
+                </td>
+                <td scope="row" class="text-lg px-6 py-4 font-medium  whitespace-nowrap dark:text-white">
+                    ${data[i].il}
+                </td>
+               
+                <td class="px-6 py-4 text-lg">
+                    ${data[i].ilce} 
+
+                </td>
+
+                <td class="px-6 py-4 text-lg">
+                    ${data[i].mevki}
+
+                </td>
+                <td class="px-6 py-4 text-lg">
+                    ${data[i].ada}
+
+                </td>
+             
+                <td scope="row" class="text-lg px-6 py-4 font-medium  whitespace-nowrap dark:text-white uppercase">
+                    ${data[i].first_name}
+                </td>
+                <td scope="row" class="text-lg px-6 py-4 font-medium  whitespace-nowrap dark:text-white uppercase">
+                    ${data[i].last_name}
+                </td>
+                <td scope="row" class="text-lg px-6 py-4 font-medium  whitespace-nowrap dark:text-white">
+                    ${data[i].user_email}
+                </td>
+                <td scope="row" class="text-lg px-6 py-4 font-medium  whitespace-nowrap dark:text-white">
+                    ${data[i].tarih}
+                </td>
+
+                <td scope="row" class="text-lg px-6 py-4 font-medium  whitespace-nowrap dark:text-white">
+                    ${data[i].saat}
+                </td>
+
+               
+               
+                </tr>
+                        
+                        `;
+                table_html += html;
+
+            }
+
+            table_body.innerHTML = table_html;
+
+
+        }
+
+
+
+     
+
+
+    </script>
 
 
 

@@ -33,6 +33,9 @@
     }
 </style>
 
+<!-- <button onclick="beklemeyeAl(1)">Beklemeye Al</button>
+<span id="gerisayim-1"></span> -->
+
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
     <div class="table-container max-h-500">
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -425,8 +428,6 @@
 
 
 
-
-
         <div style="display: flex; border-top: 1px solid #ccc; margin-top: 5px;">
 
             <button class="bg-red-700 hover:bg-red-800 text-white font-bold py-2 px-4 rounded mt-4" id="modal-close"
@@ -536,14 +537,22 @@
 
             if (data[i].durum == "uygun") {
                 var icon_color = "#057A55";
+
+                var current_user_not_procces_parcel = "";
+
             } else if (data[i].durum == "beklemede") {
                 var icon_color = "#E3A008";
+                var current_user_not_procces_parcel = "user-not-selecting";
+
 
             } else if (data[i].durum == "onaylandi") {
                 var icon_color = "#C81E1E";
+                var current_user_not_procces_parcel = "user-not-selecting";
+
             } else {
 
             }
+
 
 
             var html = `
@@ -582,13 +591,13 @@
                     ${data[i].ada}
 
                 </td>
-                <td class="px-6 py-4 text-lg">
+                <td class="px-6 py-4 text-lg ${current_user_not_procces_parcel}">
                    
-                   <a  onclick="" class="font-medium text-blue-600 dark:text-blue-500 hover:underline"><span class="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-3 py-1.5 rounded dark:bg-yellow-900 dark:text-yellow-300">Beklemeye Al</span>
+                   <a  onclick="parcel_waiting(${data[i].id})" class="font-medium text-blue-600 dark:text-blue-500 hover:underline"><span class="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-3 py-1.5 rounded dark:bg-yellow-900 dark:text-yellow-300">Beklemeye Al</span>
 
                    </a>
                </td>
-                <td class="px-6 py-4 text-lg">
+                <td class="px-6 py-4 text-lg ${current_user_not_procces_parcel}">
                    
                     <a onclick="showModal( ${data[i].ada}, ${data[i].parsel}, ${parcel_m2}, ${data[i].id})" class="font-medium text-blue-600 dark:text-blue-500 hover:underline"><span class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-3 py-1.5 rounded dark:bg-green-900 dark:text-green-300">Seç</span>
                     </a>
@@ -615,7 +624,6 @@
             .then(response => response.json())
             .then(data => {
                 // Verileri başarılı bir şekilde aldık ve konsolda yazdırıyoruz
-                console.log(data);
                 current_parcel = mevki;
                 createParcel(data);
 
@@ -680,7 +688,6 @@
 
         // formData nesnesi şimdi tüm input alanlarının değerlerini içeriyor
 
-        console.log(formData);
 
         fetch('/save-form-data/', {
             method: 'POST',
@@ -692,7 +699,6 @@
         })
             .then(response => response.json())
             .then(data => {
-                console.log(data);
                 getParcels(current_parcel);
                 document.getElementById('modal').classList.add('hidden');
 
@@ -706,11 +712,59 @@
 
 
 
+    // function beklemeyeAl(bekleyenID) {
+    //     // Beklemeye alınan zamanı belirleyin (örneğin, 60 dakika)
+    //     var beklemeSuresi = 60 * 60; // saniye cinsinden
+
+    //     // Bekleme süresini geri sayanı başlatın
+    //     var geriSayim = document.getElementById('gerisayim-' + bekleyenID);
+    //     var interval = setInterval(function () {
+    //         if (beklemeSuresi <= 0) {
+    //             clearInterval(interval);
+    //             geriSayim.innerHTML = 'Süre doldu!';
+    //             // İlgili satırı inaktif hale getirme veya başka bir işlem yapma kodunu buraya ekleyin
+    //         } else {
+    //             var dakika = Math.floor(beklemeSuresi / 60);
+    //             var saniye = beklemeSuresi % 60;
+    //             geriSayim.innerHTML = dakika + 'dk ' + saniye + 'sn';
+    //             beklemeSuresi--;
+    //         }
+    //     }, 1000);
+    // }
+
+
+
+    function parcel_waiting(parcel_id) {
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+
+        fetch('/set-parcel-waiting/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken, // Django CSRF koruma token'ı
+            },
+            body: JSON.stringify({
+                "parcel_id": parcel_id
+            
+            
+            }), // formData nesnesini JSON'a dönüştürdüğünüzü varsayalım
+        })
+            .then(response => response.json())
+            .then(data => {
 
 
 
 
+            })
+            .catch(error => {
+                console.error('Hata:', error);
+            });
 
+
+
+
+    }
 
 
 </script>

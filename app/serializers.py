@@ -6,12 +6,15 @@ class ParcelSerializer(serializers.ModelSerializer):
         model = Parcel
         fields = '__all__'
 
+# class ParcelUserHistorySerializer(serializers.ModelSerializer):
+#     user_full_name = serializers.SerializerMethodField()
 
-class ParcelUserHistorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ParcelUserHistory
-        fields = '__all__'
+#     def get_user_full_name(self, obj):
+#         return obj.user.get_full_name()
 
+#     class Meta:
+#         model = ParcelUserHistory
+#         fields = '__all__'
 
 class SatisTakipModelSerializer(serializers.ModelSerializer):
     class Meta:

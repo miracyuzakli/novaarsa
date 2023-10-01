@@ -4,14 +4,18 @@ from app.views import (
     login_view,
     index_view,
     logout_view,
+    get_users,
     ParcelViewSet,
-    ParcelUserHistoryViewSet,
+    parcel_waiting,
     save_form_data,
     SatisTakipModelViewSet,
     dashboard_view,
     remove_parcels,
     approve_parcels,
-    user_history_view
+    user_history_view,
+    get_user_history_data,
+
+
 
 )
 from rest_framework.routers import DefaultRouter
@@ -20,11 +24,11 @@ from rest_framework.routers import DefaultRouter
 routerParcel = DefaultRouter()
 routerParcel.register(r"parcels", ParcelViewSet)
 
-routerParcelUserHistory = DefaultRouter()
-routerParcelUserHistory.register(r"parcels-user-history", ParcelUserHistoryViewSet)
+# routerParcelUserHistory = DefaultRouter()
+# routerParcelUserHistory.register(r"parcels-user-history", ParcelUserHistoryViewSet)
 
-routerParcelUserHistory = DefaultRouter()
-routerParcelUserHistory.register(r"parcels-user-history", ParcelUserHistoryViewSet)
+# routerParcelUserHistory = DefaultRouter()
+# routerParcelUserHistory.register(r"parcels-user-history", ParcelUserHistoryViewSet)
 
 
 routerSatisTakipModel = DefaultRouter()
@@ -38,6 +42,7 @@ urlpatterns = [
     path("", login_view, name="login"),
     path("login/", login_view, name="login"),
     path("logout/", logout_view, name="logout"),
+    path("get-users/", get_users, name="get_users"),
 
     
     path("index/", index_view, name="index"),
@@ -45,7 +50,9 @@ urlpatterns = [
 
 
     path("", include(routerParcel.urls)),
-    path("", include(routerParcelUserHistory.urls)),
+    path("set-parcel-waiting/", parcel_waiting, name="set_parcel_waiting"),
+
+    # path("", include(routerParcelUserHistory.urls)),
     path("", include(routerSatisTakipModel.urls)),
 
 
@@ -56,5 +63,6 @@ urlpatterns = [
 
 
 
-    path("user-parcels-history/", user_history_view, name="user_parcels_history")
+    path("user-parcels-history/", user_history_view, name="user_parcels_history"),
+    path("get-user-history-data/", get_user_history_data, name="get_user_history_data")
 ]

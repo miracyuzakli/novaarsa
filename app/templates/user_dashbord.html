@@ -144,14 +144,12 @@
 
                                 <th scope="col"
                                     class="px-6 py-3 text-xl sticky top-0 text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400">
-                                    İşlem
+                                    İşlem 1
                                 </th>
+                                
                                 <th scope="col"
                                     class="px-6 py-3 text-xl sticky top-0 text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400">
-
-                                </th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-xl sticky top-0 text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400">
+                                    İşlem 2
 
                                 </th>
                             </tr>
@@ -179,6 +177,24 @@
 
     </div>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
     <script>
 
 
@@ -192,7 +208,6 @@
                 .then(response => response.json())
                 .then(data => {
                     // Verileri başarılı bir şekilde aldık ve konsolda yazdırıyoruz
-                    console.log(data);
                     createParcel(data);
 
 
@@ -239,7 +254,6 @@
 
             const newDurum = 'onaylandi';
             const parcelId = document.getElementById('selected-parcel-id-input').value;
-            console.log(parcelId);
 
             fetch(`/approve-parcel-user-list/`, {
                 method: 'POST',
@@ -286,7 +300,6 @@
             const newUser_id = 'None';  // Yeni user_id değerini burada belirtin
             const newDurum = 'uygun';
             const parcelId = document.getElementById('selected-parcel-id-input').value;
-            console.log(parcelId);
 
             fetch(`/remove-parcel-user-list/`, {
                 method: 'POST',
@@ -384,23 +397,19 @@
     
             </td>
     
-            <td class="px-6 py-4 text-lg">
-               
-                 <a onclick="showModal( ${data[i].ada}, ${data[i].parsel}, ${parcel_m2}, ${data[i].id})" class="font-medium text-blue-600 dark:text-blue-500 hover:underline"><span class="bg-blue-200 text-blue-800 text-xs font-medium mr-2 px-3 py-1.5 rounded dark:bg-blue-900 dark:text-blue-300">Düzenle</span>
-                </a>
-            </td>
+            
 
             <td class="px-6 py-4 text-lg">
                
                <a onclick="onaylaButtonClick(${data[i].id})"   class="font-medium text-green-600 dark:text-green-500 hover:underline"><span class="bg-green-200 text-green-800 text-xs font-medium mr-2 px-3 py-1.5 rounded dark:bg-green-900 dark:text-green-300">Onayla</span>
               </a>
-          </td>
+            </td>
 
-          <td class="px-6 py-4 text-lg">
-               
-               <a onclick="cikarButtonClick(${data[i].id})"   class="font-medium text-red-600 dark:text-red-500 hover:underline"><span class="bg-red-200 text-red-800 text-xs font-medium mr-2 px-3 py-1.5 rounded dark:bg-red-900 dark:text-red-300">Çıkar</span>
-              </a>
-          </td>
+            <td class="px-6 py-4 text-lg">
+                
+                <a onclick="cikarButtonClick(${data[i].id})"   class="font-medium text-red-600 dark:text-red-500 hover:underline"><span class="bg-red-200 text-red-800 text-xs font-medium mr-2 px-3 py-1.5 rounded dark:bg-red-900 dark:text-red-300">Çıkar</span>
+                </a>
+            </td>
 
         </tr>
                     

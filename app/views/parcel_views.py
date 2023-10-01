@@ -5,8 +5,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 
 from ..models import Parcel, SatisTakipModel, ParcelUserHistory
-from ..serializers import ParcelSerializer, ParcelUserHistorySerializer, SatisTakipModelSerializer
-from ..filters import ParcelFilter, ParcelUserHistoryFilter, SatisTakipModelFilter
+from ..serializers import ParcelSerializer, SatisTakipModelSerializer
+from ..filters import ParcelFilter, SatisTakipModelFilter
 
 from rest_framework import viewsets
 
@@ -16,34 +16,20 @@ from django.views.decorators.csrf import csrf_protect
 import json
 from rest_framework.decorators import action
 from rest_framework.response import Response
-
-
-
-
+from django.contrib.auth.models import User
+from django.utils import timezone  # Django'nun zaman dilimi işlevlerini içe aktarın
+from datetime import datetime, timedelta
 
 
 
 
 #! Applications
-
-
-
-
-
-
-
 class ParcelViewSet(viewsets.ModelViewSet):
     queryset = Parcel.objects.all()
     serializer_class = ParcelSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_class = ParcelFilter
-  
 
-class ParcelUserHistoryViewSet(viewsets.ModelViewSet):
-    queryset = ParcelUserHistory.objects.all()
-    serializer_class = ParcelUserHistorySerializer
-    filter_backends = [DjangoFilterBackend]
-    filterset_class = ParcelUserHistoryFilter
 
 
 class SatisTakipModelViewSet(viewsets.ModelViewSet):
@@ -61,8 +47,7 @@ def save_form_data(request):
         try:
             data = json.loads(request.body.decode('utf-8'))
 
-            print("#"*10)
-            print(data["parsel_id"])
+           
 
             if data["banka_odeme"] == True:
                 odeme_yontemi = "banka"
@@ -112,11 +97,12 @@ def save_form_data(request):
 
 
 
+            user = User.objects.get(pk=request.user.id)
 
 
             parcel_user_history = ParcelUserHistory(
                 parcel= parcel,
-                user_id=request.user.id,
+                user=user,
                 # tarih="",
                 islem="ekle")
 
@@ -138,4 +124,31 @@ def save_form_data(request):
 
 
 
+
+@csrf_protect
+def parcel_waiting(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body.decode('utf-8'))
+
+            parcel = Parcel.objects.get(pk=data["parcel_id"])  # Örnek olarak bir parcel nesnesi alın
+            parcel.durum = "kısa_bekleme"  # Yeni kullanıcı ID'sini ayarlayın
+            
+            
+           
+            now = timezone.now()  
+
+
+
+            parcel.bekleme_suresi_baslangic = now
+            parcel.bekleme_suresi_bitisi = now + timedelta(minutes=60)
+
+            parcel.save()  # Değişikliği kaydedin
+
+            return JsonResponse({'message': 'Veriler kaydedildi.'}, status=200)
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Geçersiz JSON formatı.'}, status=400)
+    else:
+        return JsonResponse({'error': 'Yalnızca POST istekleri kabul edilir.'}, status=405)
+    
 

@@ -19,22 +19,19 @@ class ParcelFilter(django_filters.FilterSet):
 
 
 
-class ParcelUserHistoryFilter(django_filters.FilterSet):
-    class Meta:
-        model = ParcelUserHistory
-        fields = {
-            'parcel__il': ['exact', 'contains'],
-            'parcel__ilce': ['exact', 'contains'],
-            'parcel__mevki': ['exact', 'contains'],
-            'parcel__ada': ['exact', 'contains'],
-            'parcel__parsel': ['exact', 'contains'],
-            'parcel__m2_net': ['exact', 'lt', 'lte', 'gt', 'gte'],
-            'parcel__durum': ['exact', 'contains'],
-            'user_id': ['exact', 'contains'],
-            'tarih': ['exact', 'lt', 'lte', 'gt', 'gte'],
-            'islem': ['exact', 'contains'],
-        }
+# class ParcelUserHistoryFilter(django_filters.FilterSet):
+#     user_full_name = django_filters.CharFilter(method='filter_user_full_name')
 
+#     def filter_user_full_name(self, queryset, name, value):
+#         return queryset.filter(user__full_name__icontains=value)
+
+#     class Meta:
+#         model = ParcelUserHistory
+#         fields = {
+#             'user_full_name': ['exact'],  # ForeignKey alanına exact eşleşme yapmak için
+#             'tarih': ['exact', 'lt', 'lte', 'gt', 'gte'],
+#             'islem': ['exact', 'contains'],
+#         }
 
 
 import django_filters

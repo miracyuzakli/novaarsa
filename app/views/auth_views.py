@@ -4,8 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 
 from ..models import Parcel, SatisTakipModel, ParcelUserHistory
-from ..serializers import ParcelSerializer, ParcelUserHistorySerializer, SatisTakipModelSerializer
-from ..filters import ParcelFilter, ParcelUserHistoryFilter, SatisTakipModelFilter
+from ..serializers import ParcelSerializer, SatisTakipModelSerializer
+from ..filters import ParcelFilter, SatisTakipModelFilter
 
 from rest_framework import viewsets
 
@@ -15,6 +15,7 @@ from django.views.decorators.csrf import csrf_protect
 import json
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from django.contrib.auth.models import User
 
 
 
@@ -23,7 +24,6 @@ from rest_framework.response import Response
 def index_view(request):
     current_user = request.user
 
-    print(current_user)
     
     return render(request, 'index.html', {'current_user': current_user})
 
@@ -40,8 +40,7 @@ def login_view(request):
             username = request.POST['username']
             password = request.POST['password']
             user = authenticate(request, username=username, password=password)
-            print(username)
-            print(password)
+           
             if user is not None:
                 login(request, user)
                 return redirect('index')  
@@ -56,5 +55,24 @@ def login_view(request):
 def logout_view(request):
     
     logout(request)
-    print("Çıkış yapıldı")
     return redirect('index') 
+
+
+
+
+
+@csrf_protect
+def get_users(request):
+    if request.method == "GET":
+        kullanici_listesi = User.objects.all()
+        kullanici_verileri = []
+
+        for kullanici in kullanici_listesi:
+            kullanici_verileri.append({
+                'user_id': kullanici.id,
+                'name': kullanici.first_name,
+                'lastname': kullanici.last_name
+            })
+
+        return JsonResponse({"users_data": kullanici_verileri})
+       

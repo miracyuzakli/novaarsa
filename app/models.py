@@ -7,25 +7,29 @@ class Parcel(models.Model):
     mevki = models.CharField(max_length=255)
     ada = models.CharField(max_length=255)
     parsel = models.CharField(max_length=255)
-    m2_net = models.DecimalField(max_digits=10, decimal_places=2)
+    m2_net = models.CharField(max_length=255)
     durum = models.CharField(max_length=255, default='uygun')  
     user_id = models.CharField(max_length=255, default="None")
-    bekleme_suresi_baslangic = models.DateField(null=True, blank=True)
-    bekleme_suresi_bitisi = models.DateField(null=True, blank=True)
+    bekleme_suresi_baslangic = models.DateTimeField(null=True, blank=True)
+    bekleme_suresi_bitisi = models.DateTimeField(null=True, blank=True)
     bekleten_kullanici = models.CharField(max_length=255, default='None')
 
 
     def __str__(self):
         return self.parsel
 
+
+
 class ParcelUserHistory(models.Model):
     parcel = models.ForeignKey(Parcel, on_delete=models.CASCADE)
-    user_id = models.CharField(max_length=255)  
-    tarih = models.DateTimeField(auto_now_add=True)  
-    islem = models.CharField(max_length=255) 
+    user = models.ForeignKey(User, on_delete=models.CASCADE)  # User modeli ile ForeignKey ilişkisi
+    tarih = models.DateField(auto_now_add=True)  # Tarih olarak saklamak için "DateField" kullanın
+    saat = models.TimeField(auto_now_add=True)   # Saat olarak saklamak için "TimeField" kullanın
+    islem = models.CharField(max_length=255)
 
     def __str__(self):
-        return f"{self.parcel} - {self.user_id} - {self.tarih}"
+        return f"{self.parcel} - {self.user_id} - Tarih: {self.tarih.strftime('%Y-%m-%d')}, Saat: {self.saat.strftime('%H:%M:%S')}"
+
 
 
 class SatisTakipModel(models.Model):
