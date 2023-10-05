@@ -139,9 +139,36 @@ def parcel_waiting(request):
             now = timezone.now()  
 
 
+            parcel.user_id = request.user.id
+            parcel.bekleme_suresi_baslangic = now + timedelta(minutes=180)
+            parcel.bekleme_suresi_bitisi = now + timedelta(minutes=240)
+            parcel.bekleten_kullanici =  f"{request.user.first_name} {request.user.last_name}"
 
-            parcel.bekleme_suresi_baslangic = now
-            parcel.bekleme_suresi_bitisi = now + timedelta(minutes=60)
+            parcel.save()  # Değişikliği kaydedin
+
+            return JsonResponse({'message': 'Veriler kaydedildi.'}, status=200)
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Geçersiz JSON formatı.'}, status=400)
+    else:
+        return JsonResponse({'error': 'Yalnızca POST istekleri kabul edilir.'}, status=405)
+    
+
+@csrf_protect
+def parcel_waiting_remove(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body.decode('utf-8'))
+
+            parcel = Parcel.objects.get(pk=data["parcel_id"])  # Örnek olarak bir parcel nesnesi alın
+            
+    
+
+            parcel.durum = 'uygun'
+            parcel.bekleme_suresi_baslangic = None  # Null yapma
+            parcel.bekleme_suresi_bitisi = None  # Null yapma
+            parcel.bekleten_kullanici = "None"  # Null yapma
+            parcel.user_id = "None"  # Null yapma
+            
 
             parcel.save()  # Değişikliği kaydedin
 

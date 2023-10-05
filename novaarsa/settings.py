@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
-    'background_task',
+    # "background_task",
     "app",
 ]
 
@@ -52,6 +52,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+
+
 ]
 
 
@@ -119,7 +121,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+# TIME_ZONE = "UTC"
+TIME_ZONE = 'Europe/Istanbul'
 
 USE_I18N = True
 
@@ -136,8 +139,10 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+# BACKGROUND_TASK_RUN_ASYNC = True
 
 # BACKGROUND_TASKS = [
-#     ('app.tasks.my_background_task', '5s', (), {}),
+#     ('app.tasks.my_background_task', '60s', (), {}),
 # ]
+
 

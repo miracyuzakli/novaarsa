@@ -1,7 +1,8 @@
-#!/usr/bin/env python
-"""Django's command-line utility for administrative tasks."""
+# !/usr/bin/env python
+
 import os
 import sys
+from novaarsa.schedulers import run_scheduler
 
 
 def main():
@@ -17,6 +18,6 @@ def main():
         ) from exc
     execute_from_command_line(sys.argv)
 
-
 if __name__ == '__main__':
+    run_scheduler()
     main()

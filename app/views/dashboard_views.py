@@ -99,10 +99,11 @@ def remove_parcels(request):
 
             parcel_user_history.save()
 
-
-            satis_takip = SatisTakipModel.objects.get(parcel_id=parcel_id)  
-            satis_takip.delete()
-
+            try:
+                satis_takip = SatisTakipModel.objects.get(parcel_id=parcel_id)  
+                satis_takip.delete()
+            except:
+                pass
 
 
             return JsonResponse({'message': 'Veriler kaydedildi.'}, status=200)

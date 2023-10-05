@@ -493,10 +493,7 @@
 
     }
 
-    // // Modal açma işlemi
-    // document.getElementById('modal-trigger').addEventListener('click', function () {
-    //     document.getElementById('modal').classList.remove('hidden');
-    // });
+
 
     // Modal kapatma işlemi
     document.getElementById('modal-close').addEventListener('click', function () {
@@ -511,7 +508,32 @@
 
 
 
+
+
+    function calculateRemainingTime(startTimestamp, endTimestamp) {
+        // Tarihleri JavaScript Date nesnelerine dönüştürün
+        const startTime = new Date(startTimestamp);
+        const endTime = new Date(endTimestamp);
+
+        // Şu anki tarihi alın
+        const currentTime = new Date();
+
+        // Kalan süreyi hesaplayın (dakika cinsinden)
+        const remainingMinutes = Math.ceil((endTime - currentTime) / (1000 * 60));
+
+        if (remainingMinutes > 0) {
+            return `${remainingMinutes - 180} dakika kaldı`;
+        } else {
+            return "";
+        }
+    }
+
+
+
     function createParcel(data) {
+
+
+
 
         var table_body = document.getElementById('table-body');
         table_body.innerHTML = "";
@@ -538,7 +560,7 @@
             if (data[i].durum == "uygun") {
                 var icon_color = "#057A55";
 
-                var current_user_not_procces_parcel = "";
+                var current_user_not_procces_parcel = "user-not-selecting";
 
             } else if (data[i].durum == "beklemede") {
                 var icon_color = "#E3A008";
@@ -549,11 +571,26 @@
                 var icon_color = "#C81E1E";
                 var current_user_not_procces_parcel = "user-not-selecting";
 
-            } else {
+            } else if (data[i].durum == "kısa_bekleme") {
+                var icon_color = "blue";
+                var current_user_not_procces_parcel = "user-not-selecting";
+
 
             }
 
+            if (data[i].bekleten_kullanici == "None") {
+                var waiting_html = `
+                <a  onclick="parcel_waiting(${data[i].id})" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                    <span class="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-3 py-1.5 rounded dark:bg-yellow-900 dark:text-yellow-300">Beklemeye Al</span>
+                </a>`;
+            } else {
+                var waiting_html = `
+                <a  onclick="parcel_waiting_remove(${data[i].id})" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                    <span class="bg-red-100 text-red-800 text-xs font-medium mr-2 px-3 py-1.5 rounded dark:bg-red-900 dark:text-red-300">Durdur</span>
+                </a>`;
+            }
 
+           
 
             var html = `
             <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700 ${user_select}">
@@ -591,11 +628,11 @@
                     ${data[i].ada}
 
                 </td>
-                <td class="px-6 py-4 text-lg ${current_user_not_procces_parcel}">
+                <td class="px-6 py-4 text-lg ${""}">
                    
-                   <a  onclick="parcel_waiting(${data[i].id})" class="font-medium text-blue-600 dark:text-blue-500 hover:underline"><span class="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-3 py-1.5 rounded dark:bg-yellow-900 dark:text-yellow-300">Beklemeye Al</span>
+                    ${waiting_html}
+                    <span class="remaining-time">${calculateRemainingTime(data[i].bekleme_suresi_baslangic, data[i].bekleme_suresi_bitisi)}</span>
 
-                   </a>
                </td>
                 <td class="px-6 py-4 text-lg ${current_user_not_procces_parcel}">
                    
@@ -610,6 +647,8 @@
         }
 
         table_body.innerHTML = table_html;
+
+      
 
     }
 
@@ -639,10 +678,6 @@
 
 
     getParcels(current_parcel);
-
-
-
-
 
 
 
@@ -710,30 +745,6 @@
     });
 
 
-
-
-    // function beklemeyeAl(bekleyenID) {
-    //     // Beklemeye alınan zamanı belirleyin (örneğin, 60 dakika)
-    //     var beklemeSuresi = 60 * 60; // saniye cinsinden
-
-    //     // Bekleme süresini geri sayanı başlatın
-    //     var geriSayim = document.getElementById('gerisayim-' + bekleyenID);
-    //     var interval = setInterval(function () {
-    //         if (beklemeSuresi <= 0) {
-    //             clearInterval(interval);
-    //             geriSayim.innerHTML = 'Süre doldu!';
-    //             // İlgili satırı inaktif hale getirme veya başka bir işlem yapma kodunu buraya ekleyin
-    //         } else {
-    //             var dakika = Math.floor(beklemeSuresi / 60);
-    //             var saniye = beklemeSuresi % 60;
-    //             geriSayim.innerHTML = dakika + 'dk ' + saniye + 'sn';
-    //             beklemeSuresi--;
-    //         }
-    //     }, 1000);
-    // }
-
-
-
     function parcel_waiting(parcel_id) {
         const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
@@ -746,14 +757,15 @@
             },
             body: JSON.stringify({
                 "parcel_id": parcel_id
-            
-            
+
+
             }), // formData nesnesini JSON'a dönüştürdüğünüzü varsayalım
         })
             .then(response => response.json())
             .then(data => {
 
-
+                getParcels(current_parcel);
+                console.log("sdfsd");
 
 
             })
@@ -761,8 +773,35 @@
                 console.error('Hata:', error);
             });
 
+    }
 
 
+    function parcel_waiting_remove(parcel_id) {
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+
+        fetch('/set-parcel-waiting-remove/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken, // Django CSRF koruma token'ı
+            },
+            body: JSON.stringify({
+                "parcel_id": parcel_id
+
+
+            }), // formData nesnesini JSON'a dönüştürdüğünüzü varsayalım
+        })
+            .then(response => response.json())
+            .then(data => {
+
+                getParcels(current_parcel);
+
+
+            })
+            .catch(error => {
+                console.error('Hata:', error);
+            });
 
     }
 

@@ -7,6 +7,7 @@ from app.views import (
     get_users,
     ParcelViewSet,
     parcel_waiting,
+    parcel_waiting_remove,
     save_form_data,
     SatisTakipModelViewSet,
     dashboard_view,
@@ -23,13 +24,6 @@ from rest_framework.routers import DefaultRouter
 
 routerParcel = DefaultRouter()
 routerParcel.register(r"parcels", ParcelViewSet)
-
-# routerParcelUserHistory = DefaultRouter()
-# routerParcelUserHistory.register(r"parcels-user-history", ParcelUserHistoryViewSet)
-
-# routerParcelUserHistory = DefaultRouter()
-# routerParcelUserHistory.register(r"parcels-user-history", ParcelUserHistoryViewSet)
-
 
 routerSatisTakipModel = DefaultRouter()
 routerSatisTakipModel.register(r"satis-takip", SatisTakipModelViewSet)
@@ -51,8 +45,8 @@ urlpatterns = [
 
     path("", include(routerParcel.urls)),
     path("set-parcel-waiting/", parcel_waiting, name="set_parcel_waiting"),
+    path("set-parcel-waiting-remove/", parcel_waiting_remove, name="set_parcel_waiting_remove"),
 
-    # path("", include(routerParcelUserHistory.urls)),
     path("", include(routerSatisTakipModel.urls)),
 
 
