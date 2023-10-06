@@ -31,6 +31,26 @@
         pointer-events: none;
         /* Kullanıcı etkileşimini devre dışı bırakmak için */
     }
+
+    /* #modal-container {
+        max-height: 78%;
+        padding: 10px;
+    } */
+
+    @media (max-width: 600px) {
+        #modal-conteiner {
+            max-height: 60%;
+            padding: 5px;
+        }
+    }
+
+    @media (max-width: 400px) {
+        #modal-conteiner {
+            max-height: 60%;
+        }
+
+
+    }
 </style>
 
 <!-- <button onclick="beklemeyeAl(1)">Beklemeye Al</button>
@@ -107,14 +127,10 @@
 {% csrf_token %}
 
 <!-- Modal -->
-<!-- <div class="modal hidden fixed inset-0 z-50 overflow-auto bg-gray-800 bg-opacity-10 flex justify-center items-center" id="modal" >
-
-    <div class="modal-content bg-white p-4 rounded shadow-lg" style="width: 70%; height: 85vh;"> -->
-
-<div class="modal hidden fixed inset-0 z-50 overflow-auto bg-gray-800 bg-opacity-10 flex justify-center items-center"
+<div class="modal fixed hidden inset-0 z-50 overflow-auto bg-gray-800 bg-opacity-10 flex justify-center items-center"
     id="modal" style="background-color: #37415160;">
 
-    <div class="modal-content bg-white p-4 rounded shadow-lg " style="width: 70%; height: 85vh;">
+    <div class="modal-content bg-white p-4 rounded shadow-lg" style="width: 70%; height: 85vh;">
 
 
 
@@ -124,7 +140,7 @@
             <h1 class="text-4xl font-medium text-gray-900 white:text-white">SATIŞ TAKİP FORMU</h2>
                 <input type="text" id="parcel_id"
                     class="hidden border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500"
-                    placeholder="Proje adı">
+                   >
         </div>
 
         <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-300">
@@ -132,7 +148,7 @@
 
 
 
-        <div style="width: 100%; height: auto; max-height: 78%; overflow: auto; padding: 10px;">
+        <div style="width: 100%; height: 78%; overflow: auto;" id="modal-conteiner">
 
 
             <div style="display: flex; align-items: center; justify-items: center; justify-content: center;">
@@ -428,7 +444,7 @@
 
 
 
-        <div style="display: flex; border-top: 1px solid #ccc; margin-top: 5px;">
+        <div style="display: flex; border-top: 1px solid #ccc; margin-top: 5px; max-height: 70px;">
 
             <button class="bg-red-700 hover:bg-red-800 text-white font-bold py-2 px-4 rounded mt-4" id="modal-close"
                 style="right: 0; margin-left: auto; margin-right: 10px;">Kapat</button>
@@ -446,12 +462,7 @@
 
 
 
-<script>
 
-
-
-
-</script>
 
 
 <script>
@@ -534,7 +545,6 @@
 
 
 
-
         var table_body = document.getElementById('table-body');
         table_body.innerHTML = "";
         var table_html = "";
@@ -560,37 +570,42 @@
             if (data[i].durum == "uygun") {
                 var icon_color = "#057A55";
 
-                var current_user_not_procces_parcel = "user-not-selecting";
+                var current_user_not_procces_parcel = "";
+                var current_user_not_procces_waiting_time = "";
+
 
             } else if (data[i].durum == "beklemede") {
                 var icon_color = "#E3A008";
                 var current_user_not_procces_parcel = "user-not-selecting";
+                var current_user_not_procces_waiting_time = "user-not-selecting";
 
 
             } else if (data[i].durum == "onaylandi") {
                 var icon_color = "#C81E1E";
                 var current_user_not_procces_parcel = "user-not-selecting";
+                var current_user_not_procces_waiting_time = "user-not-selecting";
+
 
             } else if (data[i].durum == "kısa_bekleme") {
                 var icon_color = "blue";
                 var current_user_not_procces_parcel = "user-not-selecting";
-
+                var current_user_not_procces_waiting_time = "";
 
             }
 
             if (data[i].bekleten_kullanici == "None") {
                 var waiting_html = `
-                <a  onclick="parcel_waiting(${data[i].id})" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                <a  onclick="parcel_waiting(${data[i].id})" class="font-medium text-blue-600 dark:text-blue-500 hover:underline ${current_user_not_procces_waiting_time}">
                     <span class="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-3 py-1.5 rounded dark:bg-yellow-900 dark:text-yellow-300">Beklemeye Al</span>
                 </a>`;
             } else {
                 var waiting_html = `
-                <a  onclick="parcel_waiting_remove(${data[i].id})" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                <a  onclick="parcel_waiting_remove(${data[i].id})" class="font-medium text-blue-600 dark:text-blue-500 hover:underline ${current_user_not_procces_waiting_time}">
                     <span class="bg-red-100 text-red-800 text-xs font-medium mr-2 px-3 py-1.5 rounded dark:bg-red-900 dark:text-red-300">Durdur</span>
                 </a>`;
             }
 
-           
+
 
             var html = `
             <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700 ${user_select}">
@@ -648,7 +663,7 @@
 
         table_body.innerHTML = table_html;
 
-      
+
 
     }
 
@@ -672,6 +687,25 @@
                 // Hata durumunda konsolda hatayı yazdırıyoruz
                 console.error('Hata:', error);
             });
+
+
+        if (mevki == "LAPSEKİ") {
+
+            document.getElementById('sub-title').innerHTML = "ÇANAKKALE ARMONİ";
+
+        } else if (mevki == "ORMANKÖY") {
+            document.getElementById('sub-title').innerHTML = "KOCAELİ ORMANKÖY";
+
+        } else if (mevki == "ELBEYLİ") {
+            document.getElementById('sub-title').innerHTML = "İZNİK";
+
+        } else if (mevki == "ÇAMOBA") {
+            document.getElementById('sub-title').innerHTML = "AYVALIK ÇAMOBA";
+
+        } else if (mevki == "YEŞİLYAYLA") {
+            document.getElementById('sub-title').innerHTML = "DÜZCE GÜMÜŞOVA";
+
+        }
 
 
     }
@@ -721,26 +755,57 @@
 
         };
 
-        // formData nesnesi şimdi tüm input alanlarının değerlerini içeriyor
 
 
-        fetch('/save-form-data/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': csrfToken, // Django CSRF koruma token'ı
-            },
-            body: JSON.stringify(formData), // formData nesnesini JSON'a dönüştürdüğünüzü varsayalım
-        })
-            .then(response => response.json())
-            .then(data => {
-                getParcels(current_parcel);
-                document.getElementById('modal').classList.add('hidden');
 
+        // Tüm değerlerin dolu olup olmadığını kontrol et
+        let isFormDataValid = true;
+
+        for (const key in formData) {
+            if (formData.hasOwnProperty(key)) {
+                const value = formData[key];
+                const inputElement = document.getElementById(key);
+                if (typeof value === 'string' && value.trim() === '') {
+                    isFormDataValid = false;
+
+                    inputElement.classList.add('border-red-500'); // Kırmızı kenarlık sınıfını ekle
+                    inputElement.classList.add('bg-red-50'); // Kırmızı kenarlık sınıfını ekle
+                } else {
+
+                    try {
+                        inputElement.classList.remove('border-red-500'); // Kırmızı kenarlık sınıfını kaldır
+                        inputElement.classList.remove('bg-red-50'); // Kırmızı kenarlık sınıfını kaldır
+
+                    } catch {
+
+                    }
+                }
+            }
+        }
+
+
+        if (isFormDataValid) {
+            // Veri geçerli, devam edebilirsiniz.
+            // formData nesnesi şimdi tüm input alanlarının değerlerini içeriyor
+            fetch('/save-form-data/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken, // Django CSRF koruma token'ı
+                },
+                body: JSON.stringify(formData), // formData nesnesini JSON'a dönüştürdüğünüzü varsayalım
             })
-            .catch(error => {
-                console.error('Hata:', error);
-            });
+                .then(response => response.json())
+                .then(data => {
+                    getParcels(current_parcel);
+                    document.getElementById('modal').classList.add('hidden');
+
+                })
+                .catch(error => {
+                    console.error('Hata:', error);
+                });
+        } 
+
 
     });
 
@@ -804,6 +869,29 @@
             });
 
     }
+
+
+
+
+    // Tüm input elementlerini al
+    const inputElements = document.querySelectorAll('input');
+
+    // Boş input alanlarını kontrol et ve kırmızı yap
+    function checkEmptyInput(event) {
+        const inputElement = event.target;
+        if (inputElement.value.trim() === '') {
+            // inputElement.classList.add('border-red-500'); // Kırmızı kenarlık sınıfını ekle
+        } else {
+            inputElement.classList.remove('border-red-500'); // Kırmızı kenarlık sınıfını kaldır
+            inputElement.classList.remove('bg-red-50'); // Kırmızı kenarlık sınıfını kaldır
+
+        }
+    }
+
+    // Input değişikliklerinde kontrol et
+    inputElements.forEach(function (inputElement) {
+        inputElement.addEventListener('input', checkEmptyInput); // Input değişikliğinde çalışır
+    });
 
 
 </script>

@@ -5,8 +5,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 
 from ..models import Parcel, SatisTakipModel, ParcelUserHistory
-from ..serializers import ParcelSerializer, SatisTakipModelSerializer
-from ..filters import ParcelFilter, SatisTakipModelFilter
+from ..serializers import ParcelSerializer
+from ..filters import ParcelFilter
 
 from rest_framework import viewsets
 
@@ -32,11 +32,11 @@ class ParcelViewSet(viewsets.ModelViewSet):
 
 
 
-class SatisTakipModelViewSet(viewsets.ModelViewSet):
-    queryset = SatisTakipModel.objects.all()
-    serializer_class = SatisTakipModelSerializer
-    filter_backends = [DjangoFilterBackend]
-    filterset_class = SatisTakipModelFilter
+# class SatisTakipModelViewSet(viewsets.ModelViewSet):
+#     queryset = SatisTakipModel.objects.all()
+#     serializer_class = SatisTakipModelSerializer
+#     filter_backends = [DjangoFilterBackend]
+#     filterset_class = SatisTakipModelFilter
 
 
 

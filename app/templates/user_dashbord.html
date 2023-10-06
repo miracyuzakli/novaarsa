@@ -11,6 +11,7 @@
         a {
             cursor: pointer;
         }
+
         .table-container {
             max-height: calc(100vh - 190px);
             overflow-y: auto;
@@ -23,6 +24,22 @@
         tbody tr:nth-child(odd) {
             background-color: white;
         }
+
+
+        @media (max-width: 600px) {
+            #modal-conteiner {
+                max-height: 60%;
+                padding: 5px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            #modal-conteiner {
+                max-height: 60%;
+            }
+
+
+        }
     </style>
 </head>
 
@@ -33,7 +50,7 @@
 
 
     <div class="modal hidden fixed inset-0 z-50 overflow-auto  bg-opacity-10 flex justify-center items-center"
-        id="modal" style="background-color: #37415160;">
+        id="modal-small" style="background-color: #37415160;">
 
         <div class="modal-content bg-white p-4 rounded shadow-lg dark:bg-gray-800">
 
@@ -49,7 +66,7 @@
                     class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
                     Evet
                 </button>
-                <button type="button" id="modal-close"
+                <button type="button" id="modal-close-no"
                     class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
                     Hayır</button>
             </div>
@@ -58,9 +75,351 @@
 
 
 
+
+
+
+
+    <!-- Modal -->
+    <div class="modal fixed hidden inset-0 z-50 overflow-auto bg-gray-800 bg-opacity-10 flex justify-center items-center"
+        id="modal" style="background-color: #37415160;">
+
+        <div class="modal-content bg-white p-4 rounded shadow-lg" style="width: 70%; height: 85vh;">
+
+
+
+
+
+            <div style="display: flex; align-items: center; justify-items: center; justify-content: center;">
+                <h1 class="text-4xl font-medium text-gray-900 white:text-white">SATIŞ TAKİP FORMU</h2>
+                    <input type="text" id="parcel_id"
+                        class="border hidden border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500">
+            </div>
+
+            <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-300">
+
+
+
+
+            <div style="width: 100%; height: 78%; overflow: auto;" id="modal-conteiner">
+
+
+                <div style="display: flex; align-items: center; justify-items: center; justify-content: center;">
+                    <h3 class="text-2xl font-medium text-gray-900 white:text-white">PROJE BİLGİLERİ</h2>
+
+                </div>
+                <br>
+
+                <div class="grid gap-4 mb-4 md:grid-cols-2">
+                    <div>
+                        <label for="project_name"
+                            class="block mb-2 text-sm font-medium text-gray-900 white:text-white">Proje</label>
+                        <input type="text" id="project_name"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500"
+                            placeholder="Proje adı" required>
+                    </div>
+                    <div>
+                        <label for="satis_danismani"
+                            class="block mb-2 text-sm font-medium text-gray-900 white:text-white">Satış
+                            Danışmanı</label>
+                        <input type="text" id="satis_danismani"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500"
+                            placeholder="" required value="{{ current_user.first_name }} {{ current_user.last_name }}">
+                    </div>
+                    <div>
+                        <label for="satis_tarihi"
+                            class="block mb-2 text-sm font-medium text-gray-900 white:text-white">Satış
+                            Tarihi</label>
+                        <input type="date" id="satis_tarihi"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500"
+                            placeholder="" required>
+                    </div>
+                    <div>
+                        <label for="referans"
+                            class="block mb-2 text-sm font-medium text-gray-900 white:text-white">Referans</label>
+                        <input type="tel" id="referans"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500"
+                            placeholder="Referans" required>
+                    </div>
+
+                </div>
+
+
+                <div class="grid gap-4 mb-4 md:grid-cols-4">
+
+                    <div>
+                        <label for="ada"
+                            class="block mb-2 text-sm font-medium text-gray-900 white:text-white">Ada</label>
+                        <input type="text" id="ada"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500"
+                            placeholder="Ada" required>
+                    </div>
+                    <div>
+                        <label for="parcel"
+                            class="block mb-2 text-sm font-medium text-gray-900 white:text-white">Parsel</label>
+                        <input type="text" id="parcel"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500"
+                            placeholder="Parsel" required>
+                    </div>
+                    <div>
+                        <label for="m2_bilgisi"
+                            class="block mb-2 text-sm font-medium text-gray-900 white:text-white">M2</label>
+                        <input type="text" id="m2_bilgisi"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500"
+                            placeholder="M2" required>
+                    </div>
+                    <div>
+                        <label for="hisse_adedi"
+                            class="block mb-2 text-sm font-medium text-gray-900 white:text-white">Hisse
+                            Adedi</label>
+                        <input type="text" id="hisse_adedi"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500"
+                            placeholder="Hisse Adedi" required>
+                    </div>
+
+
+                </div>
+                <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-300">
+
+                <div style="display: flex; align-items: center; justify-items: center; justify-content: center;">
+                    <h3 class="text-2xl font-medium text-gray-900 white:text-white">ALICI BİLGİLERİ</h2>
+
+                </div>
+                <br>
+
+                <div class="grid gap-4 mb-4 md:grid-cols-1">
+                    <div>
+                        <label for="firma_ad_soyad"
+                            class="block mb-2 text-sm font-medium text-gray-900 white:text-white">Adı
+                            Soyadı / Firma
+                            Unvanı</label>
+                        <input type="text" id="firma_ad_soyad"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500"
+                            placeholder="" required>
+                    </div>
+                    <div>
+                        <label for="TC_vergi_no"
+                            class="block mb-2 text-sm font-medium text-gray-900 white:text-white">TC
+                            Numarası / Vergi Numarası</label>
+                        <input type="text" id="TC_vergi_no"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500"
+                            placeholder="" required>
+                    </div>
+                </div>
+
+
+
+                <div class="grid gap-4 mb-4 md:grid-cols-1">
+                    <div>
+                        <label for="adres1" class="block mb-2 text-sm font-medium text-gray-900 white:text-white">Adres
+                            1</label>
+                        <input type="text" id="adres1"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500"
+                            placeholder="" required>
+                    </div>
+                    <div>
+                        <label for="adres2" class="block mb-2 text-sm font-medium text-gray-900 white:text-white">Adres
+                            2</label>
+                        <input type="text" id="adres2"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500"
+                            placeholder="" required>
+                    </div>
+                    <div>
+                        <label for="eposta"
+                            class="block mb-2 text-sm font-medium text-gray-900 white:text-white">E-posta</label>
+                        <input type="email" id="eposta"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500"
+                            placeholder="" required>
+                    </div>
+                    <div>
+                        <label for="telefon_no"
+                            class="block mb-2 text-sm font-medium text-gray-900 white:text-white">Telefon</label>
+                        <input type="text" id="telefon_no"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500"
+                            placeholder="" required>
+                    </div>
+                    <div>
+                        <label for="meslek_bilgisi"
+                            class="block mb-2 text-sm font-medium text-gray-900 white:text-white">Meslek
+                            Bilgisi</label>
+                        <input type="text" id="meslek_bilgisi"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500"
+                            placeholder="" required>
+                    </div>
+
+                </div>
+
+                <div class="grid gap-4 mb-4 md:grid-cols-2">
+                    <div>
+                        <label for="ulasamadigi_durumda_aranacak_kisi"
+                            class="block mb-2 text-sm font-medium text-gray-900 white:text-white">Ulaşılamadığı
+                            Durumlarda Aranacak Kişi</label>
+                        <input type="text" id="ulasamadigi_durumda_aranacak_kisi"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500"
+                            placeholder="" required>
+                    </div>
+                    <div>
+                        <label for="ulasamadigi_durumda_aranacak_kisi_telefon_no"
+                            class="block mb-2 text-sm font-medium text-gray-900 white:text-white">Telefon No</label>
+                        <input type="text" id="ulasamadigi_durumda_aranacak_kisi_telefon_no"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500"
+                            placeholder="" required>
+                    </div>
+                </div>
+
+
+
+                <hr class="h-px my-8 bg-gray-200 border-0 white:bg-gray-300">
+
+                <div style="display: flex; align-items: center; justify-items: center; justify-content: center;">
+                    <h3 class="text-2xl font-medium text-gray-900 white:text-white">ÖDEME BİLGİLERİ</h2>
+
+                </div>
+                <br>
+
+
+                <div class="grid gap-4 mb-4 md:grid-cols-3">
+                    <div>
+                        <label for="satis_fiyati"
+                            class="block mb-2 text-sm font-medium text-gray-900 white:text-white">Satış
+                            Fiyatı</label>
+                        <input type="text" id="satis_fiyati"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500"
+                            placeholder="" required>
+                    </div>
+                    <div>
+                        <label for="on_odeme_tutari"
+                            class="block mb-2 text-sm font-medium text-gray-900 white:text-white">Ön
+                            Ödeme Tutarı</label>
+                        <input type="text" id="on_odeme_tutari"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500"
+                            placeholder="" required>
+                    </div>
+                    <div>
+                        <label for="odeme_tarihi"
+                            class="block mb-2 text-sm font-medium text-gray-900 white:text-white">Ödeme
+                            Tarihi</label>
+                        <input type="date" id="odeme_tarihi"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500"
+                            placeholder="" required>
+                    </div>
+
+                    <div class="flex items-center justify-center">
+                        <div class="flex items-center mr-5">
+                            <input checked id="pesin_odeme" type="radio" value="" name="default-radio"
+                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 white:focus:ring-blue-600 white:ring-offset-gray-800 focus:ring-2 white:bg-gray-700 white:border-gray-600">
+                            <label for="pesin_odeme"
+                                class="ml-2 text-sm font-medium text-gray-900 white:text-gray-300">Peşin</label>
+                        </div>
+                        <div class="flex items-center mr-5">
+                            <input id="banka_odeme" type="radio" value="" name="default-radio"
+                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 white:focus:ring-blue-600 white:ring-offset-gray-800 focus:ring-2 white:bg-gray-700 white:border-gray-600">
+                            <label for="banka_odeme"
+                                class="ml-2 text-sm font-medium text-gray-900 white:text-gray-300">Banka</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input id="vadeli_odeme" type="radio" value="" name="default-radio"
+                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 white:focus:ring-blue-600 white:ring-offset-gray-800 focus:ring-2 white:bg-gray-700 white:border-gray-600">
+                            <label for="vadeli_odeme"
+                                class="ml-2 text-sm font-medium text-gray-900 white:text-gray-300">Vadeli</label>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="pesinat_tutari"
+                            class="block mb-2 text-sm font-medium text-gray-900 white:text-white">Peşinat
+                            Tutarı</label>
+                        <input type="text" id="pesinat_tutari"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500"
+                            placeholder="" required>
+                    </div>
+
+                    <div>
+                        <label for="pesinat_tarihi"
+                            class="block mb-2 text-sm font-medium text-gray-900 white:text-white">Peşinat Tarihi</label>
+                        <input type="date" id="pesinat_tarihi"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500"
+                            placeholder="" required>
+                    </div>
+
+
+
+
+
+                </div>
+
+
+
+                <div class="grid gap-4 mb-4 md:grid-cols-3">
+
+                    <div>
+                        <label for="m2_birim_fiyati"
+                            class="block mb-2 text-sm font-medium text-gray-900 white:text-white">M2
+                            Birim Fiyatı</label>
+                        <input type="text" id="m2_birim_fiyati"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500"
+                            placeholder="" required>
+                    </div>
+                    <div>
+                        <label for="aciklama_bigisi"
+                            class="block mb-2 text-sm font-medium text-gray-900 white:text-white">Açılama</label>
+                        <input type="text" id="aciklama_bigisi"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500"
+                            placeholder="">
+                    </div>
+                    <div>
+                        <label for="ek_bilgiler"
+                            class="block mb-2 text-sm font-medium text-gray-900 white:text-white">Ekler</label>
+                        <input type="text" id="ek_bilgiler" value="Kimlik Fotokopisi"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500"
+                            placeholder="">
+                    </div>
+
+                </div>
+
+
+
+
+
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <div style="display: flex; border-top: 1px solid #ccc; margin-top: 5px; max-height: 70px;">
+
+                <button class="bg-red-700 hover:bg-red-800 text-white font-bold py-2 px-4 rounded mt-4" id="modal-close"
+                    style="right: 0; margin-left: auto; margin-right: 10px;">Kapat</button>
+
+
+                <button class="text-white bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded mt-4"
+                    id="editButton">Düzenle</button>
+
+
+            </div>
+        </div>
+
+
+    </div>
+
+
+
     {% include 'navbar.html' %}
 
-    
+
 
 
     <div class="p-4 dark:bg-gray-700" id="parent-container">
@@ -80,7 +439,7 @@
                 </button>
             </a>
 
-          
+
 
             <div class="hidden max-w-xs bg-white border rounded-md shadow-lg dark:bg-gray-800 dark:border-gray-700 absolute top-0 left-1/2 -translate-x-1/2"
                 style="margin-top: 70px;" role="alert" id="toast-success">
@@ -142,9 +501,20 @@
 
                                 <th scope="col"
                                     class="px-6 py-3 text-xl sticky top-0 text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400">
+                                    Form
+                                </th>
+
+
+                                <th scope="col"
+                                    class="px-6 py-3 text-xl sticky top-0 text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400">
+                                    İndir
+                                </th>
+
+                                <th scope="col"
+                                    class="px-6 py-3 text-xl sticky top-0 text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400">
                                     İşlem 1
                                 </th>
-                                
+
                                 <th scope="col"
                                     class="px-6 py-3 text-xl sticky top-0 text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400">
                                     İşlem 2
@@ -192,8 +562,254 @@
 
 
 
-    
+
     <script>
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        // Düzenleme düğmesini seçin
+        const editButton = document.getElementById('editButton');
+
+        // Tüm input alanlarını seçin (gerekirse daha fazla ekleyebilirsiniz)
+        const inputElements = document.querySelectorAll('input');
+
+        // Düzenleme düğmesine tıklanıp tıklanmadığını takip eden bir değişken
+        let isEditing = false;
+
+
+
+
+
+        function showFormModal(parcelId) {
+            document.getElementById('modal').classList.remove('hidden');
+            var pacel_id_cont = document.getElementById('parcel_id');
+            pacel_id_cont.value = `${parcelId}`;
+            console.log(parcelId);
+            console.log(`${parcelId}`);
+
+
+            fetch('/get-sales-tracking-form-data/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken, // Django CSRF koruma token'ı
+                },
+                body: JSON.stringify({
+                    parcel_id: parcelId
+                }),
+            })
+                .then(response => response.json())
+                .then(data => {
+
+
+                    if (data.data.odeme_turu == "pesin") {
+                        document.getElementById('pesin_odeme').checked = true;
+                        document.getElementById('banka_odeme').checked = false;
+                        document.getElementById('vadeli_odeme').checked = false;
+
+                    } else if (data.data.odeme_turu == "banka") {
+                        document.getElementById('pesin_odeme').checked = false;
+                        document.getElementById('banka_odeme').checked = true;
+                        document.getElementById('vadeli_odeme').checked = false;
+                    } else if (data.data.odeme_turu == "vadeli") {
+                        document.getElementById('pesin_odeme').checked = false;
+                        document.getElementById('banka_odeme').checked = false;
+                        document.getElementById('vadeli_odeme').checked = true;
+                    }
+
+
+
+                    // Veriyi aldıktan sonra input alanlarını doldur
+                    document.getElementById('project_name').value = data.data.project_name;
+                    document.getElementById('satis_danismani').value = data.data.satis_danismani;
+                    document.getElementById('satis_tarihi').value = data.data.satis_tarihi; // Tarih değeri uygun formatta olmalıdır
+                    document.getElementById('referans').value = data.data.referans;
+                    document.getElementById('ada').value = data.data.ada;
+                    document.getElementById('parcel').value = data.data.parcel_no;
+                    document.getElementById('m2_bilgisi').value = data.data.m2_bilgisi;
+                    document.getElementById('hisse_adedi').value = data.data.hisse_adedi;
+                    document.getElementById('firma_ad_soyad').value = data.data.firma_ad_soyad;
+                    document.getElementById('TC_vergi_no').value = data.data.TC_vergi_no;
+                    document.getElementById('adres1').value = data.data.adres1;
+                    document.getElementById('adres2').value = data.data.adres2;
+                    document.getElementById('eposta').value = data.data.eposta;
+                    document.getElementById('telefon_no').value = data.data.telefon_no;
+                    document.getElementById('meslek_bilgisi').value = data.data.meslek_bilgisi;
+                    document.getElementById('ulasamadigi_durumda_aranacak_kisi').value = data.data.ulasamadigi_durumda_aranacak_kisi;
+                    document.getElementById('ulasamadigi_durumda_aranacak_kisi_telefon_no').value = data.data.ulasamadigi_durumda_aranacak_kisi_telefon_no;
+                    document.getElementById('satis_fiyati').value = data.data.satis_fiyati;
+                    document.getElementById('on_odeme_tutari').value = data.data.on_odeme_tutari;
+                    document.getElementById('odeme_tarihi').value = data.data.odeme_tarihi; // Tarih değeri uygun formatta olmalıdır
+
+                    document.getElementById('pesinat_tutari').value = data.data.pesinat_tutari;
+                    document.getElementById('pesinat_tarihi').value = data.data.pesinat_tarihi; // Tarih değeri uygun formatta olmalıdır
+                    document.getElementById('m2_birim_fiyati').value = data.data.m2_birim_fiyati;
+                    document.getElementById('aciklama_bigisi').value = data.data.aciklama_bigisi;
+                    document.getElementById('ek_bilgiler').value = data.data.ek_bilgiler;
+
+
+                    // Sayfa yüklendiğinde tüm input alanlarını devre dışı bırak
+                    inputElements.forEach(function (inputElement) {
+                        inputElement.disabled = true;
+                    });
+                })
+                .catch(error => {
+                    console.error('Hata:', error);
+                });
+        }
+
+
+
+        // Düzenleme düğmesine tıklanıldığında bu işlev çalışır
+        editButton.addEventListener('click', function () {
+            // Eğer düzenleme modundayken
+            if (isEditing) {
+                // Tüm input alanlarını devre dışı bırak
+                inputElements.forEach(function (inputElement) {
+                    inputElement.disabled = true;
+                });
+                // Düzenleme düğmesi metnini "Düzenle" olarak ayarla
+                editButton.textContent = "Düzenle";
+
+
+                // Düzenleme başlangıç
+
+                const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+                // Formdaki verileri topla
+                const formData = {
+                    project_name: document.getElementById('project_name').value,
+                    satis_danismani: document.getElementById('satis_danismani').value,
+                    satis_tarihi: document.getElementById('satis_tarihi').value,
+                    referans: document.getElementById('referans').value,
+                    ada: document.getElementById('ada').value,
+                    parcel_no: document.getElementById('parcel').value,
+                    m2_bilgisi: document.getElementById('m2_bilgisi').value,
+                    hisse_adedi: document.getElementById('hisse_adedi').value,
+                    firma_ad_soyad: document.getElementById('firma_ad_soyad').value,
+                    TC_vergi_no: document.getElementById('TC_vergi_no').value,
+                    adres1: document.getElementById('adres1').value,
+                    adres2: document.getElementById('adres2').value,
+                    eposta: document.getElementById('eposta').value,
+                    telefon_no: document.getElementById('telefon_no').value,
+                    meslek_bilgisi: document.getElementById('meslek_bilgisi').value,
+                    ulasamadigi_durumda_aranacak_kisi: document.getElementById('ulasamadigi_durumda_aranacak_kisi').value,
+                    ulasamadigi_durumda_aranacak_kisi_telefon_no: document.getElementById('ulasamadigi_durumda_aranacak_kisi_telefon_no').value,
+                    satis_fiyati: document.getElementById('satis_fiyati').value,
+                    on_odeme_tutari: document.getElementById('on_odeme_tutari').value,
+                    odeme_tarihi: document.getElementById('odeme_tarihi').value,
+                    pesin_odeme: document.getElementById('pesin_odeme').checked,
+                    banka_odeme: document.getElementById('banka_odeme').checked,
+                    vadeli_odeme: document.getElementById('vadeli_odeme').checked,
+                    pesinat_tutari: document.getElementById('pesinat_tutari').value,
+                    pesinat_tarihi: document.getElementById('pesinat_tarihi').value,
+                    m2_birim_fiyati: document.getElementById('m2_birim_fiyati').value,
+                    aciklama_bigisi: document.getElementById('aciklama_bigisi').value,
+                    ek_bilgiler: document.getElementById('ek_bilgiler').value,
+                    parsel_id: document.getElementById('parcel_id').value
+
+                };
+
+
+
+
+                // Tüm değerlerin dolu olup olmadığını kontrol et
+                let isFormDataValid = true;
+
+                for (const key in formData) {
+                    if (formData.hasOwnProperty(key)) {
+                        const value = formData[key];
+                        const inputElement = document.getElementById(key);
+                        if (typeof value === 'string' && value.trim() === '') {
+                            isFormDataValid = false;
+
+                            inputElement.classList.add('border-red-500'); // Kırmızı kenarlık sınıfını ekle
+                            inputElement.classList.add('bg-red-50'); // Kırmızı kenarlık sınıfını ekle
+                        } else {
+
+                            try {
+                                inputElement.classList.remove('border-red-500'); // Kırmızı kenarlık sınıfını kaldır
+                                inputElement.classList.remove('bg-red-50'); // Kırmızı kenarlık sınıfını kaldır
+
+                            } catch {
+
+                            }
+                        }
+                    }
+                }
+
+
+                if (isFormDataValid) {
+                    // Veri geçerli, devam edebilirsiniz.
+                    // formData nesnesi şimdi tüm input alanlarının değerlerini içeriyor
+                    fetch('/edit-form-data/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': csrfToken, // Django CSRF koruma token'ı
+                        },
+                        body: JSON.stringify(formData), // formData nesnesini JSON'a dönüştürdüğünüzü varsayalım
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log(data);
+                            // getParcels(current_parcel);
+                            // document.getElementById('modal').classList.add('hidden');
+
+                        })
+                        .catch(error => {
+                            console.error('Hata:', error);
+                        });
+                }
+
+                getParcels(JSON.parse(" {{ current_user.id }}"));
+                document.getElementById('modal').classList.add('hidden');
+
+            } else { // Eğer düzenleme modunda değilse
+                // Tüm input alanlarını düzenlenebilir yap
+                inputElements.forEach(function (inputElement) {
+                    inputElement.disabled = false;
+                });
+                // Düzenleme düğmesi metnini "Kaydet" olarak ayarla
+                editButton.textContent = "Kaydet";
+
+
+            }
+            // Düzenleme modunu tersine çevir
+            isEditing = !isEditing;
+        });
+
+
+
+
+
+
+        function download_form(parcelID) {
+            fetch('/download-form-data-docx/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken, // Django CSRF koruma token'ı
+                },
+                body: JSON.stringify({
+                    parcel_id: parcelID
+                }), // formData nesnesini JSON'a dönüştürdüğünüzü varsayalım
+            })
+                .then(response => response.blob())
+                .then(blob => {
+                    // DOCX dosyasını indirme bağlantısını oluşturun
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.style.display = 'none';
+                    a.href = url;
+                    a.download = 'indirilen_dosya.docx';
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                })
+                .catch(error => {
+                    console.error('Hata:', error);
+                });
+        }
+
 
 
 
@@ -220,7 +836,7 @@
 
         // ----------------------------
         function onaylaButtonClick(parcel_id) {
-            document.getElementById('modal').classList.remove('hidden');
+            document.getElementById('modal-small').classList.remove('hidden');
 
             var modal_id_input = document.getElementById('selected-parcel-id-input');
             modal_id_input.value = parcel_id;
@@ -231,7 +847,7 @@
 
 
         function cikarButtonClick(parcel_id) {
-            document.getElementById('modal').classList.remove('hidden');
+            document.getElementById('modal-small').classList.remove('hidden');
 
             var modal_id_input = document.getElementById('selected-parcel-id-input');
             modal_id_input.value = parcel_id;
@@ -281,7 +897,7 @@
                     console.error('İstek hatası:', error);
                 });
 
-            document.getElementById('modal').classList.add('hidden');
+            document.getElementById('modal-small').classList.add('hidden');
             showAndHideToast();
 
         }
@@ -328,7 +944,7 @@
                     console.error('İstek hatası:', error);
                 });
 
-            document.getElementById('modal').classList.add('hidden');
+            document.getElementById('modal-small').classList.add('hidden');
             showAndHideToast();
 
         }
@@ -336,6 +952,7 @@
 
 
         function createParcel(data) {
+            console.log(data);
 
             var table_body = document.getElementById('table-body');
             table_body.innerHTML = "";
@@ -395,7 +1012,17 @@
     
             </td>
     
-            
+            <td class="px-6 py-4 text-lg">
+                
+                <a onclick="showFormModal(${data[i].id})"   class="font-medium text-indigo-600 dark:text-indigo-500 hover:underline"><span class="bg-indigo-100 text-indigo-800 text-xs font-medium mr-2 px-3 py-1.5 rounded dark:bg-indigo-900 dark:text-indigo-300">Form</span>
+              </a>
+            </td>
+
+            <td class="px-6 py-4 text-lg">
+                
+                <a onclick="download_form(${data[i].id})"   class="font-medium text-purple-600 dark:text-purple-500 hover:underline"><span class="bg-purple-100 text-purple-800 text-xs font-medium mr-2 px-3 py-1.5 rounded dark:bg-purple-900 dark:text-purple-300">İndir</span>
+              </a>
+            </td>
 
             <td class="px-6 py-4 text-lg">
                
@@ -425,11 +1052,11 @@
 
 
 
-        document.getElementById('modal-close').addEventListener('click', function () {
-            document.getElementById('modal').classList.add('hidden');
+        document.getElementById('modal-close-no').addEventListener('click', function () {
+            document.getElementById('modal-small').classList.add('hidden');
         });
 
-        document.getElementById('modal').addEventListener('click', function (event) {
+        document.getElementById('modal-small').addEventListener('click', function (event) {
             if (event.target === this) {
                 this.classList.add('hidden');
             }
@@ -472,10 +1099,77 @@
 
 
 
+        // Tüm input elementlerini al
+
+        // Boş input alanlarını kontrol et ve kırmızı yap
+        function checkEmptyInput(event) {
+            const inputElement = event.target;
+            if (inputElement.value.trim() === '') {
+                // inputElement.classList.add('border-red-500'); // Kırmızı kenarlık sınıfını ekle
+            } else {
+                inputElement.classList.remove('border-red-500'); // Kırmızı kenarlık sınıfını kaldır
+                inputElement.classList.remove('bg-red-50'); // Kırmızı kenarlık sınıfını kaldır
+
+            }
+        }
+
+        // Input değişikliklerinde kontrol et
+        inputElements.forEach(function (inputElement) {
+            inputElement.addEventListener('input', checkEmptyInput); // Input değişikliğinde çalışır
+        });
+
+
+
+
+
+        // Modal kapatma işlemi
+        document.getElementById('modal-close').addEventListener('click', function () {
+            document.getElementById('modal').classList.add('hidden');
+        });
+
+        document.getElementById('modal').addEventListener('click', function (event) {
+            if (event.target === this) {
+                this.classList.add('hidden');
+            }
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         var buttonElement = document.getElementById("logo-sidebar-button");
         buttonElement.parentNode.removeChild(buttonElement);
+
+
+
 
 
 

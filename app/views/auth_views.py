@@ -4,8 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 
 from ..models import Parcel, SatisTakipModel, ParcelUserHistory
-from ..serializers import ParcelSerializer, SatisTakipModelSerializer
-from ..filters import ParcelFilter, SatisTakipModelFilter
+from ..serializers import ParcelSerializer
+from ..filters import ParcelFilter
 
 from rest_framework import viewsets
 

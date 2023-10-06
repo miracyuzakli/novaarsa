@@ -6,8 +6,8 @@
             <div class="flex items-center justify-start">
                 <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" id="logo-sidebar-button"
                     aria-controls="logo-sidebar" type="button"
-                    class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
-                    <span class="sr-only">Open sidebar</span>
+                    class="inline-flex items-center p-2 text-sm text-white rounded-lg sm:hidden  hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
+                    <!-- <span class="sr-only">Open sidebar</span> -->
                     <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
                         xmlns="http://www.w3.org/2000/svg">
                         <path clip-rule="evenodd" fill-rule="evenodd"
@@ -17,10 +17,15 @@
                 </button>
                 <a href="{% url 'index' %}" class="flex ml-2 md:mr-24 text-white">
                     <img src="{% static 'images/Nova_Arsa_Logo_Beyaz.png' %}" class="h-10 mr-3" alt="FlowBite Logo" />
-                    <!-- <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap text-white">NOVA
-                        ARSA</span> -->
+                   
                 </a>
+               
             </div>
+            <div>
+                <span class="flex-1 ml-3 whitespace-nowrap text-white font-bold dark:text-gray-300 hidden sm:block md:text-xs lg:text-base xl:text-lg 2xl:text-xl" id="sub-title">ÇANAKALE ARMONİ</span>
+            </div>
+            
+
             <div class="flex items-center">
                 <div class="flex items-center ml-3">
 
