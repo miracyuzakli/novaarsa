@@ -4,9 +4,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 
-from ..models import Parcel, SatisTakipModel, ParcelUserHistory
-from ..serializers import ParcelSerializer
-from ..filters import ParcelFilter
+from ..models import Parcel, ParcelPricing, SatisTakipModel, ParcelUserHistory
+from ..serializers import ParcelSerializer, ParcelPricingSerializer
+from ..filters import ParcelFilter, ParcelPricingFilter
 
 from rest_framework import viewsets
 
@@ -32,11 +32,25 @@ class ParcelViewSet(viewsets.ModelViewSet):
 
 
 
-# class SatisTakipModelViewSet(viewsets.ModelViewSet):
-#     queryset = SatisTakipModel.objects.all()
-#     serializer_class = SatisTakipModelSerializer
-#     filter_backends = [DjangoFilterBackend]
-#     filterset_class = SatisTakipModelFilter
+
+from rest_framework import viewsets
+from rest_framework import filters
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+
+class ParcelPricingFilterView(APIView):
+    def get(self, request, format=None):
+        mevki_value = request.GET.get('mevki')
+        queryset = ParcelPricing.objects.all()
+        
+        if mevki_value:
+            queryset = queryset.filter(mevki=mevki_value)
+        
+        serializer = ParcelPricingSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+
 
 
 

@@ -86,6 +86,10 @@
                     </th>
                     <th scope="col"
                         class="px-6 py-3 text-xl sticky top-0 text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400">
+                        Fiyat
+                    </th>
+                    <th scope="col"
+                        class="px-6 py-3 text-xl sticky top-0 text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400">
                         Mevki
                     </th>
                     <th scope="col"
@@ -139,8 +143,7 @@
         <div style="display: flex; align-items: center; justify-items: center; justify-content: center;">
             <h1 class="text-4xl font-medium text-gray-900 white:text-white">SATIŞ TAKİP FORMU</h2>
                 <input type="text" id="parcel_id"
-                    class="hidden border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500"
-                   >
+                    class="hidden border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500">
         </div>
 
         <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-300">
@@ -467,7 +470,13 @@
 
 <script>
 
-    var current_parcel = "LAPSEKİ";
+
+
+
+
+
+    var current_parcel_price = 1;
+    var current_parcel = "ŞAHİNLİ ";
 
     function showModal(ada, parsel, m2, parcel_id) {
         document.getElementById('modal').classList.remove('hidden');
@@ -499,6 +508,7 @@
         document.getElementById('odeme_tarihi').value = formattedDate;
         document.getElementById('pesinat_tarihi').value = formattedDate;
 
+        document.getElementById('m2_birim_fiyati').value = current_parcel_price;
 
 
 
@@ -544,13 +554,28 @@
     function createParcel(data) {
 
 
-
         var table_body = document.getElementById('table-body');
         table_body.innerHTML = "";
         var table_html = "";
 
         var pacel_id_cont = document.getElementById('parcel_id');
 
+        var parcel_waiting_count = 0;
+
+
+        for (let i = 0; i < Object.keys(data).length; i++) {
+            if (data[i].bekleten_kullanici == "{{ current_user.first_name }} {{ current_user.last_name }}") {
+                parcel_waiting_count++;
+            }
+        }
+
+        if (parcel_waiting_count >= 2) {
+            var all_waiting_parcel = "user-not-selecting";
+
+        } else {
+            var all_waiting_parcel = "";
+
+        }
 
         for (let i = 0; i < Object.keys(data).length; i++) {
 
@@ -595,7 +620,7 @@
 
             if (data[i].bekleten_kullanici == "None") {
                 var waiting_html = `
-                <a  onclick="parcel_waiting(${data[i].id})" class="font-medium text-blue-600 dark:text-blue-500 hover:underline ${current_user_not_procces_waiting_time}">
+                <a  onclick="parcel_waiting(${data[i].id})" class="font-medium text-blue-600 dark:text-blue-500 hover:underline ${current_user_not_procces_waiting_time} ${all_waiting_parcel}">
                     <span class="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-3 py-1.5 rounded dark:bg-yellow-900 dark:text-yellow-300">Beklemeye Al</span>
                 </a>`;
             } else {
@@ -632,6 +657,11 @@
                 </td>
                 <td class="px-6 py-4 text-lg">
                     ${parcel_m2}  M²
+
+                </td>
+
+                <td class="px-6 py-4 text-lg">
+                    ${parcel_m2 * parseInt(current_parcel_price)} TL
 
                 </td>
                 
@@ -679,6 +709,7 @@
             .then(data => {
                 // Verileri başarılı bir şekilde aldık ve konsolda yazdırıyoruz
                 current_parcel = mevki;
+                getParcelPrice();
                 createParcel(data);
 
 
@@ -689,7 +720,7 @@
             });
 
 
-        if (mevki == "LAPSEKİ") {
+        if (mevki == "ŞAHİNLİ ") {
 
             document.getElementById('sub-title').innerHTML = "ÇANAKKALE ARMONİ";
 
@@ -804,7 +835,7 @@
                 .catch(error => {
                     console.error('Hata:', error);
                 });
-        } 
+        }
 
 
     });
@@ -870,6 +901,34 @@
 
     }
 
+
+
+    function getParcelPrice() {
+        // Fetch isteği
+        fetch(`/parcel-pricing-filter/?mevki=${current_parcel}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Veri çekme hatası: ' + response.status);
+                }
+                return response.json();
+            })
+            .then(data => {
+
+                console.log(data);
+                if (Object.keys(data).length > 0) {
+                    current_parcel_price = parseInt(data[0].fiyat);
+
+                } else {
+                    current_parcel_price = 0;
+
+                }
+            })
+            .catch(error => {
+                console.error('Veri çekme hatası:', error);
+            });
+
+
+    }
 
 
 

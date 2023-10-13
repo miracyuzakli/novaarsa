@@ -1,5 +1,5 @@
 import django_filters
-from .models import Parcel, ParcelUserHistory, SatisTakipModel
+from .models import Parcel, ParcelPricing, ParcelUserHistory, SatisTakipModel
 
 class ParcelFilter(django_filters.FilterSet):
     class Meta:
@@ -19,57 +19,9 @@ class ParcelFilter(django_filters.FilterSet):
 
 
 
-# class ParcelUserHistoryFilter(django_filters.FilterSet):
-#     user_full_name = django_filters.CharFilter(method='filter_user_full_name')
+import django_filters
 
-#     def filter_user_full_name(self, queryset, name, value):
-#         return queryset.filter(user__full_name__icontains=value)
-
-#     class Meta:
-#         model = ParcelUserHistory
-#         fields = {
-#             'user_full_name': ['exact'],  # ForeignKey alanına exact eşleşme yapmak için
-#             'tarih': ['exact', 'lt', 'lte', 'gt', 'gte'],
-#             'islem': ['exact', 'contains'],
-#         }
-
-
-# import django_filters
-
-# class SatisTakipModelFilter(django_filters.FilterSet):
-#     class Meta:
-#         model = SatisTakipModel
-#         fields = {
-#             'user_id': ['exact'],
-#             'parcel__il': ['exact', 'contains'],
-#             'parcel__ilce': ['exact', 'contains'],
-#             'parcel__mevki': ['exact', 'contains'],
-#             'parcel__ada': ['exact', 'contains'],
-#             'parcel__parsel': ['exact', 'contains'],
-#             'project_name': ['exact', 'contains'],
-#             'satis_danismani': ['exact', 'contains'],
-#             'satis_tarihi': ['exact', 'lt', 'lte', 'gt', 'gte'],
-#             'referans': ['exact', 'contains'],
-#             'ada': ['exact', 'contains'],
-#             'parcel_no': ['exact', 'contains'],
-#             'm2_bilgisi': ['exact', 'contains'],
-#             'hisse_adedi': ['exact', 'contains'],
-#             'firma_ad_soyad': ['exact', 'contains'],
-#             'TC_vergi_no': ['exact', 'contains'],
-#             'adres1': ['exact', 'contains'],
-#             'adres2': ['exact', 'contains'],
-#             'eposta': ['exact', 'contains'],
-#             'telefon_no': ['exact', 'contains'],
-#             'meslek_bilgisi': ['exact', 'contains'],
-#             'ulasamadigi_durumda_aranacak_kisi': ['exact', 'contains'],
-#             'ulasamadigi_durumda_aranacak_kisi_telefon_no': ['exact', 'contains'],
-#             'satis_fiyati': ['exact', 'contains'],
-#             'odeme_turu': ['exact', 'contains'],
-#             'on_odeme_tutari': ['exact', 'contains'],
-#             'odeme_tarihi': ['exact', 'lt', 'lte', 'gt', 'gte'],
-#             'pesinat_tutari': ['exact', 'contains'],
-#             'pesinat_tarihi': ['exact', 'lt', 'lte', 'gt', 'gte'],
-#             'm2_birim_fiyati': ['exact', 'contains'],
-#             'aciklama_bigisi': ['exact', 'contains'],
-#             'ek_bilgiler': ['exact', 'contains'],
-#         }
+class ParcelPricingFilter(django_filters.FilterSet):
+    class Meta:
+        model = ParcelPricing
+        fields = ['il', 'ilce', 'mevki', 'fiyat']

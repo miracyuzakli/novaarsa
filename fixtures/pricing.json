@@ -1,0 +1,56 @@
+[
+    {
+        "model": "app.parcelpricing",
+        "pk": 1,
+        "fields": {
+            "il": "ÇANAKKALE",
+            "ilce": "ŞAHİNLİ ",
+            "mevki": "LAPSEKİ",
+            "fiyat": "1"
+        }
+    },
+    {
+        "model": "app.parcelpricing",
+        "pk": 2,
+        "fields": {
+            "il": "BALIKESİR",
+            "ilce": "AYVALIK",
+            "mevki": "ÇAMOVA",
+            "fiyat": "1"
+        }
+    },
+    {
+        "model": "app.parcelpricing",
+        "pk": 3,
+        "fields": {
+            "il": "KOCAELİ",
+            "ilce": "İZMİT",
+            "mevki": "ORMANKÖY",
+            "fiyat": "1"
+        }
+    },
+    {
+        "model": "app.parcelpricing",
+        "pk": 4,
+        "fields": {
+            "il": "BURSA",
+            "ilce": "İZNİK",
+            "mevki": "ELBEYLİ",
+            "fiyat": "1"
+        }
+    },
+    {
+        "model": "app.parcelpricing",
+        "pk": 5,
+        "fields": {
+            "il": "DÜZCE",
+            "ilce": "GÜMÜŞOVA",
+            "mevki": "YEŞİLYAYLA",
+            "fiyat": "1"
+        }
+    }
+
+
+    
+
+]

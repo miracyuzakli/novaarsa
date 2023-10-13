@@ -68,3 +68,15 @@ class SatisTakipModel(models.Model):
         return (
             self.project_name
         ) 
+
+
+
+
+class ParcelPricing(models.Model):
+
+    il = models.CharField(max_length=255)
+    ilce = models.CharField(max_length=255)
+    mevki = models.CharField(max_length=255)
+    fiyat = models.CharField(max_length=255, default="1")
+
+    

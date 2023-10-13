@@ -6,6 +6,7 @@ from app.views import (
     logout_view,
     get_users,
     ParcelViewSet,
+    ParcelPricingFilterView,
     parcel_waiting,
     parcel_waiting_remove,
     save_form_data,
@@ -28,6 +29,7 @@ routerParcel = DefaultRouter()
 routerParcel.register(r"parcels", ParcelViewSet)
 
 
+
 urlpatterns = [
     path("admin/", admin.site.urls),
 
@@ -44,6 +46,7 @@ urlpatterns = [
 
 
     path("", include(routerParcel.urls)),
+    path('parcel-pricing-filter/', ParcelPricingFilterView.as_view(), name='parcel-pricing-filter'),
     path("set-parcel-waiting/", parcel_waiting, name="set_parcel_waiting"),
     path("set-parcel-waiting-remove/", parcel_waiting_remove, name="set_parcel_waiting_remove"),
 
