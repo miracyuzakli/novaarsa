@@ -1,5 +1,15 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.auth.models import Group
+
+# Grup adını ve isteğe bağlı olarak izinleri belirtin
+group_name = "Kullanici_Islem_Gecmisi"
+group, created = Group.objects.get_or_create(name=group_name)
+
+if created:
+    print(f"Grup '{group_name}' başarıyla oluşturuldu.")
+else:
+    print(f"Grup '{group_name}' zaten mevcut.")
 
 class Parcel(models.Model):
     il = models.CharField(max_length=255)
@@ -8,6 +18,7 @@ class Parcel(models.Model):
     ada = models.CharField(max_length=255)
     parsel = models.CharField(max_length=255)
     m2_net = models.CharField(max_length=255)
+    fiyat = models.CharField(max_length=255)
     durum = models.CharField(max_length=255, default='uygun')  
     user_id = models.CharField(max_length=255, default="None")
     bekleme_suresi_baslangic = models.DateTimeField(null=True, blank=True)

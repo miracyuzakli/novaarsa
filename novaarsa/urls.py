@@ -17,8 +17,11 @@ from app.views import (
     approve_parcels,
     user_history_view,
     get_user_history_data,
-    get_sales_tracking_form_data
+    get_sales_tracking_form_data,
 
+    # Parcel Edits
+    parcesl_edits,
+    set_parcel_price
 
 
 )
@@ -63,5 +66,16 @@ urlpatterns = [
 
 
     path("user-parcels-history/", user_history_view, name="user_parcels_history"),
-    path("get-user-history-data/", get_user_history_data, name="get_user_history_data")
+    path("get-user-history-data/", get_user_history_data, name="get_user_history_data"),
+
+
+
+
+    # Parcel Edits
+    path("parcels-edit/", parcesl_edits, name="parcels_edit"),
+    path("set-parcel-price/", set_parcel_price),
+
+
+
+
 ]

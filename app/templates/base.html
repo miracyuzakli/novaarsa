@@ -12,8 +12,6 @@
             cursor: pointer;
             user-select: none;
         }
-
-       
     </style>
 
 
@@ -30,7 +28,9 @@
 
     <aside id="logo-sidebar"
         class="fixed top-0 left-0 z-40 w-64 h-screen pt-16 transition-transform -translate-x-full bg-green-500 border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
-        aria-label="Sidebar">
+        aria-label="Sidebar" style="display: none;">
+
+
         <div class="h-full px-3 pb-4 overflow-y-auto bg-green-500 dark:bg-gray-800">
 
             <ul class="space-y-2 font-medium pt-6">
@@ -114,7 +114,7 @@
     </aside>
 
 
-    <div class="p-4 sm:ml-64 dark:bg-gray-700" id="parent-container">
+    <div class="p-4  dark:bg-gray-700" id="parent-container">
 
         <div class="p-4 border-2 border-gray-200  rounded-lg dark:border-gray-900 dark:bg-gray-800 mt-14"
             style="height: calc(100vh - 88px);">
@@ -127,7 +127,31 @@
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-   
+
+    <script>
+        let isSidebarOpen = false;
+
+        function toggleSidebar() {
+
+            const sidebar = document.getElementById('logo-sidebar');
+            isSidebarOpen = !isSidebarOpen;
+
+            if (isSidebarOpen) {
+                sidebar.style.transform = 'translateX(0)';
+                sidebar.style.display = 'block';
+
+            } else {
+                sidebar.style.transform = 'translateX(-100%)';
+                sidebar.style.display = 'none';
+
+            }
+        }
+
+        const sidebarButton = document.getElementById('logo-sidebar-button');
+        sidebarButton.addEventListener('click', toggleSidebar);
+
+
+    </script>
 
 
 

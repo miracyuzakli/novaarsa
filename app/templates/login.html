@@ -4,12 +4,27 @@
 <head>
     <title>Login</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    {% load static %}
 
 </head>
 
-<body>
+<body >
 
-    <form method="post" action="{% url 'login' %}">
+
+    <style>
+
+        #login-image {
+            background-image: url("{% static '/login-page.png' %}");
+        }
+
+
+
+    </style>
+   
+
+<div class="h-screen" style="padding-top: 50px; background-color: #415a3f;">
+
+    <form method="post" action="{% url 'login' %}" style="background-color: #415a3f;" >
         {% csrf_token %}
         <!-- <label for="username">Username:</label>
         <input type="text" id="username" name="username" required><br><br>
@@ -17,28 +32,27 @@
         <input type="password" id="password" name="password" required><br><br>
         <input type="submit" value="Login"> -->
 
-        <div class="flex w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-lg :bg-gray-800 lg:max-w-4xl" style="margin-top: 10%;">
+        <div class="flex w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-lg :bg-gray-800 lg:max-w-5xl" style="margin-top: 7%;">
             {% if error_message %}
             <p>{{ error_message }}</p>
             {% endif %}
-            <div class="hidden bg-cover lg:block lg:w-1/2"
-                style="background-image: url('https://images.unsplash.com/photo-1606660265514-358ebbadc80d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1575&q=80');">
-            </div>
+    
+
+            <div class="hidden bg-cover lg:block lg:w-1/2" id="login-image"></div>
+
+        
+            
 
             <div class="w-full px-6 py-8 md:px-8 lg:w-1/2">
-                <div class="flex justify-center mx-auto">
-                    <img class="w-auto h-7 sm:h-8" src="https://merakiui.com/images/logo.svg" alt="">
+                
+                <br>
+                <br>
+                
+                <div class="flex justify-center mx-auto mb-4">
+                    <img class="w-auto h-16 " src="{% static 'images/Nova_Arsa_Logo.png' %}" alt="">
                 </div>
 
-                <p class="mt-3 text-xl text-center text-gray-600 :text-gray-200">
-                    Welcome back!
-                </p>
-
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
+    
                 <div class="mt-4">
                     <label class="block mb-2 text-sm font-medium text-gray-600 :text-gray-200"
                         for="LoggingUsername">Username</label>
@@ -62,7 +76,7 @@
                 <div class="mt-6">
               
                     <input type="submit" value="Login"
-                        class="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-gray-800 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50">
+                        class="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-green-900 rounded-lg hover:bg-green-700 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50">
 
                 </div>
 
@@ -73,6 +87,9 @@
 
 
 
+
+
+</div>
 
 
 
@@ -138,3 +155,38 @@
 </body>
 
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

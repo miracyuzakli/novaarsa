@@ -193,3 +193,10 @@ def parcel_waiting_remove(request):
         return JsonResponse({'error': 'Yalnızca POST istekleri kabul edilir.'}, status=405)
     
 
+
+
+
+
+
+
+    

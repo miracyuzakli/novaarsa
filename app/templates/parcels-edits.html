@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nova Arsa</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
+
+    <style>
+        a {
+            cursor: pointer;
+        }
+
+        .nowrap-label {
+            white-space: nowrap;
+        }
+
+        .table-container {
+            max-height: calc(100vh - 190px);
+            overflow-y: auto;
+        }
+    </style>
+
+
+
+</head>
+
+<body>
+    {% csrf_token %}
+
+
+    
+    <!-- Toats -->
+    <div class="hidden max-w-xs bg-white border rounded-md shadow-lg dark:bg-gray-800 dark:border-gray-700 absolute top-0 left-1/2 -translate-x-1/2"
+        style="margin-top: 70px;" role="alert" id="toast-success">
+        <div class="flex p-4">
+            <div class="flex-shrink-0">
+                <svg class="h-4 w-4 text-green-500 mt-0.5" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                    fill="currentColor" viewBox="0 0 16 16">
+                    <path
+                        d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                </svg>
+            </div>
+            <div class="ml-3">
+                <p class="text-sm text-gray-700 dark:text-gray-400">
+                    Successfully updated!
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    {% include 'navbar.html' %}
+
+
+
+
+    <div class="p-4 dark:bg-gray-700" id="parent-container">
+
+        <div class="p-4 border-2 border-gray-200  rounded-lg dark:border-gray-900 dark:bg-gray-800 mt-14"
+            style="height: calc(100vh - 88px);">
+
+
+
+            <div class="flex flex-wrap -mx-2">
+                <div class="flex items-center mb-12 mr-6 ">
+
+                    <a href="{% url 'index' %}">
+                        <button type="button"
+                            class="w-full flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 transition-colors duration-200 bg-white border rounded-lg gap-x-2 sm:w-auto dark:hover:bg-gray-800 dark:bg-gray-900 hover:bg-gray-100 dark:text-gray-200 dark:border-gray-700 mb-6">
+                            <svg class="w-5 h-5 rtl:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18" />
+                            </svg>
+                            <span style="margin-left: 5px;">Geri</span>
+                        </button>
+                    </a>
+
+                </div>
+
+
+                <div class="flex items-center mb-6 mr-6">
+
+                    <label for="filter-user-history-parcel"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white  mt-2 mr-6 nowrap-label">Parcel</label>
+                    <select id="filter-user-history-parcel"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option value="ORMANKÖY">KOCAELİ ORMANKÖY</option>
+                        <option value="ŞAHİNLİ" selected>ÇANAKKALE ARMONİ</option>
+                        <option value="ELBEYLİ">İZNİK</option>
+                        <option value="ÇAMOBA">AYVALIK ÇAMOVA</option>
+                        <option value="YEŞİLYAYLA">DÜZCE GÜMÜŞOVA</option>
+                    </select>
+
+
+                </div>
+
+
+                <div class="flex items-center mb-6 mr-6 ml-auto">
+
+                    <button type="button" id="get-parcels-apply-button"
+                        class="px-3 py-2 text-xs font-medium text-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+                        Uygula
+                    </button>
+                </div>
+
+
+
+            </div>
+
+
+
+
+
+
+
+
+
+            <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                <div class="table-container max-h-500">
+                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400"
+                        id="user-history-data-table">
+                        <thead
+                            class="text-xs text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400">
+                            <tr>
+
+                                <th scope="col"
+                                    class="px-6 py-3 text-xl sticky top-0 text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400"
+                                    style="
+                                width: 100px;">
+                                    Durum
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-xl  sticky top-0 text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400">
+                                    Parsel No
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-xl sticky top-0 text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400">
+                                    İl
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-xl sticky top-0 text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400">
+                                    İlçe
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-xl sticky top-0 text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400">
+                                    M²
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-xl sticky top-0 text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400">
+                                    Fiyat
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-xl sticky top-0 text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400">
+                                    Mevki
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-xl sticky top-0 text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400">
+                                    Ada
+                                </th>
+
+
+                                <th scope="col"
+                                    class="px-6 py-3 text-xl sticky top-0 text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400">
+                                    <!-- Ada -->
+                                </th>
+
+
+                            </tr>
+                        </thead>
+                        <tbody id="table-body">
+
+
+
+
+
+
+
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="modal-container">
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+    <script>
+
+
+
+
+        document.getElementById('get-parcels-apply-button').addEventListener('click', function () {
+
+
+            var filter_parcel = document.getElementById('filter-user-history-parcel').value;
+
+            getParcels(filter_parcel);
+
+        });
+        var current_parcel = "ŞAHİNLİ";
+        var current_parcel_id = 0;
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+        function getParcels(mevki) {
+
+            fetch(`/parcels/?mevki=${mevki}`)  // API'nizin URL'sini buraya ekleyin
+                .then(response => response.json())
+                .then(data => {
+                    // Verileri başarılı bir şekilde aldık ve konsolda yazdırıyoruz
+                    current_parcel = mevki;
+                    createParcel(data);
+
+
+                })
+                .catch(error => {
+                    // Hata durumunda konsolda hatayı yazdırıyoruz
+                    console.error('Hata:', error);
+                });
+
+
+            if (mevki == "ŞAHİNLİ") {
+
+                document.getElementById('sub-title').innerHTML = "ÇANAKKALE ARMONİ";
+
+            } else if (mevki == "ORMANKÖY") {
+                document.getElementById('sub-title').innerHTML = "KOCAELİ ORMANKÖY";
+
+            } else if (mevki == "ELBEYLİ") {
+                document.getElementById('sub-title').innerHTML = "İZNİK";
+
+            } else if (mevki == "ÇAMOBA") {
+                document.getElementById('sub-title').innerHTML = "AYVALIK ÇAMOBA";
+
+            } else if (mevki == "YEŞİLYAYLA") {
+                document.getElementById('sub-title').innerHTML = "DÜZCE GÜMÜŞOVA";
+
+            }
+
+
+        }
+
+
+
+
+        getParcels(current_parcel);
+
+
+
+
+
+
+        function createParcel(data) {
+
+
+            var table_body = document.getElementById('table-body');
+            table_body.innerHTML = "";
+            var table_html = "";
+
+
+
+            for (let i = 0; i < Object.keys(data).length; i++) {
+
+                var parcel_m2 = parseInt(data[i].m2_net);
+
+
+
+                if (data[i].durum == "uygun") {
+                    var icon_color = "#057A55";
+
+                    var current_user_not_procces_parcel = "";
+                    var current_user_not_procces_waiting_time = "";
+
+
+                } else if (data[i].durum == "beklemede") {
+                    var icon_color = "#E3A008";
+                    var current_user_not_procces_parcel = "user-not-selecting";
+                    var current_user_not_procces_waiting_time = "user-not-selecting";
+
+
+                } else if (data[i].durum == "onaylandi") {
+                    var icon_color = "#C81E1E";
+                    var current_user_not_procces_parcel = "user-not-selecting";
+                    var current_user_not_procces_waiting_time = "user-not-selecting";
+
+
+                } else if (data[i].durum == "kısa_bekleme") {
+                    var icon_color = "blue";
+                    var current_user_not_procces_parcel = "user-not-selecting";
+                    var current_user_not_procces_waiting_time = "";
+
+                }
+
+
+
+                var html = `
+    <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+        
+        <td class="px-6 py-4  text-lg">
+            <svg class="w-16 h-16 light:text-white" aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20"
+                style="min-height: 16px; color: ${icon_color};">
+                <path
+                    d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z" />
+            </svg>
+            
+        </td>
+        <td scope="row" class="text-lg px-6 py-4 font-medium  whitespace-nowrap dark:text-white">
+            ${data[i].parsel}
+        </td>
+        <td class="px-6 py-4 text-lg">
+            ${data[i].il}
+
+        </td>
+        <td class="px-6 py-4 text-lg">
+            ${data[i].ilce} 
+
+        </td>
+        <td class="px-6 py-4 text-lg">
+            ${parcel_m2}  M²
+
+        </td>
+
+        <td class="px-6 py-4 text-lg">
+            ${data[i].fiyat} TL
+
+        </td>
+        
+        <td class="px-6 py-4 text-lg">
+            ${data[i].mevki}
+
+        </td>
+        <td class="px-6 py-4 text-lg">
+            ${data[i].ada}
+
+        </td>
+
+        <td class="px-6 py-4 text-lg ${current_user_not_procces_parcel}">
+                   
+            <button type="button"  onclick="open_parcel_modal('${data[i].id}', '${data[i].parsel}', '${data[i].il}', '${data[i].ilce}', '${parcel_m2}', '${data[i].fiyat}')" class="open-modal font-medium text-blue-600 dark:text-blue-500 hover:underline"><span class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-3 py-1.5 rounded dark:bg-green-900 dark:text-green-300">Düzenle</span>
+            </button>
+        </td>
+
+    
+    </tr>
+                
+                `;
+                table_html += html;
+
+            }
+
+            table_body.innerHTML = table_html;
+
+
+
+        }
+
+
+
+
+        function open_parcel_modal(parcel_id, parcel_no, parcel_il, parcel_ilce, parcel_m2, parcel_fiyat) {
+
+
+            const customModal = document.getElementById('custom-modal');
+            const customModalOverlay = document.getElementById('custom-modal-overlay');
+            customModalOverlay.classList.remove('hidden');
+
+            customModal.classList.remove('hidden');
+
+            document.getElementById('parcel-price-input').value = parcel_fiyat;
+
+            document.getElementById('modal-title').innerHTML = `${parcel_no} ${parcel_il} ${parcel_ilce} ${parcel_m2} M² ${parcel_fiyat} TL`;
+
+            current_parcel_id = parcel_id;
+
+
+        }
+
+
+        function set_parcel_price() {
+
+            var new_price = document.getElementById('parcel-price-input').value;
+
+            console.log(new_price, current_parcel_id);
+
+
+            fetch('/set-parcel-price/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken, // Django CSRF koruma token'ı
+                },
+                body: JSON.stringify({
+                    parcel_id: current_parcel_id,
+                    new_price: new_price
+                }), // formData nesnesini JSON'a dönüştürdüğünüzü varsayalım
+            })
+                .then(response => response.json())
+                .then(data => {
+                    getParcels(current_parcel);
+                    // closeModal();
+                    showAndHideToast();
+                })
+                .catch(error => {
+                    console.error('Hata:', error);
+                });
+
+        }
+
+
+
+
+
+        var toast = document.getElementById('toast-success');
+
+        function showAndHideToast() {
+            // Toast mesajını görünür yap
+            toast.style.display = 'block';
+            toast.style.opacity = '1';
+
+            // 4 saniye sonra tekrar gizle
+            setTimeout(function () {
+                toast.style.opacity = '0';
+                setTimeout(function () {
+                    toast.style.display = 'none';
+                }, 500);
+            }, 4000);
+        }
+
+
+
+
+
+        if (toast) {
+            setTimeout(function () {
+                toast.style.opacity = '0'; // Opaklığı sıfıra ayarla
+                setTimeout(function () {
+                    toast.style.display = 'none'; // Görünürlüğü kaldır
+                }, 500); // 0.5 saniye sonra kaldır
+            }, 4000); // 4 saniye sonra opaklığı sıfırla
+        }
+
+
+
+
+    </script>
+
+
+
+
+    <script>
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var buttonElement = document.getElementById("logo-sidebar-button");
+            buttonElement.parentNode.removeChild(buttonElement);
+
+            // Modal codes
+            const closeModalButton = document.getElementById('close-modal');
+            const customModal = document.getElementById('custom-modal');
+            const customModalOverlay = document.getElementById('custom-modal-overlay');
+            const saveButton = document.getElementById('save-button');
+            const cancelButton = document.getElementById('cancel-button');
+
+            function closeModal() {
+                customModal.classList.add('hidden');
+                customModalOverlay.classList.add('hidden');
+            }
+
+            closeModalButton.addEventListener('click', closeModal);
+            saveButton.addEventListener('click', closeModal);
+            cancelButton.addEventListener('click', closeModal);
+
+
+
+
+        });
+
+
+
+
+    </script>
+
+
+
+
+
+    <!-- Modal -->
+    <div id="custom-modal-overlay" class="fixed top-0 left-0 right-0 bottom-0 z-50 hidden  bg-gray-800"
+        style="opacity: 30%;">
+    </div>
+
+    <div id="custom-modal"
+        class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto inset-0 flex justify-center items-center">
+        <div class="relative w-full max-w-md">
+            <div class="relative bg-white rounded-lg shadow">
+                <button id="close-modal"
+                    class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                    </svg>
+                </button>
+                <div class="p-6 text-center">
+                    <div class="flex justify-between mb-4">
+                        <h3 id="modal-title" class="text-lg font-normal text-gray-500"></h3>
+                    </div>
+                    <div class="flex justify-between mb-4">
+                        <div style="width: 100%;">
+                            <input type="number" id="parcel-price-input"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                style="width: 100%;">
+                        </div>
+
+                    </div>
+                    <div class="flex">
+                        <button id="save-button" onclick="set_parcel_price()"
+                            class="bg-blue-500 text-white p-2 rounded-lg mr-2"
+                            style="right: 0px; margin-left: auto;">Save</button>
+                        <button id="cancel-button" class="bg-gray-500 text-white p-2 rounded-lg">Cancel</button>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>
