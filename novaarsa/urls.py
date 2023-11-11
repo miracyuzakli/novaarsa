@@ -21,7 +21,8 @@ from app.views import (
 
     # Parcel Edits
     parcesl_edits,
-    set_parcel_price
+    set_parcel_price,
+    add_parcel_data
 
 
 )
@@ -74,7 +75,8 @@ urlpatterns = [
     # Parcel Edits
     path("parcels-edit/", parcesl_edits, name="parcels_edit"),
     path("set-parcel-price/", set_parcel_price),
-
+    path("add-parcel-data/", add_parcel_data),
+    
 
 
 

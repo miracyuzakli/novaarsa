@@ -32,7 +32,7 @@
     {% csrf_token %}
 
 
-    
+
     <!-- Toats -->
     <div class="hidden max-w-xs bg-white border rounded-md shadow-lg dark:bg-gray-800 dark:border-gray-700 absolute top-0 left-1/2 -translate-x-1/2"
         style="margin-top: 70px;" role="alert" id="toast-success">
@@ -105,11 +105,27 @@
 
                 <div class="flex items-center mb-6 mr-6 ml-auto">
 
-                    <button type="button" id="get-parcels-apply-button"
-                        class="px-3 py-2 text-xs font-medium text-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
-                        Uygula
-                    </button>
+                    <div>
+                        <button type="button" id="add-parcel-button"
+                            class="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            Ekle
+                        </button>
+                    </div>
+
+                    <div class="ml-3">
+                        <button type="button" id="get-parcels-apply-button"
+                            class="px-3 py-2 text-xs font-medium text-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+                            Uygula
+                        </button>
+                    </div>
+
+
+
+
+
+
                 </div>
+
 
 
 
@@ -582,8 +598,167 @@
 
 
 
+    <!-- Yeni parcel ekleme modal -->
+
+  <!-- Modal Container -->
+<div id="modal-container-add-parcel" class="fixed inset-0 flex items-center justify-center hidden">
+  
+    <!-- Modal Overlay -->
+    <div id="modal-overlay-add-parcel" style="position: fixed; background: black; min-width: 100vw; min-height: 100vh; opacity: 30%;"></div>
+    
+    <!-- Modal Content -->
+    <div class="fixed bg-white p-8 rounded shadow-lg w-1/2 md:w-96">
+      <!-- Modal Header -->
+      <div class="mb-4">
+        <h2 class="text-2xl font-bold">Parsel Ekle</h2>
+      </div>
+  
+      <!-- Modal Body -->
+      <div class="mb-6">
+        <div class="grid gap-4 mb-4 md:grid-cols-2">
+            <div>
+                <label for="il" class="block mb-2 text-sm font-medium text-gray-900 white:text-white">İl</label>
+                <input type="text" id="il"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500"
+                    placeholder="" required>
+            </div>
+            <div>
+                <label for="ilce" class="block mb-2 text-sm font-medium text-gray-900 white:text-white">İlçe</label>
+                <input type="text" id="ilce"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500"
+                    placeholder="" required>
+            </div>
+        </div>
+        
+        <div class="grid gap-4 mb-4 md:grid-cols-2">
+            <div>
+                <label for="mevki" class="block mb-2 text-sm font-medium text-gray-900 white:text-white">Mevki</label>
+                <input type="text" id="mevki"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500"
+                    placeholder="" required>
+            </div>
+            <div>
+                <label for="ada" class="block mb-2 text-sm font-medium text-gray-900 white:text-white">Ada</label>
+                <input type="text" id="ada"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500"
+                    placeholder="" required>
+            </div>
+        </div>
+        
+        <div class="grid gap-4 mb-4 md:grid-cols-3">
+            <div>
+                <label for="parsel" class="block mb-2 text-sm font-medium text-gray-900 white:text-white">Parsel</label>
+                <input type="text" id="parsel"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500"
+                    placeholder="" required>
+            </div>
+            <div>
+                <label for="m2_net" class="block mb-2 text-sm font-medium text-gray-900 white:text-white">Net Alan (m²)</label>
+                <input type="text" id="m2_net"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500"
+                    placeholder="" required>
+            </div>
+
+            <div>
+                <label for="fiyat" class="block mb-2 text-sm font-medium text-gray-900 white:text-white">Fiyat</label>
+                <input type="text" id="fiyat"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500"
+                    placeholder="" required>
+            </div>
+        </div>
+        
+      
+      
+        
+      </div>
+  
+      <!-- Modal Footer -->
+      <div class="flex justify-end">
+        <button id="close-modal-add-parcel" class="mr-2 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+          Cancel
+        </button>
+        <button onclick="save_new_parcel_data()" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  
+
+  <script>
+    // Open Modal
+    document.getElementById('add-parcel-button').addEventListener('click', function () {
+      document.getElementById('modal-container-add-parcel').classList.remove('hidden');
+      console.log("adfsdf");
+    });
+  
+    // Close Modal
+    document.getElementById('close-modal-add-parcel').addEventListener('click', function () {
+      document.getElementById('modal-container-add-parcel').classList.add('hidden');
+    });
+  
+    // Close Modal on Overlay Click
+    document.getElementById('modal-overlay-add-parcel').addEventListener('click', function () {
+      document.getElementById('modal-container-add-parcel').classList.add('hidden');
+    });
+  </script>
+  
+
+  <script>
+
+function save_new_parcel_data() {
+
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+    var il = document.getElementById('il').value;
+    var ilce = document.getElementById('ilce').value;
+    var mevki = document.getElementById('mevki').value;
+    var ada = document.getElementById('ada').value;
+    var parsel = document.getElementById('parsel').value;
+    var m2_net = document.getElementById('m2_net').value;
+    var fiyat = document.getElementById('fiyat').value;
+
+    // Veriyi bir nesne olarak hazırla
+    var data = {
+        'il': il,
+        'ilce': ilce,
+        'mevki': mevki,
+        'ada': ada,
+        'parsel': parsel,
+        'm2_net': m2_net,
+        'fiyat': fiyat,
+    };
+
+    
+    // fetch işlemi
+    fetch('/add-parcel-data/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken, // Django CSRF koruma token'ı
+        },
+        body: JSON.stringify(data),  // Veriyi JSON formatına çevir
+    })
+    .then(response => response.json())  // Yanıtı JSON formatına çevir
+    .then(data => {
+        // İşlemlerin sonucunu kontrol et
+        console.log('Success:', data);
+        showAndHideToast();
+
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+
+    document.getElementById('modal-container-add-parcel').classList.add('hidden');
 
 
+}
+
+
+
+  </script>
 
 
 
