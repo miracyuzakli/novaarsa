@@ -85,7 +85,7 @@ urlpatterns = [
 
     # Users
     path("users/", users_views, name="users_views"),
-    path("get-users/", user_groups),
+    path("get-users-groups/", user_groups),
     
 
 

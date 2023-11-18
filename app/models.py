@@ -3,34 +3,26 @@ from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
 
 # Grup adını ve isteğe bağlı olarak izinleri belirtin
-group_name = "Kullanici_Islem_Gecmisi"
+group_name = "user_history"
 group, created = Group.objects.get_or_create(name=group_name)
-
 if created:
     print(f"Grup '{group_name}' başarıyla oluşturuldu.")
-else:
-    print(f"Grup '{group_name}' zaten mevcut.")
-
 
 # Grup adını ve isteğe bağlı olarak izinleri belirtin
-group_name = "Kullanici_Yetkilendirme"
+group_name = "user_operations"
 group, created = Group.objects.get_or_create(name=group_name)
-
 if created:
     print(f"Grup '{group_name}' başarıyla oluşturuldu.")
-else:
-    print(f"Grup '{group_name}' zaten mevcut.")
 
-
-group_name = "main_user"
+group_name = "parcel_edits"
 group, created = Group.objects.get_or_create(name=group_name)
-
 if created:
     print(f"Grup '{group_name}' başarıyla oluşturuldu.")
-else:
-    print(f"Grup '{group_name}' zaten mevcut.")
 
-
+group_name = "analysis"
+group, created = Group.objects.get_or_create(name=group_name)
+if created:
+    print(f"Grup '{group_name}' başarıyla oluşturuldu.")
 
 
 

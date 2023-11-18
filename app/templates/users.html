@@ -87,7 +87,7 @@
 
 
 
-                
+
 
 
 
@@ -113,16 +113,30 @@
                                     class="px-6 py-3 text-xl sticky top-0 text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400"
                                     style="
                                 width: 100px;">
-                                   
+
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-xl  sticky top-0 text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400">
+                                    Ad
                                 </th>
                                 <th scope="col"
                                     class="px-6 py-3 text-xl  sticky top-0 text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400">
                                     Soyad
                                 </th>
                                 <th scope="col"
-                                class="px-6 py-3 text-xl  sticky top-0 text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400">
-                                Ad
-                            </th>
+                                    class="px-6 py-3 text-xl  sticky top-0 text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400">
+                                    Grup1
+                                </th>
+
+                                <th scope="col"
+                                    class="px-6 py-3 text-xl  sticky top-0 text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400">
+                                    Grup2
+                                </th>
+
+                                <th scope="col"
+                                    class="px-6 py-3 text-xl  sticky top-0 text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400">
+                                    Grup3
+                                </th>
 
 
                             </tr>
@@ -190,20 +204,24 @@
 
         const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
-
-
-        const data = [
-            {
-                "firstname": "ad",
-                "lastname": "asdasd",
-            }
-        ]
+        var buttonElement = document.getElementById("logo-sidebar-button");
+        buttonElement.parentNode.removeChild(buttonElement);
 
 
 
-        create_table(data);
 
 
+
+        fetch('/get-users-groups/')  // API'nizin URL'sini buraya ekleyin
+            .then(response => response.json())
+            .then(data => {
+                create_table(data.users);
+                console.log(data.users);
+            })
+            .catch(error => {
+                // Hata durumunda konsolda hatayı yazdırıyoruz
+                console.error('Hata:', error);
+            });
 
 
 
@@ -225,23 +243,43 @@
         
        
         <td scope="row" class="text-lg px-6 py-4 font-medium  whitespace-nowrap dark:text-white">
-            ${i+1}
+            ${i + 1}
         </td>
         <td class="px-6 py-4 text-lg">
-            Soy isim
+            ${data[i].firstname}
 
         </td>
         <td class="px-6 py-4 text-lg">
-            Soy isim
+            ${data[i].lastname}
 
         </td>
 
-        
-        
+        <td class="px-6 py-4 text-lg">
+            
 
-        
+            <div class="flex items-center me-4" style="gap: 10px;">
+                <input checked id="green-checkbox" type="checkbox" value="${data[i].groups.user_history}" class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                <label for="green-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Satış Danışmanı Geçmişi</label>
+            </div>
 
+        </td>
+        
+        <td class="px-6 py-4 text-lg">
+            <div class="flex items-center me-4" style="gap: 10px;">
+                <input checked id="green-checkbox" type="checkbox" value="${data[i].groups.parcel_edits}" class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                <label for="green-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Parsel Verisi Düzenleme</label>
+            </div>
+        </td>
+        
+        <td class="px-6 py-4 text-lg">
+            <div class="flex items-center me-4" style="gap: 10px;">
+                <input checked id="green-checkbox" type="checkbox" value="${data[i].groups.analysis}" class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                <label for="green-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Analiz Sayfası</label>
+            </div>
+        </td>
     
+
+        
     </tr>
                 
                 `;

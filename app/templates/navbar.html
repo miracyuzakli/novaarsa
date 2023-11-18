@@ -63,8 +63,8 @@
                             </li>
 
 
-                            {% if current_user.groups.all.0.name == 'Kullanici_Islem_Gecmisi' %}
-            
+                            {% if current_user.groups.all.0.name == 'user_history' %}
+
                             <li>
                                 <a href="{% url 'user_parcels_history' %}"
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
@@ -72,13 +72,16 @@
                             </li>
 
 
-                            <li>
-                                <a href="{% url 'parcels_edit' %}"
-                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                                    role="menuitem">Parsel</a>
-                            </li>
+                          
                             
                             {% endif %}
+
+
+                          
+                            
+
+
+                          
 
 
                             <li>

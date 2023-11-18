@@ -25,7 +25,7 @@ from django.contrib.auth.models import User
 
 # Erişim kontrolü fonksiyonu
 def is_user_history(user):
-    return user.groups.filter(name="Kullanici_Islem_Gecmisi").exists()
+    return user.groups.filter(name="user_history").exists()
 
 
 # Kullanıcı editörler grubuna aitse bu sayfaya erişebilir
