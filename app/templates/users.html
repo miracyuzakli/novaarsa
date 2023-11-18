@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nova Arsa</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
+
+    <style>
+        a {
+            cursor: pointer;
+        }
+
+        .nowrap-label {
+            white-space: nowrap;
+        }
+
+        .table-container {
+            max-height: calc(100vh - 190px);
+            overflow-y: auto;
+        }
+    </style>
+
+
+
+</head>
+
+<body>
+    {% csrf_token %}
+
+
+
+    <!-- Toats -->
+    <div class="hidden max-w-xs bg-white border rounded-md shadow-lg dark:bg-gray-800 dark:border-gray-700 absolute top-0 left-1/2 -translate-x-1/2"
+        style="margin-top: 70px;" role="alert" id="toast-success">
+        <div class="flex p-4">
+            <div class="flex-shrink-0">
+                <svg class="h-4 w-4 text-green-500 mt-0.5" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                    fill="currentColor" viewBox="0 0 16 16">
+                    <path
+                        d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                </svg>
+            </div>
+            <div class="ml-3">
+                <p class="text-sm text-gray-700 dark:text-gray-400">
+                    Successfully updated!
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    {% include 'navbar.html' %}
+
+
+
+
+    <div class="p-4 dark:bg-gray-700" id="parent-container">
+
+        <div class="p-4 border-2 border-gray-200  rounded-lg dark:border-gray-900 dark:bg-gray-800 mt-14"
+            style="height: calc(100vh - 88px);">
+
+
+
+            <div class="flex flex-wrap -mx-2">
+                <div class="flex items-center mb-12 mr-6 ">
+
+                    <a href="{% url 'index' %}">
+                        <button type="button"
+                            class="w-full flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 transition-colors duration-200 bg-white border rounded-lg gap-x-2 sm:w-auto dark:hover:bg-gray-800 dark:bg-gray-900 hover:bg-gray-100 dark:text-gray-200 dark:border-gray-700 mb-6">
+                            <svg class="w-5 h-5 rtl:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18" />
+                            </svg>
+                            <span style="margin-left: 5px;">Geri</span>
+                        </button>
+                    </a>
+
+                </div>
+
+
+
+                
+
+
+
+            </div>
+
+
+
+
+
+
+
+
+
+            <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                <div class="table-container max-h-500">
+                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400"
+                        id="user-history-data-table">
+                        <thead
+                            class="text-xs text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400">
+                            <tr>
+
+                                <th scope="col"
+                                    class="px-6 py-3 text-xl sticky top-0 text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400"
+                                    style="
+                                width: 100px;">
+                                   
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-xl  sticky top-0 text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400">
+                                    Soyad
+                                </th>
+                                <th scope="col"
+                                class="px-6 py-3 text-xl  sticky top-0 text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400">
+                                Ad
+                            </th>
+
+
+                            </tr>
+                        </thead>
+                        <tbody id="table-body">
+
+
+
+
+
+
+
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="modal-container">
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+    <script>
+
+
+
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+
+
+        const data = [
+            {
+                "firstname": "ad",
+                "lastname": "asdasd",
+            }
+        ]
+
+
+
+        create_table(data);
+
+
+
+
+
+
+        function create_table(data) {
+
+
+            var table_body = document.getElementById('table-body');
+            table_body.innerHTML = "";
+            var table_html = "";
+
+
+
+            for (let i = 0; i < Object.keys(data).length; i++) {
+
+
+                var html = `
+    <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+        
+       
+        <td scope="row" class="text-lg px-6 py-4 font-medium  whitespace-nowrap dark:text-white">
+            ${i+1}
+        </td>
+        <td class="px-6 py-4 text-lg">
+            Soy isim
+
+        </td>
+        <td class="px-6 py-4 text-lg">
+            Soy isim
+
+        </td>
+
+        
+        
+
+        
+
+    
+    </tr>
+                
+                `;
+                table_html += html;
+
+            }
+
+            table_body.innerHTML = table_html;
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+        var toast = document.getElementById('toast-success');
+
+        function showAndHideToast() {
+            // Toast mesajını görünür yap
+            toast.style.display = 'block';
+            toast.style.opacity = '1';
+
+            // 4 saniye sonra tekrar gizle
+            setTimeout(function () {
+                toast.style.opacity = '0';
+                setTimeout(function () {
+                    toast.style.display = 'none';
+                }, 500);
+            }, 4000);
+        }
+
+
+
+
+
+        if (toast) {
+            setTimeout(function () {
+                toast.style.opacity = '0'; // Opaklığı sıfıra ayarla
+                setTimeout(function () {
+                    toast.style.display = 'none'; // Görünürlüğü kaldır
+                }, 500); // 0.5 saniye sonra kaldır
+            }, 4000); // 4 saniye sonra opaklığı sıfırla
+        }
+
+
+
+
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>

@@ -22,7 +22,11 @@ from app.views import (
     # Parcel Edits
     parcesl_edits,
     set_parcel_price,
-    add_parcel_data
+    add_parcel_data,
+
+    # Users
+    users_views,
+    user_groups
 
 
 )
@@ -76,6 +80,12 @@ urlpatterns = [
     path("parcels-edit/", parcesl_edits, name="parcels_edit"),
     path("set-parcel-price/", set_parcel_price),
     path("add-parcel-data/", add_parcel_data),
+    
+
+
+    # Users
+    path("users/", users_views, name="users_views"),
+    path("get-users/", user_groups),
     
 
 

@@ -11,6 +11,32 @@ if created:
 else:
     print(f"Grup '{group_name}' zaten mevcut.")
 
+
+# Grup adını ve isteğe bağlı olarak izinleri belirtin
+group_name = "Kullanici_Yetkilendirme"
+group, created = Group.objects.get_or_create(name=group_name)
+
+if created:
+    print(f"Grup '{group_name}' başarıyla oluşturuldu.")
+else:
+    print(f"Grup '{group_name}' zaten mevcut.")
+
+
+group_name = "main_user"
+group, created = Group.objects.get_or_create(name=group_name)
+
+if created:
+    print(f"Grup '{group_name}' başarıyla oluşturuldu.")
+else:
+    print(f"Grup '{group_name}' zaten mevcut.")
+
+
+
+
+
+
+
+
 class Parcel(models.Model):
     il = models.CharField(max_length=255)
     ilce = models.CharField(max_length=255)
