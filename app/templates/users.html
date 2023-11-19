@@ -22,6 +22,14 @@
             max-height: calc(100vh - 190px);
             overflow-y: auto;
         }
+
+
+        .disabled-div {
+            pointer-events: none;
+            /* Tıklama etkileşimini devre dışı bırak */
+            opacity: 0.5;
+            /* Görsel olarak soluk hale getir */
+        }
     </style>
 
 
@@ -89,6 +97,27 @@
 
 
 
+                <div class="flex items-center mb-6 mr-6 ml-auto">
+                    <div>
+                        <button type="button" id="user-edit-save-button"
+                            class="hidden px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            Kaydet
+                        </button>
+                    </div>
+
+                    <div>
+                        <button type="button" id="user-edit-button"
+                            class="px-3 py-2 text-xs font-medium text-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+                            Düzenle
+                        </button>
+                    </div>
+
+
+
+
+                </div>
+
+
 
 
             </div>
@@ -114,6 +143,10 @@
                                     style="
                                 width: 100px;">
 
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-xl  sticky top-0 text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400">
+                                    Kullanıcı Adı
                                 </th>
                                 <th scope="col"
                                     class="px-6 py-3 text-xl  sticky top-0 text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400">
@@ -183,11 +216,6 @@
 
 
 
-    <div id="modal-container">
-
-
-    </div>
-
 
 
 
@@ -234,9 +262,28 @@
             var table_html = "";
 
 
+        
 
-            for (let i = 0; i < Object.keys(data).length; i++) {
 
+        for (let i = 0; i < Object.keys(data).length; i++) {
+
+            var user_history_statu = '';
+            var parcel_edits_statu = '';
+            var analysis_statu = '';
+
+
+            if (data[i].groups.user_history) {
+                user_history_statu = 'checked';
+            }
+
+            if (data[i].groups.parcel_edits) {
+                parcel_edits_statu = 'checked';
+            }
+
+            if (data[i].groups.analysis) {
+                analysis_statu = 'checked';
+
+            }
 
                 var html = `
     <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
@@ -244,6 +291,10 @@
        
         <td scope="row" class="text-lg px-6 py-4 font-medium  whitespace-nowrap dark:text-white">
             ${i + 1}
+        </td>
+        <td class="px-6 py-4 text-lg">
+            <div id="username-${i}"> ${data[i].username} </div>
+
         </td>
         <td class="px-6 py-4 text-lg">
             ${data[i].firstname}
@@ -257,24 +308,24 @@
         <td class="px-6 py-4 text-lg">
             
 
-            <div class="flex items-center me-4" style="gap: 10px;">
-                <input checked id="green-checkbox" type="checkbox" value="${data[i].groups.user_history}" class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                <label for="green-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Satış Danışmanı Geçmişi</label>
+            <div class="flex items-center me-4 group-checkbox disabled-div" style="gap: 10px;">
+                <input disabled ${user_history_statu} id="green-checkbox-1-${i}" type="checkbox" value="${data[i].groups.user_history}" class="group-checkbox w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                <label style="user-select: none; cursor: pointer;" for="green-checkbox-1-${i}" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Satış Danışmanı Geçmişi</label>
             </div>
 
         </td>
         
         <td class="px-6 py-4 text-lg">
-            <div class="flex items-center me-4" style="gap: 10px;">
-                <input checked id="green-checkbox" type="checkbox" value="${data[i].groups.parcel_edits}" class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                <label for="green-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Parsel Verisi Düzenleme</label>
+            <div class="flex items-center me-4 group-checkbox disabled-div" style="gap: 10px;">
+                <input disabled ${parcel_edits_statu} id="green-checkbox-2-${i}" type="checkbox" value="${data[i].groups.parcel_edits}" class="group-checkbox w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                <label style="user-select: none; cursor: pointer;" for="green-checkbox-2-${i}" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Parsel Verisi Düzenleme</label>
             </div>
         </td>
         
         <td class="px-6 py-4 text-lg">
-            <div class="flex items-center me-4" style="gap: 10px;">
-                <input checked id="green-checkbox" type="checkbox" value="${data[i].groups.analysis}" class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                <label for="green-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Analiz Sayfası</label>
+            <div class="flex items-center me-4 group-checkbox disabled-div" style="gap: 10px;">
+                <input disabled ${analysis_statu} id="green-checkbox-3-${i}" type="checkbox" value="${data[i].groups.analysis}" class="group-checkbox w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                <label style="user-select: none; cursor: pointer;" for="green-checkbox-3-${i}" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Analiz Sayfası</label>
             </div>
         </td>
     
@@ -296,6 +347,64 @@
 
 
 
+
+        function get_user_operations_data() {
+            var i = 0;
+
+            var user_data = {};
+
+            while (1) {
+
+
+                try {
+                    var username = document.getElementById(`username-${i}`).innerHTML;
+                    var user_history = document.getElementById(`green-checkbox-1-${i}`).checked;
+                    var parcel_edits = document.getElementById(`green-checkbox-2-${i}`).checked;
+                    var analysis = document.getElementById(`green-checkbox-3-${i}`).checked;
+
+                    user_data[username] = {
+                        user_history: user_history,
+                        parcel_edits: parcel_edits,
+                        analysis: analysis,
+                    }
+
+                    i++;
+                }
+
+                catch ({ name, message }) {
+                    console.log(name); // "TypeError"
+                    console.log(message); // "oops"
+                }
+                finally {
+
+                    fetch('/set-users-groups/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': csrfToken, // Django CSRF koruma token'ı
+                        },
+                        body: JSON.stringify({
+                            user_data: user_data
+                        }), // formData nesnesini JSON'a dönüştürdüğünüzü varsayalım
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+
+                            showAndHideToast();
+                        })
+                        .catch(error => {
+                            console.error('Hata:', error);
+                        });
+                    break;
+                }
+
+
+
+
+            }
+
+
+        }
 
 
 
@@ -347,17 +456,43 @@
 
 
 
+    <script>
+        // Butonları ve ilgili div'leri seç
+        var saveButton = document.getElementById('user-edit-save-button');
+        var editButton = document.getElementById('user-edit-button');
 
+        // Div'lerin etkinleştirilmesi/gizlenmesi fonksiyonu
+        function toggleDivs(enable) {
+            var groupCheckboxDivs = document.querySelectorAll('.group-checkbox');
 
+            groupCheckboxDivs.forEach(function (div) {
+                if (enable) {
+                    div.classList.remove('disabled-div'); // Div'i etkinleştir
+                    div.disabled = false;
+                } else {
+                    div.classList.add('disabled-div'); // Div'i devre dışı bırak
+                    div.disabled = true;
 
+                }
+            });
+        }
 
+        // Düzenle butonuna tıklandığında çalışacak fonksiyon
+        editButton.onclick = function () {
+            editButton.style.display = 'none';
+            saveButton.style.display = 'block';
+            toggleDivs(true); // Div'leri etkinleştir
+        };
 
+        // Kaydet butonuna tıklandığında çalışacak fonksiyon
+        saveButton.onclick = function () {
+            saveButton.style.display = 'none';
+            editButton.style.display = 'block';
+            toggleDivs(false); // Div'leri devre dışı bırak
 
-
-
-
-
-
+            get_user_operations_data();
+        };
+    </script>
 
 
 

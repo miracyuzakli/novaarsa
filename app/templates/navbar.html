@@ -63,18 +63,73 @@
                             </li>
 
 
-                            {% if current_user.groups.all.0.name == 'user_history' %}
 
-                            <li>
-                                <a href="{% url 'user_parcels_history' %}"
-                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                                    role="menuitem">Kullanıcı Parsel Geçmişi</a>
-                            </li>
+                            
+
+                            {% if current_user.groups.all.0.name == 'analysis' %}
+
+
+                                
+                                <li>
+                                    <a href="{% url 'user_parcels_history' %}"
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                                        role="menuitem">Analiz</a>
+                                </li>
+
+
+                        
+                            {% endif %}
+
+
+
+                            {% if current_user.groups.all.1.name == 'parcel_edits' %}
+
+
+                                
+                                <li>
+                                    <a href="{% url 'parcels_edit' %}"
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                                        role="menuitem">Parsel Düzenleme</a>
+                                </li>
+
+
+                    
+                            {% endif %}
+
+
+
+                            {% if current_user.groups.all.2.name == 'user_history' %}
+
+                                <li>
+                                    <a href="{% url 'user_parcels_history' %}"
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                                        role="menuitem">Kullanıcı Parsel Geçmişi</a>
+                                </li>
 
 
                           
                             
                             {% endif %}
+
+
+
+
+                            {% if current_user.groups.all.3.name == 'user_operations' %}
+
+                            <li>
+                                <a href="{% url 'users_views' %}"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                                    role="menuitem">Kullanıcı İşlemleri</a>
+                            </li>
+
+
+                      
+                        
+                        {% endif %}
+
+
+
+
 
 
                           
@@ -166,4 +221,8 @@
         }
 
     });
+
+
+    console.log('{{current_user.groups.all.1.name}}');
+
 </script>
