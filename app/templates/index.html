@@ -471,10 +471,15 @@
 <script>
 
 
+    
 
+document.addEventListener("DOMContentLoaded", () => {
 
+    getParcels(current_parcel);
 
+});
 
+    var parcel_waiting_value = 2;
     var current_parcel_price = 1;
     var current_parcel = "ŞAHİNLİ";
 
@@ -553,6 +558,7 @@
 
     function createParcel(data) {
 
+        console.log(data);
 
         var table_body = document.getElementById('table-body');
         table_body.innerHTML = "";
@@ -569,15 +575,19 @@
             }
         }
 
-        if (parcel_waiting_count >= 2) {
-            var all_waiting_parcel = "user-not-selecting";
+        if (parcel_waiting_count >= parcel_waiting_value) {
+                var all_waiting_parcel = "user-not-selecting";
 
-        } else {
-            var all_waiting_parcel = "";
+            } else {
+                var all_waiting_parcel = "";
 
-        }
+            }
 
         for (let i = 0; i < Object.keys(data).length; i++) {
+
+
+           
+
 
             var user_id = data[i].user_id;
 
@@ -742,7 +752,6 @@
     }
 
 
-    getParcels(current_parcel);
 
 
 
@@ -928,6 +937,12 @@
             });
 
 
+    }
+
+
+
+    function getParcelWaiting() {
+        
     }
 
 

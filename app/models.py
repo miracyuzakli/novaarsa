@@ -103,5 +103,5 @@ class ParcelPricing(models.Model):
 
 
 class ParcelWaiting(models.Model):
-    user_id = models.CharField(max_length=255)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     parcel_waiting = models.IntegerField(default=2)

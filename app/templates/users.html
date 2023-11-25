@@ -171,6 +171,12 @@
                                     Grup3
                                 </th>
 
+                                <th scope="col"
+                                class="px-6 py-3 text-xl  sticky top-0 text-blue-900  bg-gray-100 uppercase  dark:bg-gray-700 dark:text-gray-400">
+                                Bekleme sayısı
+                            </th>
+
+
 
                             </tr>
                         </thead>
@@ -328,7 +334,16 @@
                 <label style="user-select: none; cursor: pointer;" for="green-checkbox-3-${i}" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Analiz Sayfası</label>
             </div>
         </td>
-    
+
+
+        <td class="px-6 py-4 text-lg">
+            <div class="flex items-center me-4 group-checkbox disabled-div" style="gap: 10px;">
+
+                <label for="number-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select a number:</label>
+                <input ${analysis_statu} type="number" id="number-input" aria-describedby="helper-text-explanation" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="90210" required>
+            
+            </div>
+        </td>
 
         
     </tr>
