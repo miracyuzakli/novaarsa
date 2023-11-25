@@ -25,10 +25,6 @@ if created:
     print(f"Grup '{group_name}' başarıyla oluşturuldu.")
 
 
-
-
-
-
 class Parcel(models.Model):
     il = models.CharField(max_length=255)
     ilce = models.CharField(max_length=255)
@@ -37,33 +33,35 @@ class Parcel(models.Model):
     parsel = models.CharField(max_length=255)
     m2_net = models.CharField(max_length=255)
     fiyat = models.CharField(max_length=255)
-    durum = models.CharField(max_length=255, default='uygun')  
+    durum = models.CharField(max_length=255, default="uygun")
     user_id = models.CharField(max_length=255, default="None")
     bekleme_suresi_baslangic = models.DateTimeField(null=True, blank=True)
     bekleme_suresi_bitisi = models.DateTimeField(null=True, blank=True)
-    bekleten_kullanici = models.CharField(max_length=255, default='None')
-
+    bekleten_kullanici = models.CharField(max_length=255, default="None")
 
     def __str__(self):
         return self.parsel
 
 
-
 class ParcelUserHistory(models.Model):
     parcel = models.ForeignKey(Parcel, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)  # User modeli ile ForeignKey ilişkisi
-    tarih = models.DateField(auto_now_add=True)  # Tarih olarak saklamak için "DateField" kullanın
-    saat = models.TimeField(auto_now_add=True)   # Saat olarak saklamak için "TimeField" kullanın
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE
+    )  # User modeli ile ForeignKey ilişkisi
+    tarih = models.DateField(
+        auto_now_add=True
+    )  # Tarih olarak saklamak için "DateField" kullanın
+    saat = models.TimeField(
+        auto_now_add=True
+    )  # Saat olarak saklamak için "TimeField" kullanın
     islem = models.CharField(max_length=255)
 
     def __str__(self):
         return f"{self.parcel} - {self.user_id} - Tarih: {self.tarih.strftime('%Y-%m-%d')}, Saat: {self.saat.strftime('%H:%M:%S')}"
 
 
-
 class SatisTakipModel(models.Model):
-
-    user_id = models.CharField(max_length=255, default="None")  
+    user_id = models.CharField(max_length=255, default="None")
     parcel = models.ForeignKey(Parcel, on_delete=models.CASCADE)
 
     project_name = models.CharField(max_length=255)
@@ -94,18 +92,16 @@ class SatisTakipModel(models.Model):
     ek_bilgiler = models.CharField(max_length=255)
 
     def __str__(self):
-        return (
-            self.project_name
-        ) 
-
-
+        return self.project_name
 
 
 class ParcelPricing(models.Model):
-
     il = models.CharField(max_length=255)
     ilce = models.CharField(max_length=255)
     mevki = models.CharField(max_length=255)
     fiyat = models.CharField(max_length=255, default="1")
 
-    
+
+class ParcelWaiting(models.Model):
+    user_id = models.CharField(max_length=255)
+    parcel_waiting = models.IntegerField(default=2)

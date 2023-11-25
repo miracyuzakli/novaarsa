@@ -17,14 +17,16 @@
                 </button>
                 <a href="{% url 'index' %}" class="flex ml-2 md:mr-24 text-white">
                     <img src="{% static 'images/Nova_Arsa_Logo_Beyaz.png' %}" class="h-10 mr-3" alt="FlowBite Logo" />
-                   
+
                 </a>
-               
+
             </div>
             <div>
-                <span class="flex-1 ml-3 whitespace-nowrap text-white font-bold dark:text-gray-300 hidden sm:block md:text-xs lg:text-base xl:text-lg 2xl:text-xl" id="sub-title">ÇANAKALE ARMONİ</span>
+                <span
+                    class="flex-1 ml-3 whitespace-nowrap text-white font-bold dark:text-gray-300 hidden sm:block md:text-xs lg:text-base xl:text-lg 2xl:text-xl"
+                    id="sub-title">ÇANAKALE ARMONİ</span>
             </div>
-            
+
 
             <div class="flex items-center">
                 <div class="flex items-center ml-3">
@@ -64,79 +66,71 @@
 
 
 
-                            
-
-                            {% if current_user.groups.all.0.name == 'analysis' %}
-
-
-                                
-                                <li>
-                                    <a href="{% url 'user_parcels_history' %}"
-                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                                        role="menuitem">Analiz</a>
-                                </li>
-
-
-                        
-                            {% endif %}
-
-
-
-                            {% if current_user.groups.all.1.name == 'parcel_edits' %}
-
-
-                                
-                                <li>
-                                    <a href="{% url 'parcels_edit' %}"
-                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                                        role="menuitem">Parsel Düzenleme</a>
-                                </li>
-
-
-                    
-                            {% endif %}
-
-
-
-                            {% if current_user.groups.all.2.name == 'user_history' %}
-
-                                <li>
-                                    <a href="{% url 'user_parcels_history' %}"
-                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                                        role="menuitem">Kullanıcı Parsel Geçmişi</a>
-                                </li>
-
-
-                          
-                            
-                            {% endif %}
 
 
 
 
-                            {% if current_user.groups.all.3.name == 'user_operations' %}
 
-                            <li>
+                            <li id="analysis_link">
+                                <a href="{% url 'user_parcels_history' %}"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                                    role="menuitem">Analiz</a>
+                            </li>
+
+
+
+
+
+
+
+
+
+                            <li id="parcel_edits_link">
+                                <a href="{% url 'parcels_edit' %}"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                                    role="menuitem">Parsel Düzenleme</a>
+                            </li>
+
+
+
+
+
+
+
+                            <li id="user_history_link">
+                                <a href="{% url 'user_parcels_history' %}"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                                    role="menuitem">Kullanıcı Parsel Geçmişi</a>
+                            </li>
+
+
+
+
+
+
+
+
+
+                            <li id="user_operations_link">
                                 <a href="{% url 'users_views' %}"
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
                                     role="menuitem">Kullanıcı İşlemleri</a>
                             </li>
 
 
-                      
-                        
-                        {% endif %}
 
 
 
 
 
 
-                          
-                            
 
 
-                          
+
+
+
+
+
 
 
                             <li>
@@ -223,6 +217,49 @@
     });
 
 
-    console.log('{{current_user.groups.all.1.name}}');
+    // Fetch işlemi
+    fetch('/get-current-user-groups/')
+        .then(response => {
+            // Yanıtın başarılı olup olmadığını kontrol edin
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            // JSON olarak yanıtı alın
+            return response.json();
+        })
+        .then(data => {
+            // Burada 'data' değişkeni, Django görünümünüzden döndürülen JSON verisidir.
+            if (!data.user_history) {
+
+                document.getElementById('user_history_link').style.display = 'none';
+
+            };
+
+
+            if (!data.user_operations) {
+
+                document.getElementById('user_operations_link').style.display = 'none';
+
+            }
+
+            if (!data.parcel_edits) {
+
+                document.getElementById('parcel_edits_link').style.display = 'none';
+
+            }
+
+            if (!data.analysis) {
+
+                document.getElementById('analysis_link').style.display = 'none';
+
+            }
+
+
+
+        })
+        .catch(e => {
+            // Hata durumunda bu blok çalışır
+            console.error('Bir hata oluştu:', e);
+        });
 
 </script>

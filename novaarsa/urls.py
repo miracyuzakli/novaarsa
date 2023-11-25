@@ -27,7 +27,8 @@ from app.views import (
     # Users
     users_views,
     user_groups,
-    set_user_operations
+    set_user_operations,
+    check_user_groups
 
 
 )
@@ -88,6 +89,7 @@ urlpatterns = [
     path("users/", users_views, name="users_views"),
     path("get-users-groups/", user_groups),
     path("set-users-groups/", set_user_operations),
+    path("get-current-user-groups/", check_user_groups),
     
 
 

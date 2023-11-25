@@ -76,6 +76,7 @@ def set_user_operations(request):
             # Her grup ve izin için
             for group_name, in_group in permissions.items():
                 group, _ = Group.objects.get_or_create(name=group_name)
+                print(group_name, in_group )
 
                 if in_group:
                     # Kullanıcıyı gruba ekle
@@ -89,3 +90,20 @@ def set_user_operations(request):
             return JsonResponse({"error": f"Kullanıcı '{username}' bulunamadı."}, status=404)
 
     return JsonResponse({'message': 'Veriler kaydedildi.'}, status=200)
+
+
+
+
+def check_user_groups(request):
+    # Örnek olarak 'current_user'ı alın. Gerçek uygulamada request'ten alabilirsiniz.
+    current_user = request.user  # veya User.objects.get(username='kullanıcı_adı')
+
+    # Kontrol edilecek grupların listesi
+    group_names = ["user_history", "user_operations", "parcel_edits", "analysis"]
+
+    # Kullanıcının grup üyeliklerini kontrol edin
+    user_groups = current_user.groups.values_list('name', flat=True)
+    group_membership = {group_name: (group_name in user_groups) for group_name in group_names}
+
+    # Sonucu JSON olarak döndür
+    return JsonResponse(group_membership)
