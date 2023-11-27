@@ -267,7 +267,7 @@
             table_body.innerHTML = "";
             var table_html = "";
 
-
+            console.log(data);
         
 
 
@@ -338,9 +338,7 @@
 
         <td class="px-6 py-4 text-lg">
             <div class="flex items-center me-4 group-checkbox disabled-div" style="gap: 10px;">
-
-                <label for="number-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select a number:</label>
-                <input ${analysis_statu} type="number" id="number-input" aria-describedby="helper-text-explanation" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="90210" required>
+                <input value="${data[i].waiting_count}" ${analysis_statu} type="number" id="number-waiting-${i}" aria-describedby="helper-text-explanation" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
             
             </div>
         </td>
@@ -367,6 +365,7 @@
             var i = 0;
 
             var user_data = {};
+            var waiting_data = {};
 
             while (1) {
 
@@ -383,14 +382,20 @@
                         analysis: analysis,
                     }
 
+                    // Waiting Num.
+                    var user_waiting_num = document.getElementById(`number-waiting-${i}`).value;
+                    waiting_data[username] = user_waiting_num;
+                    
+
                     i++;
                 }
 
                 catch ({ name, message }) {
                     console.log(name); // "TypeError"
                     console.log(message); // "oops"
+                    break;
                 }
-                finally {
+                // finally {
 
                     fetch('/set-users-groups/', {
                         method: 'POST',
@@ -410,8 +415,33 @@
                         .catch(error => {
                             console.error('Hata:', error);
                         });
-                    break;
-                }
+
+
+
+                        // Waitng-Post
+                        fetch('/set-users-waiting-count/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': csrfToken, // Django CSRF koruma token'ı
+                        },
+                        body: JSON.stringify({
+                            waiting_data: waiting_data
+                        }), // formData nesnesini JSON'a dönüştürdüğünüzü varsayalım
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log(data);
+
+                            // showAndHideToast();
+                        })
+                        .catch(error => {
+                            console.error('Hata:', error);
+                        });
+
+
+                    // break;
+                // }
 
 
 

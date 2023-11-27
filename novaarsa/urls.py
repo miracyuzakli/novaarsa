@@ -28,8 +28,10 @@ from app.views import (
     users_views,
     user_groups,
     set_user_operations,
-    check_user_groups
-
+    check_user_groups,
+    set_waiting_counter,
+get_current_user_waiting_count,
+set_user_parcel_waiting_permit
 
 )
 from rest_framework.routers import DefaultRouter
@@ -89,8 +91,14 @@ urlpatterns = [
     path("users/", users_views, name="users_views"),
     path("get-users-groups/", user_groups),
     path("set-users-groups/", set_user_operations),
+    path("set-users-waiting-count/", set_waiting_counter),
     path("get-current-user-groups/", check_user_groups),
+    path('get-current-user-waiting-count/', get_current_user_waiting_count),
+    path('set-user-parcel-waiting-permit/', set_user_parcel_waiting_permit),
+
+
     
+
 
 
 

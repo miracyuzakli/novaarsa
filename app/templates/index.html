@@ -470,20 +470,19 @@
 
 <script>
 
+const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
-    
+    document.addEventListener("DOMContentLoaded", () => {
 
-document.addEventListener("DOMContentLoaded", () => {
+        getParcels(current_parcel);
 
-    getParcels(current_parcel);
+    });
 
-});
-
-    var parcel_waiting_value = 2;
+    // var parcel_waiting_value = 1;
     var current_parcel_price = 1;
     var current_parcel = "ŞAHİNLİ";
 
-    function showModal(ada, parsel, m2, parcel_id) {
+    function showModal(parsel_no, il, ilce, ada, parsel, m2, parcel_id) {
         document.getElementById('modal').classList.remove('hidden');
 
         var pacel_id_cont = document.getElementById('parcel_id');
@@ -509,13 +508,14 @@ document.addEventListener("DOMContentLoaded", () => {
         var formattedDate = today.getFullYear() + '-' + (today.getMonth() + 1).toString().padStart(2, '0') + '-' + today.getDate().toString().padStart(2, '0');
 
         // Input elementinin value özelliğine atama yap
+        document.getElementById('project_name').value = `${parsel_no} ${il} ${ilce}`;
         document.getElementById('satis_tarihi').value = formattedDate;
         document.getElementById('odeme_tarihi').value = formattedDate;
         document.getElementById('pesinat_tarihi').value = formattedDate;
 
         document.getElementById('m2_birim_fiyati').value = current_parcel_price;
 
-
+        document.getElementById('aciklama_bigisi').value = 'Ek Bilgiler';
 
     }
 
@@ -533,6 +533,39 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 
+
+    function set_user_parcel_waiting_permit(parsel_id, il, ilce) {
+
+        console.log('{{ current_user.first_name }} {{ current_user.last_name }}', );
+
+
+
+
+        fetch('/set-user-parcel-waiting-permit/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken, // Django CSRF koruma token'ı
+            },
+            body: JSON.stringify({
+            name: '{{ current_user.first_name }} {{ current_user.last_name }}',
+            parsel_data: `${parsel_id} ${il} ${ilce}`
+        }), // formData nesnesini JSON'a dönüştürdüğünüzü varsayalım
+        })
+            .then(response => response.json())
+            .then(data => {
+
+               
+
+
+            })
+            .catch(error => {
+                console.error('Hata:', error);
+            });
+
+
+
+    }
 
 
 
@@ -555,94 +588,109 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
+    async function createParcel(data) {
+        try {
 
-    function createParcel(data) {
+            const response = await fetch('/get-current-user-waiting-count/'); // API'nizin URL'sini buraya ekleyin
+            const responseData = await response.json();
+            var parcel_waiting_value = parseInt(responseData.waiting_count);
 
-        console.log(data);
+            var table_body = document.getElementById('table-body');
+            table_body.innerHTML = "";
+            var table_html = "";
 
-        var table_body = document.getElementById('table-body');
-        table_body.innerHTML = "";
-        var table_html = "";
+            var pacel_id_cont = document.getElementById('parcel_id');
 
-        var pacel_id_cont = document.getElementById('parcel_id');
+            var parcel_waiting_count = 0;
 
-        var parcel_waiting_count = 0;
-
-
-        for (let i = 0; i < Object.keys(data).length; i++) {
-            if (data[i].bekleten_kullanici == "{{ current_user.first_name }} {{ current_user.last_name }}") {
-                parcel_waiting_count++;
-            }
-        }
-
-        if (parcel_waiting_count >= parcel_waiting_value) {
-                var all_waiting_parcel = "user-not-selecting";
-
-            } else {
-                var all_waiting_parcel = "";
-
+            for (let i = 0; i < Object.keys(data).length; i++) {
+                if (data[i].bekleten_kullanici == "{{ current_user.first_name }} {{ current_user.last_name }}") {
+                    parcel_waiting_count++;
+                }
             }
 
-        for (let i = 0; i < Object.keys(data).length; i++) {
+            var all_waiting_parcel = parcel_waiting_count >= parcel_waiting_value ? "user-not-selecting" : "";
 
 
-           
+
+console.log(data);
 
 
-            var user_id = data[i].user_id;
-
-            if (user_id == "None" || user_id == JSON.parse(" {{ current_user.id }}")) {
-                var user_select = "";
-
-            } else {
-                var user_select = "user-not-selecting";
-            }
-
-            var parcel_m2 = parseInt(data[i].m2_net);
-
-            pacel_id_cont.value = `${data[i].id}`;
-
-            if (data[i].durum == "uygun") {
-                var icon_color = "#057A55";
-
-                var current_user_not_procces_parcel = "";
-                var current_user_not_procces_waiting_time = "";
+            for (let i = 0; i < Object.keys(data).length; i++) {
 
 
-            } else if (data[i].durum == "beklemede") {
-                var icon_color = "#E3A008";
-                var current_user_not_procces_parcel = "user-not-selecting";
-                var current_user_not_procces_waiting_time = "user-not-selecting";
 
 
-            } else if (data[i].durum == "onaylandi") {
-                var icon_color = "#C81E1E";
-                var current_user_not_procces_parcel = "user-not-selecting";
-                var current_user_not_procces_waiting_time = "user-not-selecting";
+                var user_id = data[i].user_id;
+
+                if (user_id == "None" || user_id == JSON.parse(" {{ current_user.id }}")) {
+                    var user_select = "";
+
+                } else {
+                    var user_select = "user-not-selecting";
+                }
+
+                var parcel_m2 = parseInt(data[i].m2_net);
+
+                pacel_id_cont.value = `${data[i].id}`;
+
+                if (data[i].durum == "uygun") {
+                    var icon_color = "#057A55";
+
+                    var current_user_not_procces_parcel = "";
+                    var current_user_not_procces_waiting_time = "";
 
 
-            } else if (data[i].durum == "kısa_bekleme") {
-                var icon_color = "blue";
-                var current_user_not_procces_parcel = "user-not-selecting";
-                var current_user_not_procces_waiting_time = "";
+                } else if (data[i].durum == "beklemede") {
+                    var icon_color = "#E3A008";
+                    var current_user_not_procces_parcel = "user-not-selecting";
+                    var current_user_not_procces_waiting_time = "user-not-selecting";
 
-            }
 
-            if (data[i].bekleten_kullanici == "None") {
-                var waiting_html = `
+                } else if (data[i].durum == "onaylandi") {
+                    var icon_color = "#C81E1E";
+                    var current_user_not_procces_parcel = "user-not-selecting";
+                    var current_user_not_procces_waiting_time = "user-not-selecting";
+
+
+                } else if (data[i].durum == "kısa_bekleme") {
+                    var icon_color = "blue";
+                    var current_user_not_procces_parcel = "user-not-selecting";
+                    var current_user_not_procces_waiting_time = "";
+
+                }
+
+
+                console.log(user_select);
+                if (data[i].bekleten_kullanici == "None") {
+
+
+                    var waiting_html = `
                 <a  onclick="parcel_waiting(${data[i].id})" class="font-medium text-blue-600 dark:text-blue-500 hover:underline ${current_user_not_procces_waiting_time} ${all_waiting_parcel}">
                     <span class="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-3 py-1.5 rounded dark:bg-yellow-900 dark:text-yellow-300">Beklemeye Al</span>
                 </a>`;
-            } else {
-                var waiting_html = `
+
+                    if (!all_waiting_parcel == '') {
+
+                        var waiting_html = `
+                <a  onclick="set_user_parcel_waiting_permit('${data[i].parsel}', '${data[i].il}', '${data[i].ilce}' )" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                    <span class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-3 py-1.5 rounded dark:bg-gray-700 dark:text-gray-300">İzin iste</span>
+
+                </a>`;
+                    }
+                  
+
+
+
+                } else {
+                    var waiting_html = `
                 <a  onclick="parcel_waiting_remove(${data[i].id})" class="font-medium text-blue-600 dark:text-blue-500 hover:underline ${current_user_not_procces_waiting_time}">
                     <span class="bg-red-100 text-red-800 text-xs font-medium mr-2 px-3 py-1.5 rounded dark:bg-red-900 dark:text-red-300">Durdur</span>
                 </a>`;
-            }
+                }
 
 
-
-            var html = `
+                var html = `
             <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700 ${user_select}">
                 
                 <td class="px-6 py-4  text-lg">
@@ -691,18 +739,20 @@ document.addEventListener("DOMContentLoaded", () => {
                </td>
                 <td class="px-6 py-4 text-lg ${current_user_not_procces_parcel}">
                    
-                    <a onclick="showModal( ${data[i].ada}, ${data[i].parsel}, ${parcel_m2}, ${data[i].id})" class="font-medium text-blue-600 dark:text-blue-500 hover:underline"><span class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-3 py-1.5 rounded dark:bg-green-900 dark:text-green-300">Seç</span>
+                    <a onclick="showModal('${data[i].parsel}', '${data[i].il}', '${data[i].ilce}', ${data[i].ada}, ${data[i].parsel}, ${parcel_m2}, ${data[i].id})" class="font-medium text-blue-600 dark:text-blue-500 hover:underline"><span class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-3 py-1.5 rounded dark:bg-green-900 dark:text-green-300">Seç</span>
                     </a>
                 </td>
             </tr>
                         
                         `;
-            table_html += html;
+                table_html += html;
 
+            }
+
+            table_body.innerHTML = table_html;
+        } catch (error) {
+            console.error('Hata:', error);
         }
-
-        table_body.innerHTML = table_html;
-
 
 
     }
@@ -714,10 +764,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function getParcels(mevki) {
 
+
+
         fetch(`/parcels/?mevki=${mevki}`)  // API'nizin URL'sini buraya ekleyin
             .then(response => response.json())
             .then(data => {
                 // Verileri başarılı bir şekilde aldık ve konsolda yazdırıyoruz
+
+
+
                 current_parcel = mevki;
                 getParcelPrice();
                 createParcel(data);
@@ -774,12 +829,12 @@ document.addEventListener("DOMContentLoaded", () => {
             firma_ad_soyad: document.getElementById('firma_ad_soyad').value,
             TC_vergi_no: document.getElementById('TC_vergi_no').value,
             adres1: document.getElementById('adres1').value,
-            adres2: document.getElementById('adres2').value,
+            // adres2: document.getElementById('adres2').value,
             eposta: document.getElementById('eposta').value,
             telefon_no: document.getElementById('telefon_no').value,
             meslek_bilgisi: document.getElementById('meslek_bilgisi').value,
-            ulasamadigi_durumda_aranacak_kisi: document.getElementById('ulasamadigi_durumda_aranacak_kisi').value,
-            ulasamadigi_durumda_aranacak_kisi_telefon_no: document.getElementById('ulasamadigi_durumda_aranacak_kisi_telefon_no').value,
+            // ulasamadigi_durumda_aranacak_kisi: document.getElementById('ulasamadigi_durumda_aranacak_kisi').value,
+            // ulasamadigi_durumda_aranacak_kisi_telefon_no: document.getElementById('ulasamadigi_durumda_aranacak_kisi_telefon_no').value,
             satis_fiyati: document.getElementById('satis_fiyati').value,
             on_odeme_tutari: document.getElementById('on_odeme_tutari').value,
             odeme_tarihi: document.getElementById('odeme_tarihi').value,
@@ -923,7 +978,7 @@ document.addEventListener("DOMContentLoaded", () => {
             })
             .then(data => {
 
-                console.log(data);
+                // console.log(data);
                 if (Object.keys(data).length > 0) {
                     current_parcel_price = parseInt(data[0].fiyat);
 
@@ -942,7 +997,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     function getParcelWaiting() {
-        
+
     }
 
 

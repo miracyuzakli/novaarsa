@@ -7,6 +7,8 @@ from django.http import JsonResponse
 from django.contrib.auth.decorators import user_passes_test
 import json
 from django.views.decorators.http import require_http_methods
+from ..models import ParcelWaiting
+from django.db.models import Sum
 
 
 # Erişim kontrolü fonksiyonu
@@ -40,15 +42,20 @@ def user_groups(request):
     user_data = []
 
     for user in users:
+        # Kullanıcının grup bilgilerini al
         user_groups = user.groups.all()
         groups_data = {group.name: group.name in (g.name for g in user_groups) for group in Group.objects.all()}
         
+        # Kullanıcının bekleyen parsel sayısını al
+        waiting_count = ParcelWaiting.objects.filter(user=user).aggregate(Sum('parcel_waiting'))['parcel_waiting__sum'] or 0
+
         if not user.username == 'admin':
             user_data.append({
                 'username': user.username,
                 'firstname': user.first_name,
                 'lastname': user.last_name,
-                'groups': groups_data
+                'groups': groups_data,
+                'waiting_count': waiting_count  # Bekleyen parsel sayısını ekle
             })
 
     return JsonResponse({'users': user_data})
@@ -76,7 +83,7 @@ def set_user_operations(request):
             # Her grup ve izin için
             for group_name, in_group in permissions.items():
                 group, _ = Group.objects.get_or_create(name=group_name)
-                print(group_name, in_group )
+                # print(group_name, in_group )
 
                 if in_group:
                     # Kullanıcıyı gruba ekle
@@ -107,3 +114,53 @@ def check_user_groups(request):
 
     # Sonucu JSON olarak döndür
     return JsonResponse(group_membership)
+
+
+@login_required
+@user_passes_test(is_user_operations)
+@require_http_methods(["POST"])  # Sadece POST isteklerini kabul eder
+def set_waiting_counter(request):
+    data = json.loads(request.body.decode("utf-8"))
+
+    waiting_data = data.get('waiting_data')
+    if not waiting_data:
+        return JsonResponse({"error": "Geçersiz veri yapısı."}, status=400)
+
+    for username, waiting_count in waiting_data.items():
+        print(username, waiting_count)
+        try:
+            user = User.objects.get(username=username.strip())
+            parcel_waiting, created = ParcelWaiting.objects.get_or_create(user=user)
+            parcel_waiting.parcel_waiting = waiting_count
+            parcel_waiting.save()
+        except User.DoesNotExist:
+            continue  # Kullanıcı bulunamazsa, döngüdeki sonraki kullanıcıya geç
+
+    return JsonResponse({'message': 'Veriler kaydedildi.'}, status=200)
+
+
+
+
+@login_required
+@user_passes_test(is_user_operations)
+def get_current_user_waiting_count(request):
+    user = request.user
+    parcel_waiting = ParcelWaiting.objects.filter(user=user).first()
+
+    waiting_count = parcel_waiting.parcel_waiting if parcel_waiting else 0
+
+    return JsonResponse({'waiting_count': waiting_count})
+
+
+
+
+@login_required
+@user_passes_test(is_user_operations)
+@require_http_methods(["POST"])  # Sadece POST isteklerini kabul eder
+def set_user_parcel_waiting_permit(request):
+    data = json.loads(request.body.decode("utf-8"))
+
+    print(data)
+
+
+    return JsonResponse({'message': 'Succes.'}, status=200)
