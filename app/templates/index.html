@@ -829,6 +829,42 @@ console.log(data);
             firma_ad_soyad: document.getElementById('firma_ad_soyad').value,
             TC_vergi_no: document.getElementById('TC_vergi_no').value,
             adres1: document.getElementById('adres1').value,
+            adres2: document.getElementById('adres2').value,
+            eposta: document.getElementById('eposta').value,
+            telefon_no: document.getElementById('telefon_no').value,
+            meslek_bilgisi: document.getElementById('meslek_bilgisi').value,
+            ulasamadigi_durumda_aranacak_kisi: document.getElementById('ulasamadigi_durumda_aranacak_kisi').value,
+            ulasamadigi_durumda_aranacak_kisi_telefon_no: document.getElementById('ulasamadigi_durumda_aranacak_kisi_telefon_no').value,
+            satis_fiyati: document.getElementById('satis_fiyati').value,
+            on_odeme_tutari: document.getElementById('on_odeme_tutari').value,
+            odeme_tarihi: document.getElementById('odeme_tarihi').value,
+            pesin_odeme: document.getElementById('pesin_odeme').checked,
+            banka_odeme: document.getElementById('banka_odeme').checked,
+            vadeli_odeme: document.getElementById('vadeli_odeme').checked,
+            pesinat_tutari: document.getElementById('pesinat_tutari').value,
+            pesinat_tarihi: document.getElementById('pesinat_tarihi').value,
+            m2_birim_fiyati: document.getElementById('m2_birim_fiyati').value,
+            aciklama_bigisi: document.getElementById('aciklama_bigisi').value,
+            ek_bilgiler: document.getElementById('ek_bilgiler').value,
+            parsel_id: document.getElementById('parcel_id').value
+
+        };
+
+
+
+        // Formdaki verileri topla
+        const check_data = {
+            project_name: document.getElementById('project_name').value,
+            satis_danismani: document.getElementById('satis_danismani').value,
+            satis_tarihi: document.getElementById('satis_tarihi').value,
+            referans: document.getElementById('referans').value,
+            ada: document.getElementById('ada').value,
+            parcel_no: document.getElementById('parcel').value,
+            m2_bilgisi: document.getElementById('m2_bilgisi').value,
+            hisse_adedi: document.getElementById('hisse_adedi').value,
+            firma_ad_soyad: document.getElementById('firma_ad_soyad').value,
+            TC_vergi_no: document.getElementById('TC_vergi_no').value,
+            adres1: document.getElementById('adres1').value,
             // adres2: document.getElementById('adres2').value,
             eposta: document.getElementById('eposta').value,
             telefon_no: document.getElementById('telefon_no').value,
@@ -856,9 +892,9 @@ console.log(data);
         // Tüm değerlerin dolu olup olmadığını kontrol et
         let isFormDataValid = true;
 
-        for (const key in formData) {
-            if (formData.hasOwnProperty(key)) {
-                const value = formData[key];
+        for (const key in check_data) {
+            if (check_data.hasOwnProperty(key)) {
+                const value = check_data[key];
                 const inputElement = document.getElementById(key);
                 if (typeof value === 'string' && value.trim() === '') {
                     isFormDataValid = false;

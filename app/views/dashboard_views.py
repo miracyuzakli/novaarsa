@@ -231,9 +231,37 @@ def edit_form_data(request):
         return JsonResponse({'error': 'Yalnızca POST istekleri kabul edilir.'}, status=405)
     
 
+
+
+
+
+
+
+
+
+
+
+
+
+from docx.shared import Pt
+
+def replace_text_in_cell(cell, replacements):
+    for paragraph in cell.paragraphs:
+        for run in paragraph.runs:
+            for old_text, new_text in replacements.items():
+                if old_text in run.text:
+                    run.text = run.text.replace(old_text, new_text)
+
+
+
+
+
+
+
 from django.http import FileResponse
 from io import BytesIO
 import io
+from docx.shared import Pt  # Pt fonksiyonunu içe aktarın
 
 @csrf_protect
 def download_form_data_docx(request):
@@ -295,15 +323,19 @@ def download_form_data_docx(request):
                 'ekler_bilgisi': satis_takip.ek_bilgiler,
             }
 
+            # # Tablo içinde döngü ile dolaşarak metinleri değiştirin
+            # for satir in tablo.rows:
+            #     for hucre in satir.cells:
+            #         hucre_metni = hucre.text
+            #         for eski_metin, yeni_metin in metin_degisiklikleri.items():
+            #             hucre_metni = hucre_metni.replace(eski_metin, yeni_metin)
+            #         hucre.text = hucre_metni
+
             # Tablo içinde döngü ile dolaşarak metinleri değiştirin
             for satir in tablo.rows:
                 for hucre in satir.cells:
-                    hucre_metni = hucre.text
-                    for eski_metin, yeni_metin in metin_degisiklikleri.items():
-                        hucre_metni = hucre_metni.replace(eski_metin, yeni_metin)
-                    hucre.text = hucre_metni
+                    replace_text_in_cell(hucre, metin_degisiklikleri)
 
-            
 
 
             docx_bytes = io.BytesIO()
