@@ -7,6 +7,8 @@ from app.views import (
     get_users,
     ParcelViewSet,
     ParcelPricingFilterView,
+    get_parcel_mevki,
+
     parcel_waiting,
     parcel_waiting_remove,
     save_form_data,
@@ -63,6 +65,7 @@ urlpatterns = [
     path("set-parcel-waiting-remove/", parcel_waiting_remove, name="set_parcel_waiting_remove"),
 
     path("get-sales-tracking-form-data/", get_sales_tracking_form_data),
+    path('get-parcel-mevki/', get_parcel_mevki, name='get_parcel_mevki'),
 
 
     path("save-form-data/", save_form_data, name="save_form_data"),

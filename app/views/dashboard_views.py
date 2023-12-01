@@ -280,15 +280,15 @@ def download_form_data_docx(request):
 
             if (satis_takip.odeme_turu == "pesin"):
                 pesin_ = "Peşin"
-                banka_ = ""
-                vadeli_ = ""
+                banka_ = " "
+                vadeli_ = " "
             elif (satis_takip.odeme_turu == "banka"):
-                pesin_ = ""
+                pesin_ = " "
                 banka_ = "Banka"
-                vadeli_ = ""
+                vadeli_ = " "
             elif (satis_takip.odeme_turu == "vadeli"):
-                pesin_ = ""
-                banka_ = ""
+                pesin_ = " "
+                banka_ = " "
                 vadeli_ = "Vadeli"
 
             # Değiştirme işlemleri için eski metinleri ve yeni metinleri içeren bir sözlük oluşturun
@@ -309,8 +309,8 @@ def download_form_data_docx(request):
                 'telefon_no_bilgisi':  satis_takip.telefon_no,
                 'meslek_bilgisi':  satis_takip.meslek_bilgisi,
                 'ulasilmadiginda_aranacak_kisi': satis_takip.ulasamadigi_durumda_aranacak_kisi,
-                'ulasilmadiginda_aranacak_kisi_numarasi':  satis_takip.ulasamadigi_durumda_aranacak_kisi_telefon_no,
-                'satis_tarihi_bilgisi':  satis_takip.satis_fiyati,
+                'aran_ksi_n_o_nulas':  satis_takip.ulasamadigi_durumda_aranacak_kisi_telefon_no,
+                'sat_tar_bil':  satis_takip.satis_fiyati,
                 'on_odem_bilgisi': satis_takip.on_odeme_tutari,
                 'on_odeme_tarihi': satis_takip.odeme_tarihi.strftime('%Y-%m-%d'),
                 'peşinat_tutari_bilgisi': satis_takip.pesinat_tutari,
