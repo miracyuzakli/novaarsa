@@ -105,3 +105,131 @@ def add_parcel_data(request):
             return JsonResponse({'error': 'Geçersiz JSON formatı.'}, status=400)
     else:
         return JsonResponse({'error': 'Yalnızca POST istekleri kabul edilir.'}, status=405)
+
+
+
+
+
+
+from django.http import JsonResponse
+import pandas as pd
+from ..models import Parcel
+
+# def parcel_upload_file_view(request):
+#     if request.method == 'POST':
+#         excel_file = request.FILES.get('file')
+
+#         # Excel veya CSV dosyasını okuyun
+#         if excel_file.name.endswith('.xlsx'):
+#             df = pd.read_excel(excel_file)
+#         elif excel_file.name.endswith('.csv'):
+#             df = pd.read_csv(excel_file)
+#         else:
+#             return JsonResponse({'error': 'Geçersiz dosya formatı'}, status=400)
+        
+#         print(df)
+
+#         # temp_columns = ["İL",	"İLÇE",	"MEVKİ"	,"ADA"	,"PARSEL"	,"M2 NET"	,"FİYAT"]
+#         # if df.columns.value == temp_columns:
+#         for _, row in df.iterrows():
+#             # Formdan gelen verileri al
+#             il = row['İL']
+#             ilce = row['İLÇE']
+#             mevki = row['MEVKİ']
+#             ada = row['ADA']
+#             parsel = row['PARSEL']
+#             m2_net =row['M2 NET']
+#             fiyat = row['FİYAT']
+#             durum =  'uygun' 
+#             user_id = 'None'
+#             bekleme_suresi_baslangic = None
+#             bekleme_suresi_bitisi =  None
+#             bekleten_kullanici = 'None'
+
+#             # Veriyi veritabanına kaydet
+#             new_parcel = Parcel(
+#                 il=il,
+#                 ilce=ilce,
+#                 mevki=mevki,
+#                 ada=ada,
+#                 parsel=parsel,
+#                 m2_net=m2_net,
+#                 fiyat=fiyat,
+#                 durum=durum,
+#                 user_id=user_id,
+#                 bekleme_suresi_baslangic=bekleme_suresi_baslangic,
+#                 bekleme_suresi_bitisi=bekleme_suresi_bitisi,
+#                 bekleten_kullanici=bekleten_kullanici
+#             )
+#             new_parcel.save()
+#             print(row)
+
+#         return JsonResponse({'message': 'Dosya başarıyla işlendi'})
+
+#     return JsonResponse({'error': 'Geçersiz istek'}, status=400)
+
+
+
+
+
+
+from django.http import JsonResponse
+import pandas as pd
+import traceback
+
+
+def parcel_upload_file_view(request):
+    if request.method == 'POST':
+        excel_file = request.FILES.get('file')
+
+        try:
+            if excel_file.name.endswith('.csv'):
+                df = pd.read_csv(excel_file)
+            else:
+                return JsonResponse({'error': 'Geçersiz dosya formatı'}, status=400)
+            
+            temp_columns = ["İL",	"İLÇE",	"MEVKİ"	,"ADA"	,"PARSEL"	,"M2 NET"	,"FİYAT"]
+            if list(df) == temp_columns:
+
+                for _, row in df.iterrows():
+                # Formdan gelen verileri al
+                    il = row['İL']
+                    ilce = row['İLÇE']
+                    mevki = row['MEVKİ']
+                    ada = row['ADA']
+                    parsel = row['PARSEL']
+                    m2_net =row['M2 NET']
+                    fiyat = row['FİYAT']
+                    durum =  'uygun' 
+                    user_id = 'None'
+                    bekleme_suresi_baslangic = None
+                    bekleme_suresi_bitisi =  None
+                    bekleten_kullanici = 'None'
+
+                    # Veriyi veritabanına kaydet
+                    new_parcel = Parcel(
+                        il=il,
+                        ilce=ilce,
+                        mevki=mevki,
+                        ada=ada,
+                        parsel=parsel,
+                        m2_net=m2_net,
+                        fiyat=fiyat,
+                        durum=durum,
+                        user_id=user_id,
+                        bekleme_suresi_baslangic=bekleme_suresi_baslangic,
+                        bekleme_suresi_bitisi=bekleme_suresi_bitisi,
+                        bekleten_kullanici=bekleten_kullanici
+                    )
+                    new_parcel.save()
+
+                return JsonResponse({'message': 'Dosya başarıyla işlendi'})
+            else:
+                return JsonResponse({'message': 'Dosya Formatı uygun değil!!!'})
+
+
+        except Exception as e:
+            traceback.print_exc()  # Hata detaylarını konsola yazdır
+            return JsonResponse({'error': str(e)}, status=500)
+
+    return JsonResponse({'error': 'Geçersiz istek'}, status=400)
