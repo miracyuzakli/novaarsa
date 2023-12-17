@@ -25,7 +25,7 @@ class Migration(migrations.Migration):
                 ('parsel', models.CharField(max_length=255)),
                 ('m2_net', models.CharField(max_length=255)),
                 ('fiyat', models.CharField(max_length=255)),
-                ('durum', models.CharField(default='uygun', max_length=255)),
+                ('durum', models.CharField(max_length=255)),
                 ('user_id', models.CharField(default='None', max_length=255)),
                 ('bekleme_suresi_baslangic', models.DateTimeField(blank=True, null=True)),
                 ('bekleme_suresi_bitisi', models.DateTimeField(blank=True, null=True)),

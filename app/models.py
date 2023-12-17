@@ -33,7 +33,7 @@ class Parcel(models.Model):
     parsel = models.CharField(max_length=255)
     m2_net = models.CharField(max_length=255)
     fiyat = models.CharField(max_length=255)
-    durum = models.CharField(max_length=255, default="uygun")
+    durum = models.CharField(max_length=255)
     user_id = models.CharField(max_length=255, default="None")
     bekleme_suresi_baslangic = models.DateTimeField(null=True, blank=True)
     bekleme_suresi_bitisi = models.DateTimeField(null=True, blank=True)

@@ -200,6 +200,8 @@ def parcel_waiting_remove(request):
 from django.http import JsonResponse
 from django.db.models import Count
 
+
+
 def get_parcel_mevki(request):
     mevki_counts = Parcel.objects.values('mevki', 'il').annotate(count=Count('mevki'))
     results = {index: {'il': item['il'], 'mevki': item['mevki']} for index, item in enumerate(mevki_counts)}

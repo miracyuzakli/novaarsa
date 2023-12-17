@@ -480,7 +480,7 @@ const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
     // var parcel_waiting_value = 1;
     var current_parcel_price = 1;
-    var current_parcel = "ŞAHİNLİ";
+    var current_parcel = "Çamoba";
 
     function showModal(parsel_no, il, ilce, ada, parsel, m2, parcel_id) {
         document.getElementById('modal').classList.remove('hidden');
@@ -651,7 +651,7 @@ console.log(data);
                     var icon_color = "#C81E1E";
                     var current_user_not_procces_parcel = "user-not-selecting";
                     var current_user_not_procces_waiting_time = "user-not-selecting";
-
+                    
 
                 } else if (data[i].durum == "kısa_bekleme") {
                     var icon_color = "blue";
@@ -673,7 +673,7 @@ console.log(data);
                     if (!all_waiting_parcel == '') {
 
                         var waiting_html = `
-                <a  onclick="set_user_parcel_waiting_permit('${data[i].parsel}', '${data[i].il}', '${data[i].ilce}' )" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                <a  onclick="set_user_parcel_waiting_permit('${data[i].parsel}', '${data[i].il}', '${data[i].ilce}' )" class="font-medium text-blue-600 dark:text-blue-500 hover:underline ${current_user_not_procces_parcel}">
                     <span class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-3 py-1.5 rounded dark:bg-gray-700 dark:text-gray-300">İzin iste</span>
 
                 </a>`;

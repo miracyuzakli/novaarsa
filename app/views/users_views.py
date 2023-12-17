@@ -9,7 +9,9 @@ import json
 from django.views.decorators.http import require_http_methods
 from ..models import ParcelWaiting
 from django.db.models import Sum
+from django.core.mail import send_mail
 
+from django.utils.html import strip_tags
 
 # Erişim kontrolü fonksiyonu
 def is_user_operations(user):
@@ -154,6 +156,16 @@ def get_current_user_waiting_count(request):
 
 
 
+
+
+def send_email(email, html_message):
+    subject = 'NOVAARSA PARSEL İZİN'
+    from_email = 'novaarsa.info@gmail.com'
+    to = [email]
+    plain_message = strip_tags(html_message)  # HTML etiketlerini kaldırarak düz metin sürümünü oluşturur
+
+    send_mail(subject, plain_message, from_email, to, html_message=html_message, fail_silently=False)
+
 @login_required
 @user_passes_test(is_user_operations)
 @require_http_methods(["POST"])  # Sadece POST isteklerini kabul eder
@@ -161,6 +173,17 @@ def set_user_parcel_waiting_permit(request):
     data = json.loads(request.body.decode("utf-8"))
 
     print(data)
+    username = data["name"]
+    parcel_name = data["parsel_data"]
+    current_user_mail = request.user.email
+    html_message = f"""
+ <div style="padding: 40px; background-color: #19552b; text-align: center;">
+        <h2 style="color: rgb(255, 255, 255);">{username}</h1>
+            <h2 style="color: rgb(255, 255, 255);">{parcel_name} adlı parsel için izin istiyor</h2>
+            <h2 style="color: rgb(255, 255, 255);"><span style="color: rgb(15, 250, 15);">'Kullanıcı işlemleri'</span> arayüzünden izin verebilirsiniz.</h2>
+    </div>"""
+    send_email(current_user_mail, html_message)
+
 
 
     return JsonResponse({'message': 'Succes.'}, status=200)
