@@ -2,27 +2,27 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
 
-# Grup adını ve isteğe bağlı olarak izinleri belirtin
-group_name = "user_history"
-group, created = Group.objects.get_or_create(name=group_name)
-if created:
-    print(f"Grup '{group_name}' başarıyla oluşturuldu.")
+# # Grup adını ve isteğe bağlı olarak izinleri belirtin
+# group_name = "user_history"
+# group, created = Group.objects.get_or_create(name=group_name)
+# if created:
+#     print(f"Grup '{group_name}' başarıyla oluşturuldu.")
 
-# Grup adını ve isteğe bağlı olarak izinleri belirtin
-group_name = "user_operations"
-group, created = Group.objects.get_or_create(name=group_name)
-if created:
-    print(f"Grup '{group_name}' başarıyla oluşturuldu.")
+# # Grup adını ve isteğe bağlı olarak izinleri belirtin
+# group_name = "user_operations"
+# group, created = Group.objects.get_or_create(name=group_name)
+# if created:
+#     print(f"Grup '{group_name}' başarıyla oluşturuldu.")
 
-group_name = "parcel_edits"
-group, created = Group.objects.get_or_create(name=group_name)
-if created:
-    print(f"Grup '{group_name}' başarıyla oluşturuldu.")
+# group_name = "parcel_edits"
+# group, created = Group.objects.get_or_create(name=group_name)
+# if created:
+#     print(f"Grup '{group_name}' başarıyla oluşturuldu.")
 
-group_name = "analysis"
-group, created = Group.objects.get_or_create(name=group_name)
-if created:
-    print(f"Grup '{group_name}' başarıyla oluşturuldu.")
+# group_name = "analysis"
+# group, created = Group.objects.get_or_create(name=group_name)
+# if created:
+#     print(f"Grup '{group_name}' başarıyla oluşturuldu.")
 
 
 class Parcel(models.Model):
@@ -103,5 +103,6 @@ class ParcelPricing(models.Model):
 
 
 class ParcelWaiting(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, unique=True, on_delete=models.CASCADE)
     parcel_waiting = models.IntegerField(default=2)
+
