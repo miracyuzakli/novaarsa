@@ -470,7 +470,24 @@
 
 <script>
 
-const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+function formatCurrency(value) {
+    // Önce string'i sayıya çevir
+    let number = parseInt(value, 10);
+
+    // Binler basamağını bul ve bu değeri formatla
+    let thousands = Math.floor(number / 1000);
+    let remainder = number % 1000;
+
+    // Formatlı string'i oluştur
+    return `${thousands}.${remainder}`;
+}
+
+let formattedValue = formatCurrency("1575000");
+console.log(formattedValue); // "157 bin 500" yazdırır
+
+
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
     document.addEventListener("DOMContentLoaded", () => {
 
@@ -480,7 +497,7 @@ const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
     // var parcel_waiting_value = 1;
     var current_parcel_price = 1;
-    var current_parcel = "Çamoba";
+    var current_parcel = "BURSA İZNİK";
 
     function showModal(parsel_no, il, ilce, ada, parsel, m2, parcel_id) {
         document.getElementById('modal').classList.remove('hidden');
@@ -515,7 +532,7 @@ const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
         document.getElementById('m2_birim_fiyati').value = current_parcel_price;
 
-        document.getElementById('aciklama_bigisi').value = 'Ek Bilgiler';
+        document.getElementById('aciklama_bigisi').value = 'Açıkalma Bilgisi';
 
     }
 
@@ -536,7 +553,7 @@ const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
     function set_user_parcel_waiting_permit(parsel_id, il, ilce) {
 
-        console.log('{{ current_user.first_name }} {{ current_user.last_name }}', );
+        console.log('{{ current_user.first_name }} {{ current_user.last_name }}',);
 
 
 
@@ -548,14 +565,14 @@ const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
                 'X-CSRFToken': csrfToken, // Django CSRF koruma token'ı
             },
             body: JSON.stringify({
-            name: '{{ current_user.first_name }} {{ current_user.last_name }}',
-            parsel_data: `${parsel_id} ${il} ${ilce}`
-        }), // formData nesnesini JSON'a dönüştürdüğünüzü varsayalım
+                name: '{{ current_user.first_name }} {{ current_user.last_name }}',
+                parsel_data: `${parsel_id} ${il} ${ilce}`
+            }), // formData nesnesini JSON'a dönüştürdüğünüzü varsayalım
         })
             .then(response => response.json())
             .then(data => {
 
-               
+
 
 
             })
@@ -613,7 +630,7 @@ const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
 
 
-console.log(data);
+            console.log(data);
 
 
             for (let i = 0; i < Object.keys(data).length; i++) {
@@ -651,7 +668,7 @@ console.log(data);
                     var icon_color = "#C81E1E";
                     var current_user_not_procces_parcel = "user-not-selecting";
                     var current_user_not_procces_waiting_time = "user-not-selecting";
-                    
+
 
                 } else if (data[i].durum == "kısa_bekleme") {
                     var icon_color = "blue";
@@ -678,7 +695,7 @@ console.log(data);
 
                 </a>`;
                     }
-                  
+
 
 
 
@@ -719,7 +736,7 @@ console.log(data);
                 </td>
 
                 <td class="px-6 py-4 text-lg">
-                    ${data[i].fiyat} TL
+                    ${formatCurrency(data[i].fiyat)} TL
 
                 </td>
                 
@@ -763,15 +780,20 @@ console.log(data);
     // API'den verileri çekmek için fetch kullanımı
 
     function getParcels(mevki) {
+        const url = '/filter-parcels/';
+        const data = { menu_name: mevki };
 
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken,
 
-
-        fetch(`/parcels/?mevki=${mevki}`)  // API'nizin URL'sini buraya ekleyin
+            },
+            body: JSON.stringify(data)
+        })
             .then(response => response.json())
             .then(data => {
-                // Verileri başarılı bir şekilde aldık ve konsolda yazdırıyoruz
-
-
 
                 current_parcel = mevki;
                 getParcelPrice();
@@ -779,29 +801,31 @@ console.log(data);
 
 
             })
-            .catch(error => {
-                // Hata durumunda konsolda hatayı yazdırıyoruz
-                console.error('Hata:', error);
-            });
+            .catch(error => console.error('Error:', error));
 
 
-        if (mevki == "ŞAHİNLİ") {
+  
 
-            document.getElementById('sub-title').innerHTML = "ÇANAKKALE ARMONİ";
+        document.getElementById('sub-title').innerHTML = mevki;
 
-        } else if (mevki == "ORMANKÖY") {
-            document.getElementById('sub-title').innerHTML = "KOCAELİ ORMANKÖY";
 
-        } else if (mevki == "ELBEYLİ") {
-            document.getElementById('sub-title').innerHTML = "İZNİK";
 
-        } else if (mevki == "ÇAMOBA") {
-            document.getElementById('sub-title').innerHTML = "AYVALIK ÇAMOBA";
 
-        } else if (mevki == "YEŞİLYAYLA") {
-            document.getElementById('sub-title').innerHTML = "DÜZCE GÜMÜŞOVA";
 
-        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     }

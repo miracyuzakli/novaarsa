@@ -20,7 +20,8 @@ from app.views import (
     user_history_view,
     get_user_history_data,
     get_sales_tracking_form_data,
-
+    filter_parcels_by_menu_name,
+    
     # Parcel Edits
     parcesl_edits,
     set_parcel_price,
@@ -67,6 +68,7 @@ urlpatterns = [
 
     path("get-sales-tracking-form-data/", get_sales_tracking_form_data),
     path('get-parcel-mevki/', get_parcel_mevki, name='get_parcel_mevki'),
+    path('filter-parcels/', filter_parcels_by_menu_name, name='filter-parcels'),
 
 
     path("save-form-data/", save_form_data, name="save_form_data"),

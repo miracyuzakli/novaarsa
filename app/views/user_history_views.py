@@ -50,8 +50,8 @@ def get_user_history_data(request):
             filter_start_date = data["filter_start_date"]
             filter_end_date = data["filter_end_date"]
             filter_username = data["filter_username"]
-            filter_parcel = data["filter_parcel"]
-           
+            # filter_parcel = data["filter_parcel"]
+            filter_parcel = "all"
             if filter_parcel == "all":
                 matching_parcels = Parcel.objects.all()
             else:

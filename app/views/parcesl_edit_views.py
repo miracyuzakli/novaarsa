@@ -185,11 +185,15 @@ def parcel_upload_file_view(request):
         try:
             if excel_file.name.endswith('.csv'):
                 df = pd.read_csv(excel_file)
+                print(df)
             else:
                 return JsonResponse({'error': 'Geçersiz dosya formatı'}, status=400)
             
-            temp_columns = ["İL",	"İLÇE",	"MEVKİ"	,"ADA"	,"PARSEL"	,"M2 NET"	,"FİYAT"]
-            if list(df) == temp_columns:
+            temp_columns = ["İL",	"İLÇE",	"MEVKİ"	,"ADA"	,"PARSEL"	,"M2 NET"	,"FİYAT", "SATIŞ DURUMU", "MENUNAME"]
+                            # "İL   İLÇE    MEVKİ    ADA  PARSEL  M2 NET    FİYAT SATIŞ DURUMU     MENUNAME"
+            df_columns = list(df)
+            print(df_columns)
+            if df_columns == temp_columns:
 
                 for _, row in df.iterrows():
                 # Formdan gelen verileri al
@@ -200,7 +204,8 @@ def parcel_upload_file_view(request):
                     parsel = row['PARSEL']
                     m2_net =row['M2 NET']
                     fiyat = row['FİYAT']
-                    durum =  'uygun' 
+                    menu_name = row["MENUNAME"]
+                    durum =  row["SATIŞ DURUMU"] 
                     user_id = 'None'
                     bekleme_suresi_baslangic = None
                     bekleme_suresi_bitisi =  None
@@ -216,6 +221,7 @@ def parcel_upload_file_view(request):
                         m2_net=m2_net,
                         fiyat=fiyat,
                         durum=durum,
+                        menu_name = menu_name,
                         user_id=user_id,
                         bekleme_suresi_baslangic=bekleme_suresi_baslangic,
                         bekleme_suresi_bitisi=bekleme_suresi_bitisi,

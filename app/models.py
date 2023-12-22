@@ -2,27 +2,27 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
 
-# # Grup adını ve isteğe bağlı olarak izinleri belirtin
-# group_name = "user_history"
-# group, created = Group.objects.get_or_create(name=group_name)
-# if created:
-#     print(f"Grup '{group_name}' başarıyla oluşturuldu.")
+# Grup adını ve isteğe bağlı olarak izinleri belirtin
+group_name = "user_history"
+group, created = Group.objects.get_or_create(name=group_name)
+if created:
+    print(f"Grup '{group_name}' başarıyla oluşturuldu.")
 
-# # Grup adını ve isteğe bağlı olarak izinleri belirtin
-# group_name = "user_operations"
-# group, created = Group.objects.get_or_create(name=group_name)
-# if created:
-#     print(f"Grup '{group_name}' başarıyla oluşturuldu.")
+# Grup adını ve isteğe bağlı olarak izinleri belirtin
+group_name = "user_operations"
+group, created = Group.objects.get_or_create(name=group_name)
+if created:
+    print(f"Grup '{group_name}' başarıyla oluşturuldu.")
 
-# group_name = "parcel_edits"
-# group, created = Group.objects.get_or_create(name=group_name)
-# if created:
-#     print(f"Grup '{group_name}' başarıyla oluşturuldu.")
+group_name = "parcel_edits"
+group, created = Group.objects.get_or_create(name=group_name)
+if created:
+    print(f"Grup '{group_name}' başarıyla oluşturuldu.")
 
-# group_name = "analysis"
-# group, created = Group.objects.get_or_create(name=group_name)
-# if created:
-#     print(f"Grup '{group_name}' başarıyla oluşturuldu.")
+group_name = "analysis"
+group, created = Group.objects.get_or_create(name=group_name)
+if created:
+    print(f"Grup '{group_name}' başarıyla oluşturuldu.")
 
 
 class Parcel(models.Model):
@@ -34,6 +34,7 @@ class Parcel(models.Model):
     m2_net = models.CharField(max_length=255)
     fiyat = models.CharField(max_length=255)
     durum = models.CharField(max_length=255)
+    menu_name = models.CharField(max_length=255)
     user_id = models.CharField(max_length=255, default="None")
     bekleme_suresi_baslangic = models.DateTimeField(null=True, blank=True)
     bekleme_suresi_bitisi = models.DateTimeField(null=True, blank=True)
@@ -102,7 +103,11 @@ class ParcelPricing(models.Model):
     fiyat = models.CharField(max_length=255, default="1")
 
 
-class ParcelWaiting(models.Model):
-    user = models.ForeignKey(User, unique=True, on_delete=models.CASCADE)
-    parcel_waiting = models.IntegerField(default=2)
+# class ParcelWaiting(models.Model):
+#     user = models.ForeignKey(User, unique=True, on_delete=models.CASCADE)
+#     parcel_waiting = models.IntegerField(default=2)
 
+
+class ParcelWaiting(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    parcel_waiting = models.IntegerField(default=2)

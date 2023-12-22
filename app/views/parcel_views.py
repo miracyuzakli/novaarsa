@@ -33,6 +33,33 @@ class ParcelViewSet(viewsets.ModelViewSet):
 
 
 
+# def filter_parcels_by_menu_name(request):
+#     menu_name = request.GET.get('menu_name')
+
+#     if menu_name:
+#         parcels = Parcel.objects.filter(menu_name=menu_name)
+#     else:
+#         parcels = Parcel.objects.all()
+
+#     serializer = ParcelSerializer(parcels, many=True)
+#     return Response(serializer.data)
+
+# from rest_framework.parsers import JSONParser
+
+from rest_framework.parsers import JSONParser
+
+def filter_parcels_by_menu_name(request):
+    if request.method == 'POST':
+        data = JSONParser().parse(request)
+        menu_name = data.get('menu_name')
+
+        parcels = Parcel.objects.filter(menu_name=menu_name)
+        serializer = ParcelSerializer(parcels, many=True)
+        return JsonResponse(serializer.data, safe=False)
+
+    return JsonResponse({'error': 'Invalid HTTP method'}, status=400)
+
+
 from rest_framework import viewsets
 from rest_framework import filters
 
@@ -202,8 +229,14 @@ from django.db.models import Count
 
 
 
-def get_parcel_mevki(request):
-    mevki_counts = Parcel.objects.values('mevki', 'il').annotate(count=Count('mevki'))
-    results = {index: {'il': item['il'], 'mevki': item['mevki']} for index, item in enumerate(mevki_counts)}
-    return JsonResponse(results)
+# def get_parcel_mevki(request):
+#     mevki_counts = Parcel.objects.values('mevki', 'il').annotate(count=Count('mevki'))
+#     results = {index: {'il': item['il'], 'mevki': item['mevki']} for index, item in enumerate(mevki_counts)}
+#     return JsonResponse(results)
 
+def get_parcel_mevki(request):
+    unique_names = Parcel.objects.values_list('menu_name', flat=True).distinct()
+    return JsonResponse({'unique_menu_names': list(unique_names)})
+
+
+    

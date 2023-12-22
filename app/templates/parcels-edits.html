@@ -122,8 +122,8 @@
                             accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                             style="display: none;" />
                         <button type="button" id="upload-button"
-                        class="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                        Dosya Yükle
+                            class="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            Dosya Yükle
                         </button>
                     </div>
 
@@ -277,7 +277,7 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data["message"] == 'Dosya Formatı uygun değil!!!') {
-                        
+
                         alert("Dosya Formatı uygun değil!!!")
                     } else {
                         showAndHideToast();
@@ -309,16 +309,17 @@
 
 
                 console.log(data)
+                var data_name = data.unique_menu_names;
 
                 var parcel_items = document.getElementById('filter-user-history-parcel');
 
-                for (let i = 0; i < Object.keys(data).length; i++) {
+                for (let i = 0; i < Object.keys(data_name).length; i++) {
 
 
                     // console.log(data[i].mevki)
                     parcel_items.innerHTML += `
 
-        <option value="${data[i].mevki}">${data[i].il} ${data[i].mevki}</option>
+        <option value="${data_name[i]}">${data_name[i]}</option>
 
 
 
@@ -344,44 +345,67 @@
 
 
 
-        var current_parcel = "ŞAHİNLİ";
+        var current_parcel = "BURSA İZNİK";
         var current_parcel_id = 0;
         const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
         function getParcels(mevki) {
 
-            fetch(`/parcels/?mevki=${mevki}`)  // API'nizin URL'sini buraya ekleyin
+
+            const url = '/filter-parcels/';
+            const data = { menu_name: mevki };
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken,
+
+                },
+                body: JSON.stringify(data)
+            })
                 .then(response => response.json())
                 .then(data => {
-                    // Verileri başarılı bir şekilde aldık ve konsolda yazdırıyoruz
+
                     current_parcel = mevki;
                     createParcel(data);
 
 
                 })
-                .catch(error => {
-                    // Hata durumunda konsolda hatayı yazdırıyoruz
-                    console.error('Hata:', error);
-                });
+                .catch(error => console.error('Error:', error));
+
+            // fetch(`/parcels/?mevki=${mevki}`)  // API'nizin URL'sini buraya ekleyin
+            //     .then(response => response.json())
+            //     .then(data => {
+            //         // Verileri başarılı bir şekilde aldık ve konsolda yazdırıyoruz
+            //         current_parcel = mevki;
+            //         createParcel(data);
 
 
-            if (mevki == "ŞAHİNLİ") {
+            //     })
+            //     .catch(error => {
+            //         // Hata durumunda konsolda hatayı yazdırıyoruz
+            //         console.error('Hata:', error);
+            //     });
 
-                document.getElementById('sub-title').innerHTML = "ÇANAKKALE ARMONİ";
 
-            } else if (mevki == "ORMANKÖY") {
-                document.getElementById('sub-title').innerHTML = "KOCAELİ ORMANKÖY";
+            // if (mevki == "ŞAHİNLİ") {
 
-            } else if (mevki == "ELBEYLİ") {
-                document.getElementById('sub-title').innerHTML = "İZNİK";
+            //     document.getElementById('sub-title').innerHTML = "ÇANAKKALE ARMONİ";
 
-            } else if (mevki == "ÇAMOBA") {
-                document.getElementById('sub-title').innerHTML = "AYVALIK ÇAMOBA";
+            // } else if (mevki == "ORMANKÖY") {
+            //     document.getElementById('sub-title').innerHTML = "KOCAELİ ORMANKÖY";
 
-            } else if (mevki == "YEŞİLYAYLA") {
-                document.getElementById('sub-title').innerHTML = "DÜZCE GÜMÜŞOVA";
+            // } else if (mevki == "ELBEYLİ") {
+            //     document.getElementById('sub-title').innerHTML = "İZNİK";
 
-            }
+            // } else if (mevki == "ÇAMOBA") {
+            //     document.getElementById('sub-title').innerHTML = "AYVALIK ÇAMOBA";
+
+            // } else if (mevki == "YEŞİLYAYLA") {
+            //     document.getElementById('sub-title').innerHTML = "DÜZCE GÜMÜŞOVA";
+
+            // }
 
 
         }
@@ -393,6 +417,17 @@
 
 
 
+        function formatCurrency(value) {
+    // Önce string'i sayıya çevir
+    let number = parseInt(value, 10);
+
+    // Binler basamağını bul ve bu değeri formatla
+    let thousands = Math.floor(number / 1000);
+    let remainder = number % 1000;
+
+    // Formatlı string'i oluştur
+    return `${thousands}.${remainder}`;
+}
 
 
 
@@ -468,7 +503,7 @@
         </td>
 
         <td class="px-6 py-4 text-lg">
-            ${data[i].fiyat} TL
+            ${formatCurrency(data[i].fiyat)} TL
 
         </td>
         
@@ -835,7 +870,7 @@
                 .then(response => response.json())  // Yanıtı JSON formatına çevir
                 .then(data => {
                     // İşlemlerin sonucunu kontrol et
-                    
+
                     showAndHideToast();
 
                 })
