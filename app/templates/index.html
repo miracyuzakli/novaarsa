@@ -483,6 +483,10 @@ function formatCurrency(value) {
     return `${thousands}.${remainder}`;
 }
 
+function formatNumber(number) {
+    return new Intl.NumberFormat('tr-TR').format(number);
+}
+
 let formattedValue = formatCurrency("1575000");
 console.log(formattedValue); // "157 bin 500" yazdırır
 
@@ -532,7 +536,7 @@ console.log(formattedValue); // "157 bin 500" yazdırır
 
         document.getElementById('m2_birim_fiyati').value = current_parcel_price;
 
-        document.getElementById('aciklama_bigisi').value = 'Açıkalma Bilgisi';
+        document.getElementById('aciklama_bigisi').value = 'Açıklama Bilgisi';
 
     }
 
@@ -736,7 +740,7 @@ console.log(formattedValue); // "157 bin 500" yazdırır
                 </td>
 
                 <td class="px-6 py-4 text-lg">
-                    ${formatCurrency(data[i].fiyat)} TL
+                    ${formatNumber(data[i].fiyat)} TL
 
                 </td>
                 
