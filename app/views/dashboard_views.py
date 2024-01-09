@@ -159,6 +159,8 @@ def get_sales_tracking_form_data(request):
                 'm2_birim_fiyati': satis_takip.m2_birim_fiyati,
                 'aciklama_bigisi': satis_takip.aciklama_bigisi,
                 'ek_bilgiler': satis_takip.ek_bilgiler,
+                'kampanya_kodu': satis_takip.kampanya_kodu,
+                'musteri_iban': satis_takip.musteri_iban,
             }
 
             return JsonResponse({'data': satis_takip_data, 'message': 'Veriler alındı.'}, status=200)
@@ -321,6 +323,7 @@ def download_form_data_docx(request):
                 'm2_birim_fiyat_bilgisi': satis_takip.m2_birim_fiyati,
                 'Aciklama_bilgisi': satis_takip.aciklama_bigisi,
                 'ekler_bilgisi': satis_takip.ek_bilgiler,
+                'musteri_banka_iban': satis_takip.musteri_iban,
             }
 
             # # Tablo içinde döngü ile dolaşarak metinleri değiştirin
