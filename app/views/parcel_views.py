@@ -131,7 +131,9 @@ def save_form_data(request):
             odeme_turu = odeme_yontemi,
             m2_birim_fiyati=data['m2_birim_fiyati'],
             aciklama_bigisi=data['aciklama_bigisi'],
-            ek_bilgiler=data['ek_bilgiler']
+            ek_bilgiler=data['ek_bilgiler'],
+            musteri_iban=data['musteri_iban'],
+            kampanya_kodu=data['kampanya_kodu']
         )
 
             satis_takip.save()

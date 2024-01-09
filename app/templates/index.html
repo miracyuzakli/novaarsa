@@ -409,7 +409,7 @@
                 </div>
                 <div>
                     <label for="aciklama_bigisi"
-                        class="block mb-2 text-sm font-medium text-gray-900 white:text-white">Açılama</label>
+                        class="block mb-2 text-sm font-medium text-gray-900 white:text-white">Açıklama</label>
                     <input type="text" id="aciklama_bigisi"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500"
                         placeholder="">
@@ -418,6 +418,21 @@
                     <label for="ek_bilgiler"
                         class="block mb-2 text-sm font-medium text-gray-900 white:text-white">Ekler</label>
                     <input type="text" id="ek_bilgiler" value="Kimlik Fotokopisi"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500"
+                        placeholder="">
+                </div>
+
+                <div>
+                    <label for="musteri_iban"
+                        class="block mb-2 text-sm font-medium text-gray-900 white:text-white">Müşteri Banka/Iban </label>
+                    <input type="text" id="musteri_iban"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500"
+                        placeholder="">
+                </div>
+                <div>
+                    <label for="kampanya_kodu"
+                        class="block mb-2 text-sm font-medium text-gray-900 white:text-white">Kampanya Kodu</label>
+                    <input type="text" id="kampanya_kodu" value=""
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500"
                         placeholder="">
                 </div>
@@ -503,7 +518,7 @@ console.log(formattedValue); // "157 bin 500" yazdırır
     var current_parcel_price = 1;
     var current_parcel = "BURSA İZNİK";
 
-    function showModal(parsel_no, il, ilce, ada, parsel, m2, parcel_id) {
+    function showModal(parsel_no, il, ilce, ada, parsel, m2, parcel_id, parcel_name) {
         document.getElementById('modal').classList.remove('hidden');
 
         var pacel_id_cont = document.getElementById('parcel_id');
@@ -529,7 +544,7 @@ console.log(formattedValue); // "157 bin 500" yazdırır
         var formattedDate = today.getFullYear() + '-' + (today.getMonth() + 1).toString().padStart(2, '0') + '-' + today.getDate().toString().padStart(2, '0');
 
         // Input elementinin value özelliğine atama yap
-        document.getElementById('project_name').value = `${parsel_no} ${il} ${ilce}`;
+        document.getElementById('project_name').value = `${parcel_name}`;
         document.getElementById('satis_tarihi').value = formattedDate;
         document.getElementById('odeme_tarihi').value = formattedDate;
         document.getElementById('pesinat_tarihi').value = formattedDate;
@@ -760,7 +775,7 @@ console.log(formattedValue); // "157 bin 500" yazdırır
                </td>
                 <td class="px-6 py-4 text-lg ${current_user_not_procces_parcel}">
                    
-                    <a onclick="showModal('${data[i].parsel}', '${data[i].il}', '${data[i].ilce}', ${data[i].ada}, ${data[i].parsel}, ${parcel_m2}, ${data[i].id})" class="font-medium text-blue-600 dark:text-blue-500 hover:underline"><span class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-3 py-1.5 rounded dark:bg-green-900 dark:text-green-300">Seç</span>
+                    <a onclick="showModal('${data[i].parsel}', '${data[i].il}', '${data[i].ilce}', ${data[i].ada}, ${data[i].parsel}, ${parcel_m2}, ${data[i].id}, '${data[i].menu_name}')" class="font-medium text-blue-600 dark:text-blue-500 hover:underline"><span class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-3 py-1.5 rounded dark:bg-green-900 dark:text-green-300">Seç</span>
                     </a>
                 </td>
             </tr>
@@ -874,8 +889,9 @@ console.log(formattedValue); // "157 bin 500" yazdırır
             m2_birim_fiyati: document.getElementById('m2_birim_fiyati').value,
             aciklama_bigisi: document.getElementById('aciklama_bigisi').value,
             ek_bilgiler: document.getElementById('ek_bilgiler').value,
-            parsel_id: document.getElementById('parcel_id').value
-
+            parsel_id: document.getElementById('parcel_id').value,
+            kampanya_kodu: document.getElementById('kampanya_kodu').value,
+            musteri_iban: document.getElementById('musteri_iban').value
         };
 
 

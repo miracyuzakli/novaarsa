@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
+
 from django.contrib.auth.models import Group
+
 
 # Grup adını ve isteğe bağlı olarak izinleri belirtin
 group_name = "user_history"
@@ -91,6 +93,8 @@ class SatisTakipModel(models.Model):
     m2_birim_fiyati = models.CharField(max_length=255)
     aciklama_bigisi = models.TextField()
     ek_bilgiler = models.CharField(max_length=255)
+    kampanya_kodu = models.CharField(max_length=255)
+    musteri_iban = models.CharField(max_length=255)
 
     def __str__(self):
         return self.project_name
