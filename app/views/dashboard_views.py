@@ -324,6 +324,7 @@ def download_form_data_docx(request):
                 'Aciklama_bilgisi': satis_takip.aciklama_bigisi,
                 'ekler_bilgisi': satis_takip.ek_bilgiler,
                 'musteri_banka_iban': satis_takip.musteri_iban,
+                'kampanya_kodu_bilgisi': satis_takip.kampanya_kodu
             }
 
             # # Tablo içinde döngü ile dolaşarak metinleri değiştirin
