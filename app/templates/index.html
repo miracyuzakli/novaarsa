@@ -199,7 +199,7 @@
 
                 <div>
                     <label for="ada" class="block mb-2 text-sm font-medium text-gray-900 white:text-white">Ada</label>
-                    <input type="text" id="ada"
+                    <input  id="ada"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500"
                         placeholder="Ada" required>
                 </div>
@@ -503,7 +503,6 @@ function formatNumber(number) {
 }
 
 let formattedValue = formatCurrency("1575000");
-console.log(formattedValue); // "157 bin 500" yazdırır
 
 
     const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
@@ -531,8 +530,9 @@ console.log(formattedValue); // "157 bin 500" yazdırır
         var parsel_cont = document.getElementById('parcel');
         var m2_cont = document.getElementById('m2_bilgisi');
 
-
-        ada_cont.value = ada;
+        console.log(`${String(ada)}`);
+        console.log(ada);
+        ada_cont.value = `${String(ada)}`;
         parsel_cont.value = parsel;
         m2_cont.value = m2;
 
@@ -649,12 +649,13 @@ console.log(formattedValue); // "157 bin 500" yazdırır
 
 
 
-            console.log(data);
 
 
             for (let i = 0; i < Object.keys(data).length; i++) {
+                var ada_str = `${String(data[i].ada)}`;
 
 
+                console.log(ada_str);
 
 
                 var user_id = data[i].user_id;
@@ -697,7 +698,6 @@ console.log(formattedValue); // "157 bin 500" yazdırır
                 }
 
 
-                console.log(user_select);
                 if (data[i].bekleten_kullanici == "None") {
 
 
@@ -764,7 +764,7 @@ console.log(formattedValue); // "157 bin 500" yazdırır
 
                 </td>
                 <td class="px-6 py-4 text-lg">
-                    ${data[i].ada}
+                    ${`${data[i].ada}`}
 
                 </td>
                 <td class="px-6 py-4 text-lg ${""}">
@@ -775,7 +775,7 @@ console.log(formattedValue); // "157 bin 500" yazdırır
                </td>
                 <td class="px-6 py-4 text-lg ${current_user_not_procces_parcel}">
                    
-                    <a onclick="showModal('${data[i].parsel}', '${data[i].il}', '${data[i].ilce}', ${data[i].ada}, ${data[i].parsel}, ${parcel_m2}, ${data[i].id}, '${data[i].menu_name}')" class="font-medium text-blue-600 dark:text-blue-500 hover:underline"><span class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-3 py-1.5 rounded dark:bg-green-900 dark:text-green-300">Seç</span>
+                    <a onclick="showModal('${data[i].parsel}', '${data[i].il}', '${data[i].ilce}', '${String(ada_str)}', ${data[i].parsel}, ${parcel_m2}, ${data[i].id}, '${data[i].menu_name}')" class="font-medium text-blue-600 dark:text-blue-500 hover:underline"><span class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-3 py-1.5 rounded dark:bg-green-900 dark:text-green-300">Seç</span>
                     </a>
                 </td>
             </tr>
@@ -865,7 +865,7 @@ console.log(formattedValue); // "157 bin 500" yazdırır
             satis_danismani: document.getElementById('satis_danismani').value,
             satis_tarihi: document.getElementById('satis_tarihi').value,
             referans: document.getElementById('referans').value,
-            ada: document.getElementById('ada').value,
+            ada: `${document.getElementById('ada').value}`,
             parcel_no: document.getElementById('parcel').value,
             m2_bilgisi: document.getElementById('m2_bilgisi').value,
             hisse_adedi: document.getElementById('hisse_adedi').value,
@@ -894,15 +894,13 @@ console.log(formattedValue); // "157 bin 500" yazdırır
             musteri_iban: document.getElementById('musteri_iban').value
         };
 
-
-
         // Formdaki verileri topla
         const check_data = {
             project_name: document.getElementById('project_name').value,
             satis_danismani: document.getElementById('satis_danismani').value,
             satis_tarihi: document.getElementById('satis_tarihi').value,
             referans: document.getElementById('referans').value,
-            ada: document.getElementById('ada').value,
+            ada: `${document.getElementById('ada').value}`,
             parcel_no: document.getElementById('parcel').value,
             m2_bilgisi: document.getElementById('m2_bilgisi').value,
             hisse_adedi: document.getElementById('hisse_adedi').value,
@@ -1005,7 +1003,6 @@ console.log(formattedValue); // "157 bin 500" yazdırır
             .then(data => {
 
                 getParcels(current_parcel);
-                console.log("sdfsd");
 
 
             })
@@ -1058,7 +1055,6 @@ console.log(formattedValue); // "157 bin 500" yazdırır
             })
             .then(data => {
 
-                // console.log(data);
                 if (Object.keys(data).length > 0) {
                     current_parcel_price = parseInt(data[0].fiyat);
 
