@@ -254,7 +254,7 @@
             .then(response => response.json())
             .then(data => {
                 create_table(data.users);
-                console.log(data.users);
+                // console.log(data.users);
             })
             .catch(error => {
                 // Hata durumunda konsolda hatayı yazdırıyoruz
@@ -271,7 +271,7 @@
             table_body.innerHTML = "";
             var table_html = "";
 
-            console.log(data);
+            // console.log(data);
         
 
 
@@ -395,8 +395,8 @@
                 }
 
                 catch ({ name, message }) {
-                    console.log(name); // "TypeError"
-                    console.log(message); // "oops"
+                    // console.log(name); // "TypeError"
+                    // console.log(message); // "oops"
                     break;
                 }
                 // finally {
@@ -435,7 +435,7 @@
                     })
                         .then(response => response.json())
                         .then(data => {
-                            console.log(data);
+                            // console.log(data);
 
                             // showAndHideToast();
                         })

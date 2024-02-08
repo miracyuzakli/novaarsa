@@ -144,7 +144,7 @@ def set_waiting_counter(request):
 
 
 @login_required
-@user_passes_test(is_user_operations)
+# @user_passes_test(is_user_operations)
 def get_current_user_waiting_count(request):
     user = request.user
     parcel_waiting = ParcelWaiting.objects.filter(user=user).first()

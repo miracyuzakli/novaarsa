@@ -312,7 +312,7 @@
             .then(data => {
 
 
-                console.log(data)
+                // console.log(data)
                 var data_name = data.unique_menu_names;
 
                 var parcel_items = document.getElementById('filter-user-history-parcel');
@@ -320,7 +320,7 @@
                 for (let i = 0; i < Object.keys(data_name).length; i++) {
 
 
-                    // console.log(data[i].mevki)
+                    // // console.log(data[i].mevki)
                     parcel_items.innerHTML += `
 
         <option value="${data_name[i]}">${data_name[i]}</option>
@@ -566,7 +566,7 @@
 
             var new_price = document.getElementById('parcel-price-input').value;
 
-            console.log(new_price, current_parcel_id);
+            // console.log(new_price, current_parcel_id);
 
 
             fetch('/set-parcel-price/', {
@@ -821,7 +821,7 @@
         // Open Modal
         document.getElementById('add-parcel-button').addEventListener('click', function () {
             document.getElementById('modal-container-add-parcel').classList.remove('hidden');
-            console.log("adfsdf");
+            // console.log("adfsdf");
         });
 
         // Close Modal

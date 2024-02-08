@@ -232,14 +232,14 @@
       fetch("/get-parcel-mevki/")
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
+          // console.log(data);
 
           var parcel_items = document.getElementById(
             "filter-user-history-parcel"
           );
 
           for (let i = 0; i < Object.keys(data).length; i++) {
-            // console.log(data[i].mevki)
+            // // console.log(data[i].mevki)
             parcel_items.innerHTML += `
 
 <option value="${data[i].mevki}">${data[i].il} ${data[i].mevki}</option>
@@ -361,7 +361,7 @@
           .then((response) => response.json()) // Yanıtı JSON olarak çözümle
           .then((data) => {
             createParcel(data.history_data);
-            console.log(data.history_data);
+            // console.log(data.history_data);
           })
           .catch((error) => {
             console.error("İstek hatası:", error);

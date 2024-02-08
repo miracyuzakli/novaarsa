@@ -601,8 +601,8 @@
             document.getElementById('modal').classList.remove('hidden');
             var pacel_id_cont = document.getElementById('parcel_id');
             pacel_id_cont.value = `${parcelId}`;
-            console.log(parcelId);
-            console.log(`${parcelId}`);
+            // console.log(parcelId);
+            // console.log(`${parcelId}`);
 
 
             fetch('/get-sales-tracking-form-data/', {
@@ -771,7 +771,7 @@
                     })
                         .then(response => response.json())
                         .then(data => {
-                            console.log(data);
+                            // console.log(data);
                             // getParcels(current_parcel);
                             // document.getElementById('modal').classList.add('hidden');
 
@@ -905,7 +905,7 @@
                 .then(response => {
                     if (response.ok) {
                         // Güncelleme başarılı
-                        console.log('Durum başarıyla güncellendi.');
+                        // console.log('Durum başarıyla güncellendi.');
                         getParcels(JSON.parse(" {{ current_user.id }}"));
 
                         // İsteğe bağlı olarak sayfayı yenileyebilir veya gerekli işlemleri yapabilirsiniz.
@@ -952,7 +952,7 @@
                 .then(response => {
                     if (response.ok) {
                         // Güncelleme başarılı
-                        console.log('Durum başarıyla güncellendi.');
+                        // console.log('Durum başarıyla güncellendi.');
                         getParcels(JSON.parse(" {{ current_user.id }}"));
 
                         // İsteğe bağlı olarak sayfayı yenileyebilir veya gerekli işlemleri yapabilirsiniz.
@@ -973,7 +973,7 @@
 
 
         function createParcel(data) {
-            console.log(data);
+            // console.log(data);
 
             var table_body = document.getElementById('table-body');
             table_body.innerHTML = "";
