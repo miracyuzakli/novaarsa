@@ -8,6 +8,7 @@ from app.views import (
     ParcelViewSet,
     ParcelPricingFilterView,
     get_parcel_mevki,
+    UserList,
 
     parcel_waiting,
     parcel_waiting_remove,
@@ -104,6 +105,7 @@ urlpatterns = [
     path("get-current-user-groups/", check_user_groups),
     path('get-current-user-waiting-count/', get_current_user_waiting_count),
     path('set-user-parcel-waiting-permit/', set_user_parcel_waiting_permit),
+    path('all-users/', UserList.as_view(), name='user-list'),
 
 
     

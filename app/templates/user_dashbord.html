@@ -708,12 +708,12 @@
                     firma_ad_soyad: document.getElementById('firma_ad_soyad').value,
                     TC_vergi_no: document.getElementById('TC_vergi_no').value,
                     adres1: document.getElementById('adres1').value,
-                    adres2: document.getElementById('adres2').value,
+                    // adres2: document.getElementById('adres2').value,
                     eposta: document.getElementById('eposta').value,
                     telefon_no: document.getElementById('telefon_no').value,
                     meslek_bilgisi: document.getElementById('meslek_bilgisi').value,
-                    ulasamadigi_durumda_aranacak_kisi: document.getElementById('ulasamadigi_durumda_aranacak_kisi').value,
-                    ulasamadigi_durumda_aranacak_kisi_telefon_no: document.getElementById('ulasamadigi_durumda_aranacak_kisi_telefon_no').value,
+                    // ulasamadigi_durumda_aranacak_kisi: document.getElementById('ulasamadigi_durumda_aranacak_kisi').value,
+                    // ulasamadigi_durumda_aranacak_kisi_telefon_no: document.getElementById('ulasamadigi_durumda_aranacak_kisi_telefon_no').value,
                     satis_fiyati: document.getElementById('satis_fiyati').value,
                     on_odeme_tutari: document.getElementById('on_odeme_tutari').value,
                     odeme_tarihi: document.getElementById('odeme_tarihi').value,
@@ -757,6 +757,7 @@
                     }
                 }
 
+                console.log(isFormDataValid);
 
                 if (isFormDataValid) {
                     // Veri geçerli, devam edebilirsiniz.

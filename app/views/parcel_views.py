@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 
 from ..models import Parcel, ParcelPricing, SatisTakipModel, ParcelUserHistory
-from ..serializers import ParcelSerializer, ParcelPricingSerializer
+from ..serializers import ParcelSerializer, ParcelPricingSerializer, UserSerializer
 from ..filters import ParcelFilter, ParcelPricingFilter
 
 from rest_framework import viewsets
@@ -19,6 +19,7 @@ from rest_framework.response import Response
 from django.contrib.auth.models import User
 from django.utils import timezone  # Django'nun zaman dilimi işlevlerini içe aktarın
 from datetime import datetime, timedelta
+from rest_framework import generics
 
 
 
@@ -79,7 +80,11 @@ class ParcelPricingFilterView(APIView):
 
 
 
-
+class UserList(APIView):
+    def get(self, request, *args, **kwargs):
+        users = User.objects.all()
+        user_data = {user.id: UserSerializer(user).data for user in users}
+        return JsonResponse(user_data)
 
 
 @csrf_protect

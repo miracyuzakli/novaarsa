@@ -179,11 +179,15 @@ def get_sales_tracking_form_data(request):
 @csrf_protect
 def edit_form_data(request):
     if request.method == 'POST':
+        data = json.loads(request.body.decode('utf-8'))
+        print(data)
         try:
             data = json.loads(request.body.decode('utf-8'))
+            print(data)
             parcel_id = data.get('parsel_id')
             # Veriyi kullanarak SatisTakipModel örneğini alın
-            satis_takip = SatisTakipModel.objects.get(parcel_id=parcel_id)
+            # satis_takip = SatisTakipModel.objects.get(parcel_id=parcel_id)
+            satis_takip = SatisTakipModel.objects.filter(parcel_id=parcel_id).order_by('-id').first()
 
             if data["banka_odeme"] == True:
                 odeme_yontemi = "banka"
@@ -204,12 +208,12 @@ def edit_form_data(request):
             satis_takip.firma_ad_soyad = data.get('firma_ad_soyad')
             satis_takip.TC_vergi_no = data.get('TC_vergi_no')
             satis_takip.adres1 = data.get('adres1')
-            satis_takip.adres2 = data.get('adres2')
+            # satis_takip.adres2 = data.get('adres2')
             satis_takip.eposta = data.get('eposta')
             satis_takip.telefon_no = data.get('telefon_no')
             satis_takip.meslek_bilgisi = data.get('meslek_bilgisi')
-            satis_takip.ulasamadigi_durumda_aranacak_kisi = data.get('ulasamadigi_durumda_aranacak_kisi')
-            satis_takip.ulasamadigi_durumda_aranacak_kisi_telefon_no = data.get('ulasamadigi_durumda_aranacak_kisi_telefon_no')
+            # satis_takip.ulasamadigi_durumda_aranacak_kisi = data.get('ulasamadigi_durumda_aranacak_kisi')
+            # satis_takip.ulasamadigi_durumda_aranacak_kisi_telefon_no = data.get('ulasamadigi_durumda_aranacak_kisi_telefon_no')
             satis_takip.satis_fiyati = data.get('satis_fiyati')
             satis_takip.on_odeme_tutari = data.get('on_odeme_tutari')
             satis_takip.odeme_tarihi = data.get('odeme_tarihi')
@@ -273,7 +277,8 @@ def download_form_data_docx(request):
 
             parcel_id = data.get("parcel_id")
             print(parcel_id)
-            satis_takip = SatisTakipModel.objects.get(parcel_id=parcel_id) 
+            # satis_takip = SatisTakipModel.objects.get(parcel_id=parcel_id) 
+            satis_takip = SatisTakipModel.objects.filter(parcel_id=parcel_id).order_by('-id').first()
 
 
             # Word belgesini açın
