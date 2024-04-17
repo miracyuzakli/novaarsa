@@ -129,8 +129,11 @@ def get_sales_tracking_form_data(request):
 
             parcel_id = data.get("parcel_id")
             print(parcel_id)
-            satis_takip = SatisTakipModel.objects.get(parcel_id=parcel_id)  
-                
+            # satis_takip = SatisTakipModel.objects.get(parcel_id=parcel_id)  
+            satis_takip_list = SatisTakipModel.objects.filter(parcel_id=parcel_id)
+            satis_takip = satis_takip_list.first()
+
+            print(satis_takip)
             # SatisTakipModel verisini JSON formatında döndür
             satis_takip_data = {
                 'project_name': satis_takip.project_name,
@@ -158,6 +161,7 @@ def get_sales_tracking_form_data(request):
                 'pesinat_tarihi': satis_takip.pesinat_tarihi.strftime('%Y-%m-%d'),  # Örnek bir tarih formatı
                 'm2_birim_fiyati': satis_takip.m2_birim_fiyati,
                 'aciklama_bigisi': satis_takip.aciklama_bigisi,
+                # 'indirim_orani': satis_takip.indirim_orani,
                 'ek_bilgiler': satis_takip.ek_bilgiler,
                 'kampanya_kodu': satis_takip.kampanya_kodu,
                 'musteri_iban': satis_takip.musteri_iban,
@@ -222,6 +226,7 @@ def edit_form_data(request):
             satis_takip.pesinat_tarihi = data.get('pesinat_tarihi')
             satis_takip.m2_birim_fiyati = data.get('m2_birim_fiyati')
             satis_takip.aciklama_bigisi = data.get('aciklama_bigisi')
+            satis_takip.indirim_orani = data.get('indirim_orani')
             satis_takip.ek_bilgiler = data.get('ek_bilgiler')
             satis_takip.parsel_id = data.get('parsel_id')
 
@@ -327,6 +332,7 @@ def download_form_data_docx(request):
                 'odeme_sekli_bilgisi_vadeli': vadeli_,
                 'm2_birim_fiyat_bilgisi': satis_takip.m2_birim_fiyati,
                 'Aciklama_bilgisi': satis_takip.aciklama_bigisi,
+                'indirim_orani': satis_takip.indirim_orani,
                 'ekler_bilgisi': satis_takip.ek_bilgiler,
                 'musteri_banka_iban': satis_takip.musteri_iban,
                 'kampanya_kodu_bilgisi': satis_takip.kampanya_kodu

@@ -92,6 +92,7 @@ class SatisTakipModel(models.Model):
     pesinat_tarihi = models.DateField(null=True, blank=True)
     m2_birim_fiyati = models.CharField(max_length=255)
     aciklama_bigisi = models.TextField()
+    indirim_orani = models.CharField(max_length=255, null=True, blank=True)
     ek_bilgiler = models.CharField(max_length=255)
     kampanya_kodu = models.CharField(max_length=255)
     musteri_iban = models.CharField(max_length=255)
